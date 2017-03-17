@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey("AIzaSyBSF-Eq8PYSca9JKxF9WQiz6a-7PprQuyE")
 //        window = UIWindow(frame: UIScreen.main.bounds)
 //        window?.makeKeyAndVisible()
+        
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         return true
     }
 

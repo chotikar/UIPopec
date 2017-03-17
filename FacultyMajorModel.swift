@@ -58,6 +58,7 @@ class FacultyMajorModel {
 }
 
 class MajorModel {
+    
     var departmentId : Int!
     var departmentNameEn: String!
     var departmentNameTh: String!

@@ -1,32 +1,31 @@
 
-import UIKit
-import Foundation
 
-class MajorViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
+import UIKit
+
+class MajorViewController: UIViewController {
+
+    var majorInformation = MajorModel()
+    var facultyFullName : String!
+    let cm = CalculateMutual.self
     
-    var facultyCode : Int!
-    var facultyMajorInformation = FacultyMajorModel()
-    var majorCellItemId = "MajorCellItem"
-    @IBOutlet var majorTableView : UITableView!
-    
-    let scoll : UIScrollView = {
+    var scoll : UIScrollView = {
         var sc = UIScrollView()
         sc.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
         return sc
     }()
-    var mainImage : UIImageView!
-    var facTitle : UILabel!
-    var facSubtitle : UILabel!
-    var location : UIView!
-    var descrip : UITextView!
-    
+    var majorImage : UIImageView!
+    var majorTitle : UILabel!
+    var facName : UILabel!
+    var majorDescrip : UITextView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadTableViewInFacMajor()
-        self.majorTableView.delegate = self
-        self.majorTableView.dataSource = self
-        self.view.addSubview(self.scoll)
-        self.scoll.addSubview(majorTableView)
+        self.view.addSubview(scoll)
+        scoll.backgroundColor = UIColor.red
+        drawMajorInformation()
+        // scoll.contentSize(drawMajorInformation())
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,122 +33,38 @@ class MajorViewController: UIViewController , UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadTableViewInFacMajor() {
-        WebService.GetMajorWS(facultyId: self.facultyCode){ (responseData: FacultyMajorModel, nil) in
-            DispatchQueue.main.async( execute: {
-                self.facultyMajorInformation = responseData
-                self.majorTableView.reloadData()
-                self.setTableViewSize(majorNum: self.facultyMajorInformation.marjorList.count, content: self.drawNewsInformation())
-            })
-        }
-    }
-    
-    func drawNewsInformation() -> CGFloat {
+
+    func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
-        mainImage = UIImageView(frame: CGRect(x: 0, y: scWid * 0.05, width: scWid, height: scWid*0.7))
-        mainImage.backgroundColor = UIColor.yellow
-        self.scoll.addSubview(mainImage)
-         var texthei = estimateFrameForText(text: self.facultyMajorInformation.facultyAbb,fontsize: UIFont.boldSystemFont(ofSize: 20)).height + 5
-        facTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: texthei))
-        facTitle.text = self.facultyMajorInformation.facultyAbb
-        facTitle.font = UIFont.boldSystemFont(ofSize: 20)
-        self.scoll.addSubview(facTitle)
+        print(facultyFullName)
+        majorImage = UIImageView(frame: CGRect(x: 0, y: scWid * 0.05, width: scWid, height: scWid*0.7))
+        majorImage.backgroundColor = UIColor.yellow
+        self.scoll.addSubview(majorImage)
         
-        hei = facTitle.frame.origin.y + facTitle.frame.height
-        texthei = estimateFrameForText(text:  self.facultyMajorInformation.facultyNameEn,fontsize: UIFont.systemFont(ofSize: 14)).height
-        facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei))
-        facSubtitle.text = self.facultyMajorInformation.facultyNameEn
-        facSubtitle.font = UIFont.systemFont(ofSize: 15)
-        self.scoll.addSubview(facSubtitle)
+        var texthei = cm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: UIFont.boldSystemFont(ofSize: 20), tbWid :scWid * 0.9 ).height + 5
+        majorTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: texthei))
+        majorTitle.text = self.majorInformation.departmentNameEn
+        majorTitle.font = UIFont.boldSystemFont(ofSize: 20)
+        self.scoll.addSubview(majorTitle)
         
-        hei = facSubtitle.frame.height + facSubtitle.frame.origin.y
-//        texthei = estimateFrameForText(text:  "N/A",fontsize: UIFont.systemFont(ofSize: 13)).height+10
-//        location = UIView(frame: CGRect(x: scWid * 0.37, y: hei, width: scWid*0.54, height: texthei))
-//        self.scoll.addSubview(location)
-//        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 0, width: texthei, height: texthei))
-//        loIcon.image = UIImage(named: "locationnoGray")
-//        self.location.addSubview(loIcon)
-//        let loDef =  UILabel(frame: CGRect(x: texthei + 10, y: 0, width: location.bounds.width - (texthei+10), height: texthei))
-//        loDef.font = UIFont.systemFont(ofSize: 13)
-//        loDef.text = "N/A"
-//        self.location.addSubview(loDef)
-//        
-//        hei = location.frame.height + location.frame.origin.y+20
-        texthei = estimateFrameForText(text:  self.facultyMajorInformation.descriptionTh,fontsize: UIFont.systemFont(ofSize: 12)).height + 30
-        descrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: estimateFrameForText(text: self.facultyMajorInformation.descriptionTh,fontsize: UIFont.systemFont(ofSize: 12)).height + 40))
-        descrip.font = UIFont.systemFont(ofSize: 12)
-        descrip.textAlignment = .center
-        descrip.text = self.facultyMajorInformation.descriptionTh
-        self.scoll.addSubview(descrip)
+        hei = majorTitle.frame.origin.y + majorTitle.frame.height
+        texthei = cm.calculateHeiFromString(text: self.facultyFullName,fontsize: UIFont.systemFont(ofSize: 14), tbWid : scWid*0.86).height
+        facName = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei))
+//        facName.text = self.facultyFullName
+        facName.font = UIFont.systemFont(ofSize: 15)
+        self.scoll.addSubview(facName)
         
-        return (self.descrip.frame.origin.y + self.descrip.frame.height + scWid*0.1)
+        hei = facName.frame.height + facName.frame.origin.y
+//        texthei = cm.calculateHeiFromString(text:  self.majorInformation.des,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
+        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: scHei*0.3))
+        majorDescrip.font = UIFont.systemFont(ofSize: 12)
+        majorDescrip.textAlignment = .center
+//        majorDescrip.text = self.facultyMajorInformation.descriptionTh
+        self.scoll.addSubview(majorDescrip)
+        
+        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y + 20
+        return hei + scWid*0.1
+
     }
 
-    func setTableViewSize(majorNum : Int, content : CGFloat){
-        self.majorTableView.frame = CGRect(x: 0, y: content, width: scWid, height: (scWid*0.7) * CGFloat(majorNum))
-        self.scoll.contentSize = CGSize(width: scWid, height: content + self.majorTableView.frame.height)
-    }
-    
-    private func estimateFrameForText(text:String, fontsize:UIFont) -> CGRect {
-        let size = CGSize(width: scWid*0.86, height: 1000)
-        let option = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
-        return NSString(string: text).boundingRect(with: size, options: option, attributes: [NSFontAttributeName:fontsize], context: nil)
-    }
-
-    
-    
-    // Major Tableview
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return facultyMajorInformation.marjorList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: majorCellItemId, for: indexPath) as! MajorCell
-        cell.selectionStyle = .none
-        if indexPath.row%2 == 0 {
-           cell.bgMajor.backgroundColor = UIColor.brown
-            cell.cgframe = CGRect(x: scWid*0.3, y: cell.frame.height*0.7, width: scWid*0.7, height: cell.frame.height*0.2)
-        }else{
-            cell.bgMajor.backgroundColor = UIColor.yellow
-            cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.7, height: cell.frame.height*0.2)
-        }
-        cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentNameEn
-        return cell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return scWid*0.7
-    }
-}
-
-class  MajorCell : UITableViewCell{
-    
-    @IBOutlet var bgMajor : UIImageView!
-    @IBOutlet var bgName : UIView!
-    @IBOutlet var name : UILabel!
-    var cgframe : CGRect!
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(bgMajor)
-        self.contentView.addSubview(bgName)
-        self.contentView.addSubview(name)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        bgMajor.frame = CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7)
-        bgName.frame = cgframe
-        bgName.backgroundColor = UIColor.white
-        bgName.alpha = 0.7
-        name.frame = cgframe
-        name.textAlignment = .center
-        name.font = UIFont.boldSystemFont(ofSize: 20)
-        name.textColor = UIColor.darkGray
-        
-    }
-    
 }

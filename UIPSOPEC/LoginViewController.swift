@@ -20,7 +20,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate{
         super.viewDidLoad()
        
         CRUDProfileDevice.ClearProfileDevice()
-        let pfd = CRUDProfileDevice.GetUserProfile()
+//        let pfd = CRUDProfileDevice.GetUserProfile()
         
 //        udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
 //            let loginButton = FBSDKLoginButton()

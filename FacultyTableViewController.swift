@@ -5,10 +5,13 @@ class FacultyTableViewController: UITableViewController {
 
     var faclist : [FacultyModel] = []
     let facCellItemId = "FacultyCellItem"
+    let ws = WebService.self
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Faculty"
         reloadTableViewInFac()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -22,7 +25,7 @@ class FacultyTableViewController: UITableViewController {
     }
 
     func reloadTableViewInFac(){
-        WebService.GetFacultyWS() { (responseData: [FacultyModel], nil) in
+        ws.GetFacultyWS() { (responseData: [FacultyModel], nil) in
             DispatchQueue.main.async( execute: {
                 self.faclist = responseData
                 self.tableView.reloadData()
@@ -54,7 +57,7 @@ class FacultyTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "MajorLayout") as! MajorViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "FacultyMajorLayout") as! FacultyMajorViewController
         vc.facultyCode = self.faclist[indexPath.row].faculyId
         self.navigationController?.pushViewController(vc, animated: true)
     }

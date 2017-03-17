@@ -69,18 +69,18 @@ class NewsTableViewController: UITableViewController {
     
     // action when click each cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var fnl :[NewsModel]!
-        fnl.append(allNewsList[indexPath.row])
-        let firstFac = allNewsList[indexPath.row]
-        for c in allNewsList {
-            if c.source == firstFac.source {
-                fnl.append(c)
-            }
-        }
+//        var fnl :[NewsModel]!
+//        fnl.append(allNewsList[indexPath.row])
+//        let firstFac = allNewsList[indexPath.row]
+//        for c in allNewsList {
+//            if c.source == firstFac.source {
+//                fnl.append(c)
+//            }
+//        }
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "NewsInformationLayout") as! NewsInforViewController
-        vc.facNewsList = fnl
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = storyboard?.instantiateViewController(withIdentifier: "NewsInformationLayout") as! NewsInforViewController
+//        vc.facNewsList = fnl
+//        self.navigationController?.pushViewController(vc, animated: true)
    }
     
 //    func loadImage (imgLink : String) -> UIImage {

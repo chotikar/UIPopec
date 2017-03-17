@@ -10,23 +10,38 @@ import Foundation
 
 class NewsModel {
     
-    var title : String!
-    var description :String!
-    var urlPicture : String!
-    var source : String!
+    var newsId : Int!
+    var topicEn : String!
+    var topicTh : String!
+    var typeId : Int!
+    var typeName : String!
+    var descriptionEn : String!
+    var descriptionTh : String!
+    var imageURL : String!
+    
     
     init() {
-        title = ""
-        description = ""
-        urlPicture = ""
-        source = ""
+        newsId = 999999999
+        topicEn = "N/A"
+        topicTh = "N/A"
+        typeId = 999999999
+        typeName = "N/A"
+        descriptionEn = "N/A"
+        descriptionTh = "N/A"
+        imageURL = "N/A"
+        
     }
     
     init(dic : AnyObject) {
-        title = dic["newstitle"] as! String
-        description = dic["newsdescription"] as! String
-        urlPicture = dic["newsurlpicture"] as! String
-        source = dic["newssource"] as! String
+        
+        newsId = dic["NewsID"] as? Int
+        topicEn = dic["TopicEN"] as? String
+        topicTh = dic["TopicTH"] as? String
+        typeId = dic["TypeID"] as? Int
+        typeName = dic["TypeName"] as? String
+        descriptionEn = dic["DescriptionEN"] as? String
+        descriptionTh = dic["DescriptionTH"] as? String
+        imageURL = (dic["imageURL"] as? String ?? "N/A")
     }
     
 }

@@ -49,6 +49,7 @@ class FacultyMajorModel {
         webpage = (dic["webpage"] as? String ?? "N/A")
         email = (dic["email"] as? String ?? "N/A")
         phone = (dic["phone"] as? String ?? "N/A")
+        
         let mList = dic["departmentlist"] as? [[String: AnyObject]]
         for i in mList! {
             marjorList.append(MajorModel(dic:i as AnyObject))
@@ -64,6 +65,10 @@ class MajorModel {
     var departmentNameTh: String!
     var degree: Int!
     var degreeName : String!
+    var departmentAbb: String!
+    var imageURL: String!
+    var descriptionEn: String!
+    var descriptionTh:String!
     
     init(){
         departmentId = 99999
@@ -71,6 +76,10 @@ class MajorModel {
         departmentNameTh = "N/A"
         degree = 99999
         degreeName = "N/A"
+        departmentAbb = "N/A"
+        imageURL = "N/A"
+        descriptionEn = "N/A"
+        descriptionTh = "N/A"
     }
     
     init(dic :AnyObject) {
@@ -78,7 +87,11 @@ class MajorModel {
         departmentNameEn = dic["departmentNameEN"] as! String
         departmentNameTh = dic["departmentNameTH"] as! String
         degree = dic["degree"] as! Int
-        degreeName = dic["degreeName"] as! String
+        degreeName = (dic["degreeName"] as? String ?? "N/A")
+        departmentAbb = (dic["departmentAbb"] as? String ?? "N/A")
+        imageURL = (dic["imageURL"] as? String ?? "N/A")
+        descriptionEn = (dic["descriptionEN"] as? String ?? "N/A")
+        descriptionTh = (dic["descriptionTH"] as? String ?? "N/A")
     }
     
 }

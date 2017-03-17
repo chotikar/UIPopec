@@ -24,7 +24,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadTableViewInFacMajor()
+        reloadTableViewInFacMajor(facId: self.facultyCode)
         self.majorTableView.delegate = self
         self.majorTableView.dataSource = self
         self.view.addSubview(self.scoll)
@@ -36,8 +36,8 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadTableViewInFacMajor() {
-        WebService.GetMajorWS(facultyId: self.facultyCode){ (responseData: FacultyMajorModel, nil) in
+    func reloadTableViewInFacMajor(facId : Int) {
+        WebService.GetMajorWS(facultyId: facId){ (responseData: FacultyMajorModel, nil) in
             DispatchQueue.main.async( execute: {
                 self.facultyMajorInformation = responseData
                 self.majorTableView.reloadData()
@@ -83,6 +83,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         descrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
         descrip.font = UIFont.systemFont(ofSize: 12)
         descrip.textAlignment = .center
+        descrip.isUserInteractionEnabled = false
         descrip.text = self.facultyMajorInformation.descriptionTh
         self.scoll.addSubview(descrip)
         hei = descrip.frame.height + descrip.frame.origin.y
@@ -109,10 +110,10 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         cell.selectionStyle = .none
         if indexPath.row%2 == 0 {
            cell.bgMajor.backgroundColor = UIColor.brown
-            cell.cgframe = CGRect(x: scWid*0.3, y: cell.frame.height*0.7, width: scWid*0.7, height: cell.frame.height*0.2)
+            cell.cgframe = CGRect(x: scWid*0.2, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
         }else{
             cell.bgMajor.backgroundColor = UIColor.yellow
-            cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.7, height: cell.frame.height*0.2)
+            cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
         }
         cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentNameEn
         return cell
@@ -120,10 +121,11 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "MajorLayout") as! MajorViewController
-       vc.facultyFullName = self.facultyMajorInformation.facultyNameEn
-        vc.majorInformation = self.facultyMajorInformation.marjorList[indexPath.row]
-        self.present(vc, animated: true, completion: nil)
-        //self.navigationController?.pushViewController(vc, animated: true)
+        vc.facultyFullName = self.facultyMajorInformation.facultyNameEn
+        vc.facCode = self.facultyMajorInformation.faculyId
+        vc.majorCode = self.facultyMajorInformation.marjorList[indexPath.row].departmentId
+        //self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
     

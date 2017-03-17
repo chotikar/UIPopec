@@ -5,8 +5,11 @@ import UIKit
 class MajorViewController: UIViewController {
 
     var majorInformation = MajorModel()
+    var facCode : Int!
+    var majorCode : Int!
     var facultyFullName : String!
     let cm = CalculateMutual.self
+    let ws = WebService.self
     
     var scoll : UIScrollView = {
         var sc = UIScrollView()
@@ -20,6 +23,7 @@ class MajorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        reloadMajor(facId: facCode, majorId: majorCode)
         self.view.addSubview(scoll)
         scoll.backgroundColor = UIColor.red
         drawMajorInformation()
@@ -33,6 +37,15 @@ class MajorViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func reloadMajor(facId : Int, majorId : Int) {
+        ws.GetMajorDetailWS(facultyId: facId, departmentId: majorId){ (responseData: MajorModel, nil) in
+            DispatchQueue.main.async( execute: {
+                self.majorInformation = responseData
+                self.reloadInputViews()
+            })
+        }
+    }
+    
 
     func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
@@ -41,25 +54,26 @@ class MajorViewController: UIViewController {
         majorImage.backgroundColor = UIColor.yellow
         self.scoll.addSubview(majorImage)
         
-        var texthei = cm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: UIFont.boldSystemFont(ofSize: 20), tbWid :scWid * 0.9 ).height + 5
+        var texthei = cm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: UIFont.boldSystemFont(ofSize: 16), tbWid :scWid * 0.9 ).height
         majorTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: texthei))
         majorTitle.text = self.majorInformation.departmentNameEn
-        majorTitle.font = UIFont.boldSystemFont(ofSize: 20)
+        majorTitle.font = UIFont.boldSystemFont(ofSize: 16)
         self.scoll.addSubview(majorTitle)
         
         hei = majorTitle.frame.origin.y + majorTitle.frame.height
-        texthei = cm.calculateHeiFromString(text: self.facultyFullName,fontsize: UIFont.systemFont(ofSize: 14), tbWid : scWid*0.86).height
-        facName = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei))
-//        facName.text = self.facultyFullName
+        texthei = cm.calculateHeiFromString(text: self.facultyFullName,fontsize: UIFont.systemFont(ofSize: 14), tbWid : scWid*0.9).height
+        facName = UILabel(frame: CGRect(x: scWid * 0.05, y:  hei, width: scWid*0.9, height: texthei))
+        facName.text = self.facultyFullName
         facName.font = UIFont.systemFont(ofSize: 15)
         self.scoll.addSubview(facName)
         
-        hei = facName.frame.height + facName.frame.origin.y
-//        texthei = cm.calculateHeiFromString(text:  self.majorInformation.des,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
-        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: scHei*0.3))
+        hei = facName.frame.height + facName.frame.origin.y+10
+        texthei = cm.calculateHeiFromString(text:  self.majorInformation.departmentNameTh,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
+        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
         majorDescrip.font = UIFont.systemFont(ofSize: 12)
         majorDescrip.textAlignment = .center
-//        majorDescrip.text = self.facultyMajorInformation.descriptionTh
+        majorDescrip.isUserInteractionEnabled = false
+        majorDescrip.text = self.majorInformation.descriptionTh
         self.scoll.addSubview(majorDescrip)
         
         hei = majorDescrip.frame.height + majorDescrip.frame.origin.y + 20

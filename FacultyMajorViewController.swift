@@ -50,7 +50,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     func drawNewsInformation() -> CGFloat {
         var hei : CGFloat
         mainImage = UIImageView(frame: CGRect(x: 0, y: scWid * 0.05, width: scWid, height: scWid*0.7))
-        mainImage.backgroundColor = UIColor.yellow
+        mainImage.image = UIImage(named: "abacImg")
         self.scoll.addSubview(mainImage)
          var texthei = cm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: UIFont.boldSystemFont(ofSize: 20), tbWid :scWid * 0.9 ).height + 5
         
@@ -109,10 +109,8 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: majorCellItemId, for: indexPath) as! MajorCell
         cell.selectionStyle = .none
         if indexPath.row%2 == 0 {
-           cell.bgMajor.backgroundColor = UIColor.brown
             cell.cgframe = CGRect(x: scWid*0.2, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
         }else{
-            cell.bgMajor.backgroundColor = UIColor.yellow
             cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
         }
         cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentNameEn
@@ -155,6 +153,7 @@ class  MajorCell : UITableViewCell{
     override func layoutSubviews() {
         super.layoutSubviews()
         bgMajor.frame = CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7)
+        bgMajor.image = UIImage(named: "abacImg")
         bgName.frame = cgframe
         bgName.backgroundColor = UIColor.white
         bgName.alpha = 0.7

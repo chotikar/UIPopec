@@ -5,7 +5,13 @@ class WebService {
     
     static let domainName:String = "http://tskyonline.com:89/"
     
+    //Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." 
+    //error: unexpectedly found nil while unwrapping an Optional value
+    
     //*****Faculty*****
+    ///////////////////
+    
+    //http://tskyonline.com:89/Faculty/getFacultyList
     static func GetFacultyWS(completion:@escaping (_ responseData:[FacultyModel],_ errorMessage:NSError?)->Void)
     {
         var facultyList : [FacultyModel] = []
@@ -17,7 +23,6 @@ class WebService {
                 if let validJson = jsonResult as? [[String:AnyObject]] {
                     for i in validJson {
                        facultyList.append(FacultyModel(dic: i as AnyObject))
-                        
                     }
                     completion(facultyList, error as NSError?)
                 } else {
@@ -31,7 +36,7 @@ class WebService {
         task.resume()
     }
     
-    
+    //tskyonline.com:89/Faculty/getFacultyDetail?facultyID=5
     static func GetMajorWS(facultyId : Int ,completion:@escaping (_ responseData:FacultyMajorModel,_ errorMessage:NSError?)->Void)
     {
         var facultyMajor = FacultyMajorModel()
@@ -54,6 +59,7 @@ class WebService {
         task.resume()
     }
     
+    //http://tskyonline.com:89/Faculty/getDepartmentDetail?facultyID=5&departmentID=36
     static func GetMajorDetailWS(facultyId : Int,departmentId : Int ,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
     {
         var major = MajorModel()

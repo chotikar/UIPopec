@@ -1,8 +1,11 @@
 
 import UIKit
+import SWRevealViewController
 
 class FacultyTableViewController: UITableViewController {
 
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
+    
     var faclist : [FacultyModel] = []
     let facCellItemId = "FacultyCellItem"
     let ws = WebService.self
@@ -11,6 +14,11 @@ class FacultyTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Faculty"
         reloadTableViewInFac()
+<<<<<<< HEAD
+=======
+        Sidemenu()
+        CustomNavbar()
+>>>>>>> e9cc3f05925b2f213f3f5aab4cfd000ef32f306e
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -24,6 +32,24 @@ class FacultyTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    func Sidemenu() {
+        if revealViewController() != nil {
+            
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
+
+    
     func reloadTableViewInFac(){
         ws.GetFacultyWS() { (responseData: [FacultyModel], nil) in
             DispatchQueue.main.async( execute: {

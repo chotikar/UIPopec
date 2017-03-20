@@ -2,16 +2,21 @@
 
 import UIKit
 import MapKit
+import SWRevealViewController
 
 let cellID = "LocationItem"
 
 class LocationTableViewController: UITableViewController {
+    
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
     
     var selectedIndexPath : IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         selectedIndexPath = [0,0]
+        Sidemenu()
+        CustomNavbar()
     }
     
     
@@ -71,6 +76,23 @@ class LocationTableViewController: UITableViewController {
             return LocationCell.defauleHeight
         }
     }
+    
+    func Sidemenu() {
+        if revealViewController() != nil {
+            
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
+
     
 }
 

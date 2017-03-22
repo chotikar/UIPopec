@@ -3,10 +3,11 @@ import Foundation
 
 class WebService {
     
-    static let domainName:String = "http://tskyonline.com:89/"
+    static let domainName:String = "http://www.supanattoy.com:89/"
     
     //Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." 
     //error: unexpectedly found nil while unwrapping an Optional value
+    // WRONG URL OR
     
     //*****Faculty*****
     ///////////////////

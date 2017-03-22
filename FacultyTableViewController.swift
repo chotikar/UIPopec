@@ -14,11 +14,8 @@ class FacultyTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Faculty"
         reloadTableViewInFac()
-<<<<<<< HEAD
-=======
         Sidemenu()
         CustomNavbar()
->>>>>>> e9cc3f05925b2f213f3f5aab4cfd000ef32f306e
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -35,7 +32,6 @@ class FacultyTableViewController: UITableViewController {
     
     func Sidemenu() {
         if revealViewController() != nil {
-            
             MenuButton.target = SWRevealViewController()
             MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
             revealViewController().rearViewRevealWidth = 275
@@ -55,6 +51,7 @@ class FacultyTableViewController: UITableViewController {
             DispatchQueue.main.async( execute: {
                 self.faclist = responseData
                 self.tableView.reloadData()
+                print(self.faclist)
             })
         }
     }
@@ -129,8 +126,9 @@ class FacultyCell : UITableViewCell {
         super.layoutSubviews()
         logo.frame.size = CGSize(width: scWid*0.3, height: scWid*0.3)
         logo.center = CGPoint(x: scWid/2, y: scWid*0.17)
-//        logo.layer.cornerRadius = logo.frame.size.width/2
-//        logo.clipsToBounds = true
+        logo.backgroundColor = UIColor.gray
+        logo.layer.cornerRadius = logo.frame.size.width/2
+        logo.clipsToBounds = true
         
         facView.frame = CGRect(x: 0, y: scHei*0.1, width: scWid, height: scHei*0.3)
         facView.alpha = 0.8

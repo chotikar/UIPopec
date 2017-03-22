@@ -26,7 +26,6 @@ class MajorViewController: UIViewController {
         reloadMajor(facId: facCode, majorId: majorCode)
         self.view.addSubview(scoll)
         scoll.backgroundColor = UIColor.red
-        drawMajorInformation()
         // scoll.contentSize(drawMajorInformation())
 
         // Do any additional setup after loading the view.
@@ -42,6 +41,11 @@ class MajorViewController: UIViewController {
             DispatchQueue.main.async( execute: {
                 self.majorInformation = responseData
                 self.reloadInputViews()
+                self.reloadInputViews()
+                print(self.majorInformation.departmentNameEn)
+                print(self.majorInformation.descriptionTh)
+                print(self.majorInformation.departmentId)
+                self.scoll.contentSize = CGSize(width: scWid, height: self.drawMajorInformation())
             })
         }
     }
@@ -68,7 +72,8 @@ class MajorViewController: UIViewController {
         self.scoll.addSubview(facName)
         
         hei = facName.frame.height + facName.frame.origin.y+10
-        texthei = cm.calculateHeiFromString(text:  self.majorInformation.departmentNameTh,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
+        texthei = cm.calculateHeiFromString(text: self.majorInformation.descriptionTh,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
+        print("MessageBoxSize : \(texthei)")
         majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
         majorDescrip.font = UIFont.systemFont(ofSize: 12)
         majorDescrip.textAlignment = .center

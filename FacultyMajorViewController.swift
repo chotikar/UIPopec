@@ -105,6 +105,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         return facultyMajorInformation.marjorList.count
     }
     
+    var imageCache = [String]()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: majorCellItemId, for: indexPath) as! MajorCell
         cell.selectionStyle = .none
@@ -114,6 +115,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
             cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
         }
         cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentNameEn
+        
         return cell
     }
     

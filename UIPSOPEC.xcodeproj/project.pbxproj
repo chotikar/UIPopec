@@ -11,7 +11,6 @@
 		4F2511F61E5D8D9E0055D312 /* NewsInforViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2511F51E5D8D9E0055D312 /* NewsInforViewController.swift */; };
 		4F2D74931E7972270021FE37 /* FacultyMajorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2D74921E7972270021FE37 /* FacultyMajorViewController.swift */; };
 		4F2D74951E798A2F0021FE37 /* FacultyMajorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2D74941E798A2F0021FE37 /* FacultyMajorModel.swift */; };
-		4F4A595D1E62DD4C00535C46 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4A595C1E62DD4C00535C46 /* LocationTableViewController.swift */; };
 		4F4AD4BE1E65E4BE00F509C5 /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4AD4BD1E65E4BE00F509C5 /* NewsModel.swift */; };
 		4F4F8D521E517AE0004B4419 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D511E517AE0004B4419 /* AppDelegate.swift */; };
 		4F4F8D541E517AE0004B4419 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D531E517AE0004B4419 /* ViewController.swift */; };
@@ -27,15 +26,16 @@
 		4F4F8D731E5185D6004B4419 /* ChatLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D721E5185D6004B4419 /* ChatLogTableViewController.swift */; };
 		4F4F8D751E5194A9004B4419 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D741E5194A9004B4419 /* UserCell.swift */; };
 		4F4F8D771E51B7F8004B4419 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */; };
+		4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F50FE481E83C1590028B299 /* PlaceModel.swift */; };
 		4F6010661E643FF300311509 /* TestGoogleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6010651E643FF300311509 /* TestGoogleViewController.swift */; };
 		4F8247831E77F6FF00F2341C /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8247821E77F6FF00F2341C /* WebService.swift */; };
 		4F8247881E77FEEC00F2341C /* FacultyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8247871E77FEEC00F2341C /* FacultyModel.swift */; };
 		4F82478A1E78672B00F2341C /* FacultyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8247891E78672B00F2341C /* FacultyTableViewController.swift */; };
+		4F8DF6FE1E82E0EF008B37B5 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */; };
 		4FAF16FD1E7BCA4B00EF3FB9 /* MajorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF16FC1E7BCA4B00EF3FB9 /* MajorViewController.swift */; };
 		4FAF16FF1E7BCC2500EF3FB9 /* CalculateMutual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF16FE1E7BCC2500EF3FB9 /* CalculateMutual.swift */; };
 		4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */; };
 		4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */; };
-		4FFC530D1E65C07700E220EF /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC530C1E65C07700E220EF /* LocationCell.swift */; };
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +45,6 @@
 		4F2511F51E5D8D9E0055D312 /* NewsInforViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsInforViewController.swift; sourceTree = "<group>"; };
 		4F2D74921E7972270021FE37 /* FacultyMajorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacultyMajorViewController.swift; sourceTree = "<group>"; };
 		4F2D74941E798A2F0021FE37 /* FacultyMajorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacultyMajorModel.swift; sourceTree = "<group>"; };
-		4F4A595C1E62DD4C00535C46 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
 		4F4AD4BD1E65E4BE00F509C5 /* NewsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		4F4F8D4E1E517AE0004B4419 /* UIPSOPEC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIPSOPEC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F4F8D511E517AE0004B4419 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,15 +62,16 @@
 		4F4F8D721E5185D6004B4419 /* ChatLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLogTableViewController.swift; path = UIPSOPEC/ChatLogTableViewController.swift; sourceTree = "<group>"; };
 		4F4F8D741E5194A9004B4419 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = UIPSOPEC/LoginViewController.swift; sourceTree = "<group>"; };
+		4F50FE481E83C1590028B299 /* PlaceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		4F6010651E643FF300311509 /* TestGoogleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestGoogleViewController.swift; sourceTree = "<group>"; };
 		4F8247821E77F6FF00F2341C /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebService.swift; path = UIPSOPEC/WebService.swift; sourceTree = "<group>"; };
 		4F8247871E77FEEC00F2341C /* FacultyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacultyModel.swift; sourceTree = "<group>"; };
 		4F8247891E78672B00F2341C /* FacultyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacultyTableViewController.swift; sourceTree = "<group>"; };
+		4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		4FAF16FC1E7BCA4B00EF3FB9 /* MajorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MajorViewController.swift; sourceTree = "<group>"; };
 		4FAF16FE1E7BCC2500EF3FB9 /* CalculateMutual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculateMutual.swift; sourceTree = "<group>"; };
 		4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDProfileDevice.swift; sourceTree = "<group>"; };
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
-		4FFC530C1E65C07700E220EF /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		829F2D6DD9A0C9CFF209E3F8 /* Pods-UIPSOPEC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPSOPEC.release.xcconfig"; path = "Pods/Target Support Files/Pods-UIPSOPEC/Pods-UIPSOPEC.release.xcconfig"; sourceTree = "<group>"; };
 		D1587B5D2676B1EE902098CC /* Pods-UIPSOPEC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPSOPEC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UIPSOPEC/Pods-UIPSOPEC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,8 +95,8 @@
 				4FAF16F41E7BC7EB00EF3FB9 /* News */,
 				4FAF16F31E7BC7CC00EF3FB9 /* Faculty */,
 				4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */,
-				4F4A595C1E62DD4C00535C46 /* LocationTableViewController.swift */,
 				4F6010651E643FF300311509 /* TestGoogleViewController.swift */,
+				4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -147,6 +147,7 @@
 				4F4AD4BD1E65E4BE00F509C5 /* NewsModel.swift */,
 				4F8247871E77FEEC00F2341C /* FacultyModel.swift */,
 				4F2D74941E798A2F0021FE37 /* FacultyMajorModel.swift */,
+				4F50FE481E83C1590028B299 /* PlaceModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -157,7 +158,6 @@
 				4F4F8D6E1E51832B004B4419 /* ChatMessageCell.swift */,
 				4F4F8D741E5194A9004B4419 /* UserCell.swift */,
 				4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */,
-				4FFC530C1E65C07700E220EF /* LocationCell.swift */,
 			);
 			name = MyDrawer;
 			sourceTree = "<group>";
@@ -353,12 +353,11 @@
 				4F4F8D541E517AE0004B4419 /* ViewController.swift in Sources */,
 				4F4F8D6C1E51830C004B4419 /* FacultyChatAndLog.swift in Sources */,
 				4FAF16FD1E7BCA4B00EF3FB9 /* MajorViewController.swift in Sources */,
-				4F4A595D1E62DD4C00535C46 /* LocationTableViewController.swift in Sources */,
+				4F8DF6FE1E82E0EF008B37B5 /* LocationViewController.swift in Sources */,
 				4F2D74931E7972270021FE37 /* FacultyMajorViewController.swift in Sources */,
 				4F4F8D5A1E517AE0004B4419 /* UIPSOPEC.xcdatamodeld in Sources */,
 				4F8247881E77FEEC00F2341C /* FacultyModel.swift in Sources */,
 				4F4AD4BE1E65E4BE00F509C5 /* NewsModel.swift in Sources */,
-				4FFC530D1E65C07700E220EF /* LocationCell.swift in Sources */,
 				4F4F8D731E5185D6004B4419 /* ChatLogTableViewController.swift in Sources */,
 				4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */,
 				4F8247831E77F6FF00F2341C /* WebService.swift in Sources */,
@@ -372,6 +371,7 @@
 				4F4F8D521E517AE0004B4419 /* AppDelegate.swift in Sources */,
 				4F4F8D771E51B7F8004B4419 /* LoginViewController.swift in Sources */,
 				4F2511EE1E5D4E7F0055D312 /* NewsTableViewController.swift in Sources */,
+				4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */,
 				4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */,
 				4F2511F61E5D8D9E0055D312 /* NewsInforViewController.swift in Sources */,
 			);

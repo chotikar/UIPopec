@@ -24,7 +24,6 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("CURRENT MAP : \(currentMap)")
         self.title = "Map"
         self.view.addSubview(self.scoll)
         self.scoll.addSubview(showButton)
@@ -54,9 +53,12 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     }
     
     func manageScroll(hei : CGFloat){
-        scoll.frame.origin.y = hei
-        PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+10, width: scWid, height: scHei*0.8)
         
+        UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
+            self.scoll.frame.origin.y = hei
+            }, completion: nil)
+        
+        PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+10, width: scWid, height: scHei*0.8)
     }
     
     ///Show List of Place
@@ -73,7 +75,6 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return scHei*0.1
     }
-    
     
 }
 

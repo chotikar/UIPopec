@@ -94,6 +94,7 @@ class FacultyCell : UITableViewCell {
     @IBOutlet var logo : UIImageView!
     @IBOutlet var whiteBox : UIView!
     
+    
    //   @IBOutlet var name : UILabel? = {
 //    var nameL = UILabel()
 //    nameL.font = UIFont.systemFont(ofSize: 10)

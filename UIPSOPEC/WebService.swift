@@ -12,7 +12,7 @@ class WebService {
     //*****Faculty*****
     ///////////////////
     
-    //http://tskyonline.com:89/Faculty/getFacultyList
+    //tskyonline.com:89/Faculty/getFacultyList
     static func GetFacultyWS(completion:@escaping (_ responseData:[FacultyModel],_ errorMessage:NSError?)->Void)
     {
         var facultyList : [FacultyModel] = []
@@ -60,7 +60,7 @@ class WebService {
         task.resume()
     }
     
-    //http://tskyonline.com:89/Faculty/getDepartmentDetail?facultyID=5&departmentID=36
+    //tskyonline.com:89/Faculty/getDepartmentDetail?facultyID=5&departmentID=36
     static func GetMajorDetailWS(facultyId : Int,departmentId : Int ,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
     {
         var major = MajorModel()
@@ -104,5 +104,32 @@ class WebService {
         task.resume()
     }
     
+    static func GetContactRequireWS (completion:@escaping (_ responseData:[ContactModel],_ errorMessage:NSError?) -> Void) {
+        
+        var ContactList : [ContactModel] = []
+        let url = NSURL(string: "\(domainName)Contact/GetAllContact")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                if let validJson = jsonResult as? [[String:AnyObject]] {
+                    for i in validJson {
+                        ContactList.append(ContactModel(dic: i as AnyObject))
+                    }
+                    completion(ContactList, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+
+        
+    }
+    
+
 }
 

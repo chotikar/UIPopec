@@ -45,36 +45,39 @@ class ContactTableViewController : UITableViewController {
         ws.GetContactRequireWS() { (responseData : [ContactModel], nil) in DispatchQueue.main.async ( execute: {
             self.contactlist = responseData
             self.tableView.reloadData()
-            print(self.contactlist)
             })
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return self.contactlist.count+1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: contactCellItemId, for: indexPath) as! ContactCell
-        cell.selectionStyle = .none
-        //var  contactDetail : ContactModel!
+        
+        var  contactDetail : ContactModel!
         print(indexPath.row)
-        if indexPath.row == 0 {
-            cell.abaclogo.image = UIImage(named: "abaclogo")
-              cell.campusName.isHidden =  true
-            
-        } else {
-            //contactDetail = self.contactlist[indexPath.row-1]
-        //    print(contactDetail.CampusnameEn)
+        
+        if indexPath.row != 0 {
+            contactDetail = self.contactlist[indexPath.row-1]
             cell.abaclogo.isHidden = true
-            cell.campusName.text = "contact"//contactDetail.CampusnameEn
-            
+            cell.campusName.text = contactDetail.CampusnameEn
+            print("^^")
+        }else{
+            cell.campusName.isHidden = true
         }
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return scHei*0.6
+       
+        if indexPath.row == 0 {
+            return scHei*0.3
+        }else{
+            return scHei*0.6
+        }
     }
 
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -87,8 +90,8 @@ class ContactTableViewController : UITableViewController {
 
 class ContactCell : UITableViewCell {
     
-    @IBOutlet var abaclogo : UIImageView!
-    @IBOutlet var campusName : UILabel!
+    @IBOutlet weak var abaclogo : UIImageView!
+    @IBOutlet weak var campusName : UILabel!
 //    @IBOutlet var latitude : UILabel!
 //    @IBOutlet var longtitude : UILabel!
 //    @IBOutlet var addrEn : UILabel!
@@ -101,6 +104,19 @@ class ContactCell : UITableViewCell {
 //    @IBOutlet var tellogo : UIImageView!
 //    @IBOutlet var emaillogo : UIImageView!
     
+//    override func awakeFromNib() {
+//        abaclogo.frame = CGRect(x: scWid*0.35, y: 10, width: scWid*0.3, height: scWid*0.3)
+//        abaclogo.layer.cornerRadius = abaclogo.frame.size.width/2
+//        abaclogo.clipsToBounds = true
+//        abaclogo.image = UIImage(named: "abaclogo")
+//    }
+//    //
+//    
+//    override func setSelected(_ selected: Bool, animated: Bool) {
+//        super.setSelected(selected, animated: animated)
+//        // Configure the view for the selected state
+//    }
+
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -116,28 +132,27 @@ class ContactCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        abaclogo.frame.size = CGSize(width: scWid*0.3, height: scWid*0.3)
-        abaclogo.center = CGPoint(x: scWid/2, y: scWid*0.17)
+        abaclogo.frame = CGRect(x: scWid*0.35, y: 10, width: scWid*0.3, height: scWid*0.3)
         abaclogo.layer.cornerRadius = abaclogo.frame.size.width/2
+        abaclogo.image = UIImage(named: "abaclogo")
         abaclogo.clipsToBounds = true
-        
-
-        
-        
-        
-        
-
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

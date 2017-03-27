@@ -83,16 +83,19 @@ class WebService {
     }
 
     //*****News*****
-    static func GetNewsRequireWS(lastNewsId : Int ,numberOfNews : Int ,completion:@escaping (_ responseData:NewsModel,_ errorMessage:NSError?)->Void)
+    static func GetNewsRequireWS(lastNewsId : Int ,numberOfNews : Int ,completion:@escaping (_ responseData:[NewsModel],_ errorMessage:NSError?)->Void)
     {
-        var news = NewsModel()
+        var NewsList : [NewsModel] = []
         let url = NSURL(string: "\(domainName)News/getNews?lastNewsId=\(lastNewsId)&numberOfNews=\(numberOfNews)")
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                if let validJson = jsonResult as? AnyObject {
-                    news =  NewsModel(dic: validJson)
-                    completion(news, error as NSError?)
+                if let validJson = jsonResult as? [[String : AnyObject ]]{
+                    for i in validJson {
+                        NewsList.append(NewsModel(dic: i as AnyObject))
+                    }
+
+                    completion(NewsList, error as NSError?)
                 } else {
                     print("Error")
                 }
@@ -126,10 +129,7 @@ class WebService {
             }
         }
         task.resume()
-
-        
     }
     
-
 }
 

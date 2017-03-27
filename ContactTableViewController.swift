@@ -50,97 +50,177 @@ class ContactTableViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
         return self.contactlist.count+1
     }
     
+        
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: contactCellItemId, for: indexPath) as! ContactCell
         
-        var  contactDetail : ContactModel!
-        print(indexPath.row)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellItem", for: indexPath) as! ContactCell
+        let header = tableView.dequeueReusableCell(withIdentifier: "ContactHeaderCellItem", for: indexPath) as! ContactHeaderCell
         
-        if indexPath.row != 0 {
-            contactDetail = self.contactlist[indexPath.row-1]
-            cell.abaclogo.isHidden = true
-            cell.campusName.text = contactDetail.CampusnameEn
-            print("^^")
+        var  contactdetail : ContactModel!
+        
+        if indexPath.row == 0 {
+            header.selectionStyle = .none
+           return header
         }else{
-            cell.campusName.isHidden = true
+//            contactdetail = self.contactlist[indexPath.row-1]
+//            print(contactdetail.CampusnameEn)
+//            cell.selectionStyle = .none
+//            cell.campusName.text = contactdetail.CampusnameEn
+//            cell.campusName.text = contactdetail.CampusnameEn
+//            cell.latitude.text = contactdetail.Latitude
+//            cell.longtitude.text = contactdetail.Longtitude
+//            cell.addrEn.text = contactdetail.AddrEn
+//            cell.addrTh.text = contactdetail.AddrTh
+//            cell.tel.text = contactdetail.Telephone
+//            cell.fax.text = contactdetail.Fax
+//            cell.email.text = contactdetail.Email
+//            cell.campusName.text = contactdetail.CampusnameEn
+            return cell
+            
         }
-        
-        return cell
+////
+
+//        if indexPath.row != 0 {
+//            contactdetail = self.contactlist[1]
+//            print(contactdetail.CampusnameEn)
+//            cell.selectionStyle = .none
+//            cell.campusName.text = contactdetail.CampusnameEn
+//            cell.latitude.text = contactdetail.Latitude
+//            cell.longtitude.text = contactdetail.Longtitude
+//            cell.addrEn.text = contactdetail.AddrEn
+//            cell.addrTh.text = contactdetail.AddrTh
+//            cell.tel.text = contactdetail.Telephone
+//            cell.fax.text = contactdetail.Fax
+//            cell.email.text = contactdetail.Email
+//            cell.campusName.text = contactdetail.CampusnameEn
+//            return cell
+//
+//            
+//        }else{
+//            header.selectionStyle = .none
+//            return header
+//        }
+//        
+//        cell.selectionStyle = .none
+//        var contactdetail = self.contactlist[indexPath.row-1]
+//        cell.campusName.text = contactdetail.CampusnameEn
+//        cell.latitude.text = contactdetail.Latitude
+//        cell.longtitude.text = contactdetail.Longtitude
+//        cell.addrEn.text = contactdetail.AddrEn
+//        cell.addrTh.text = contactdetail.AddrTh
+//        cell.tel.text = contactdetail.Telephone
+//        cell.fax.text = contactdetail.Fax
+//        cell.email.text = contactdetail.Email
+//        return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       
+     
         if indexPath.row == 0 {
-            return scHei*0.3
+            return scHei*0.25
         }else{
             return scHei*0.6
         }
+
     }
-
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "FacultyMajorLayout") as! FacultyMajorViewController
-//        vc.facultyCode = self.faclist[indexPath.row].faculyId
-//        self.navigationController?.pushViewController(vc, animated: true)
-//    }
-
 }
 
 class ContactCell : UITableViewCell {
-    
-    @IBOutlet weak var abaclogo : UIImageView!
-    @IBOutlet weak var campusName : UILabel!
-//    @IBOutlet var latitude : UILabel!
-//    @IBOutlet var longtitude : UILabel!
-//    @IBOutlet var addrEn : UILabel!
-//    @IBOutlet var addrTh : UILabel!
-//    @IBOutlet var tel : UILabel!
-//    @IBOutlet var fax : UILabel!
-//    @IBOutlet var email : UILabel!
-//    @IBOutlet var addrlogo1 : UIImageView!
-//    @IBOutlet var addrlogo2 : UIImageView!
-//    @IBOutlet var tellogo : UIImageView!
-//    @IBOutlet var emaillogo : UIImageView!
-    
-//    override func awakeFromNib() {
-//        abaclogo.frame = CGRect(x: scWid*0.35, y: 10, width: scWid*0.3, height: scWid*0.3)
-//        abaclogo.layer.cornerRadius = abaclogo.frame.size.width/2
-//        abaclogo.clipsToBounds = true
-//        abaclogo.image = UIImage(named: "abaclogo")
-//    }
-//    //
-//    
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//        // Configure the view for the selected state
-//    }
+    @IBOutlet var campusName : UILabel!
+    @IBOutlet var latitude : UILabel!
+    @IBOutlet var longtitude : UILabel!
+    @IBOutlet var addrEn : UILabel!
+    @IBOutlet var addrTh : UILabel!
+    @IBOutlet var tel : UILabel!
+    @IBOutlet var fax : UILabel!
+    @IBOutlet var email : UILabel!
+    @IBOutlet var addrlogo1 : UIImageView!
+    @IBOutlet var addrlogo2 : UIImageView!
+
 
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(abaclogo)
         self.contentView.addSubview(campusName)
+        self.contentView.addSubview(latitude)
+        self.contentView.addSubview(longtitude)
+        self.contentView.addSubview(addrEn)
+        self.contentView.addSubview(addrTh)
+        self.contentView.addSubview(tel)
+        self.contentView.addSubview(fax)
+        self.contentView.addSubview(email)
+    
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        campusName.font = UIFont.boldSystemFont(ofSize: 20)
+        campusName.frame = CGRect(x: 10, y: 10, width: 350, height: 30)
+        
+        latitude.font = UIFont.systemFont(ofSize: 12)
+        latitude.frame = CGRect(x: 10, y: 30, width: 100, height: 30)
+        latitude.textColor = UIColor.blue
+        
+        longtitude.font = UIFont.systemFont(ofSize: 12)
+        longtitude.frame = CGRect (x: 150, y: 30, width: 100, height: 30)
+        longtitude.textColor = UIColor.blue
+        
+        addrEn.font = UIFont.systemFont(ofSize: 12)
+        addrEn.frame = CGRect(x: 10, y: 50, width: 350, height: 30)
+
+        addrTh.font = UIFont.systemFont(ofSize: 12)
+        addrTh.frame = CGRect(x: 10, y: 70, width: 350, height: 30)
+        
+        tel.font = UIFont.systemFont(ofSize: 12)
+        tel.frame = CGRect(x: 10, y: 90, width: 350, height: 30)
+        
+        fax.font = UIFont.systemFont(ofSize: 12)
+        fax.frame = CGRect(x: 10, y: 110, width: 350, height: 30)
+    
+        email.font = UIFont.systemFont(ofSize: 12)
+        email.frame = CGRect(x: 10, y: 130, width: 350, height: 30)
+
+    }
+    
+}
+
+
+class ContactHeaderCell : UITableViewCell {
+    
+    @IBOutlet var abaclogo : UIImageView!
+    @IBOutlet var uniName : UILabel!
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.addSubview(abaclogo)
+        self.contentView.addSubview(uniName)
         
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        //fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         abaclogo.frame = CGRect(x: scWid*0.35, y: 10, width: scWid*0.3, height: scWid*0.3)
-        abaclogo.layer.cornerRadius = abaclogo.frame.size.width/2
         abaclogo.image = UIImage(named: "abaclogo")
-        abaclogo.clipsToBounds = true
+        
+        uniName.frame = CGRect(x: scWid*0.05, y: scWid*0.3 + 20, width: scWid*0.9, height: scWid*0.05)
+        uniName.text = "Assumption University"
+        uniName.textAlignment = .center
     }
     
 }
-
-
 
 
 

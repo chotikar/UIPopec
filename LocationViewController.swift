@@ -1,10 +1,13 @@
 
 import UIKit
 import MapKit
+import SWRevealViewController
 
-class LocationViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate {
+class LocationViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
     
-        @IBOutlet var mainMap : MKMapView!
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
+    
+    @IBOutlet var mainMap : MKMapView!
     var scoll : UIView = {
         var sc = UIView()
         sc.frame = CGRect(x: 0, y: scHei*0.85, width: scWid, height: scHei)
@@ -21,8 +24,8 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     @IBOutlet weak var PlaceTableView: UITableView!
     
     var currentMap = CGFloat(0.9)
-//    var location = CLLocationCoordinate2D()//CLLocationCoordinate2DMake(13.612320, 100.836808)
-//    var region = MKCoordinateSpan()
+    let ws = WebService.self
+    var placeList : [PlaceModel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +37,10 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         mainMap.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*currentMap)
         scoll.backgroundColor = UIColor.brown
         showButton.backgroundColor = UIColor.red
-        setMainMap(la: 13.612320, lo: 100.836808)
+        reloadTableViewInLocation()
+        setMainMap(la: "13.612320", lo: "100.836808")
+        Sidemenu()
+        CustomNavbar()
         
     }
 
@@ -43,10 +49,20 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
-    func setMainMap (la : CGFloat , lo :CGFloat) {
-        let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(la), longitude: CLLocationDegrees(lo))
+    func setMainMap (la : String , lo : String) {
+        let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(la)!, longitude: CLLocationDegrees(lo)!)
         let region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.006, longitudeDelta: 0.006))
         self.mainMap.setRegion(region, animated: true)
+        self.reloadInputViews()
+    }
+    
+    func reloadTableViewInLocation(){
+        ws.GetAllPlaceWS(){ (responseData: [PlaceModel], nil) in
+            DispatchQueue.main.async( execute: {
+                self.placeList = responseData
+                self.PlaceTableView.reloadData()
+            })
+        }
     }
     
     func showOrHideMap(sender : AnyObject){
@@ -70,17 +86,39 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+10, width: scWid, height: scHei*0.8)
     }
     
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
+
     
     ///Show List of Place
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.placeList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCellItem", for: indexPath) as! PlaceCell
-        cell.name.text = "Place's name"
+        cell.name.text = self.placeList[indexPath.row].buildingName
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let locate = self.placeList[indexPath.row]
+        setMainMap(la: locate.latitude, lo: locate.longtitude)
+        showOrHideMap(sender: UIButton())
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return scHei*0.1

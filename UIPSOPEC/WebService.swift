@@ -131,5 +131,30 @@ class WebService {
         task.resume()
     }
     
+    static func GetAllPlaceWS (completion:@escaping (_ responseData:[PlaceModel],_ errorMessage:NSError?) -> Void) {
+        
+        var PlaceList : [PlaceModel] = []
+        let url = NSURL(string: "\(domainName)Location/GetAllLocation")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                if let validJson = jsonResult as? [[String:AnyObject]] {
+                    for i in validJson {
+                        PlaceList.append(PlaceModel(dic: i as AnyObject))
+                    }
+                    completion(PlaceList, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+
+    
 }
 

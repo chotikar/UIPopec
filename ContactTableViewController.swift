@@ -25,7 +25,6 @@ class ContactTableViewController : UITableViewController {
         
     }
    
-    
     func Sidemenu() {
         if revealViewController() != nil {
             MenuButton.target = SWRevealViewController()

@@ -125,18 +125,23 @@ class ContactCell : UITableViewCell {
         
         addrEn.font = UIFont.systemFont(ofSize: 12)
         addrEn.frame = CGRect(x: 40, y: 40, width: scWid, height: 30)
-
+        addrEn.textColor = UIColor.darkGray
+        
         addrTh.font = UIFont.systemFont(ofSize: 12)
         addrTh.frame = CGRect(x: 40, y: 60, width: scWid, height: 30)
+        addrTh.textColor = UIColor.darkGray
         
         tel.font = UIFont.systemFont(ofSize: 12)
         tel.frame = CGRect(x: 40, y: 80, width: scWid, height: 30)
+        tel.textColor  = UIColor.darkGray
         
         fax.font = UIFont.systemFont(ofSize: 12)
         fax.frame = CGRect(x: 140, y: 80, width: scWid, height: 30)
-    
+        fax.textColor  = UIColor.darkGray
+        
         email.font = UIFont.systemFont(ofSize: 12)
         email.frame = CGRect(x: 40, y: 100, width: scWid, height: 30)
+        email.textColor = UIColor.darkGray
         
         addrlogo1.frame = CGRect(x: 10, y: 45, width: scWid*0.05, height: scWid*0.05)
         addrlogo2.frame = CGRect(x: 10, y: 65, width: scWid*0.05, height: scWid*0.05)

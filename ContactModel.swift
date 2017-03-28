@@ -8,8 +8,6 @@
 import Foundation
 class ContactModel {
     var CampusnameEn : String
-    var Latitude : String
-    var Longtitude : String
     var AddrEn : String
     var AddrTh : String
     var Telephone : String
@@ -19,8 +17,6 @@ class ContactModel {
     init() {
         
         CampusnameEn = "N/A"
-        Latitude = "N/A"
-        Longtitude = "N/A"
         AddrEn = "N/A"
         AddrTh = "N/A"
         Telephone  = "N/A"
@@ -30,8 +26,6 @@ class ContactModel {
     
     init(dic :AnyObject) {
         CampusnameEn = dic["campusName"] as! String
-        Latitude = dic["latitude"] as! String
-        Longtitude  = dic["longtitude"] as! String
         AddrEn = dic["addressEN"] as! String
         AddrTh = dic["addressTH"] as! String
         Telephone = dic["telephone"] as! String

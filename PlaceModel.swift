@@ -1,30 +1,36 @@
 
 import Foundation
 class PlaceModel {
- 
-    var placeId : Int
-    var placeName : String
-    var placeDescriptionTh  : String
-    var placeDescriptionEn : String
-    var longitude : String
-    var latitude :String
     
+    var locationId: Int!
+    var campusId:Int!
+    var buildingName: String!
+    var latitude: String!
+    var longtitude:String!
+    
+    
+//    var placeId : Int
+//    var placeName : String
+//    var placeDescriptionTh  : String
+//    var placeDescriptionEn : String
+//    var longitude : String
+//    var latitude :String
+//    
     init() {
-        placeId = 99999
-        placeName = "N/A"
-        placeDescriptionEn = "N/A"
-        placeDescriptionTh = "N/A"
+        locationId = 0
+        campusId = 0
+        buildingName = "N/A"
         latitude = "N/A"
-        longitude = "N/A"
+        longtitude = "N/A"
+
     }
     
     init(dic : AnyObject) {
-        placeId = dic[""] as! Int
-        placeName = dic[""] as! String
-        placeDescriptionEn = dic[""] as! String
-        placeDescriptionTh = dic[""] as! String
-        latitude = dic[""] as! String
-        longitude = dic[""] as! String
+        locationId = dic["locationID"] as! Int
+        campusId = dic["campusID"] as! Int
+        buildingName = dic["buildingName"] as! String
+        latitude = dic["latitude"] as! String
+        longtitude = dic["longtitude"] as! String
 //    imageURL = (dic["imageURL"] as? String ?? "N/A")
     }
 

@@ -1,10 +1,3 @@
-//
-//  NewsModel.swift
-//  UIPSOPEC
-//
-//  Created by Chotikar on 3/1/2560 BE.
-//  Copyright © 2560 Senior Project. All rights reserved.
-//
 
 import Foundation
 
@@ -38,7 +31,7 @@ class NewsModel {
         topicEn = dic["TopicEN"] as? String
         topicTh = dic["TopicTH"] as? String
         typeId = dic["TypeID"] as? Int
-        typeName = dic["TypeName"] as? String
+        typeName = dic["Type"] as? String
         descriptionEn = dic["DescriptionEN"] as? String
         descriptionTh = dic["DescriptionTH"] as? String
         imageURL = (dic["imageURL"] as? String ?? "N/A")

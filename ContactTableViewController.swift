@@ -81,8 +81,8 @@ class ContactCell : UITableViewCell {
     
 //    @IBOutlet var abaclogo : UIImageView!
     @IBOutlet var campusName : UILabel!
-    @IBOutlet var addrEn : UILabel!
-    @IBOutlet var addrTh : UILabel!
+    @IBOutlet var addrEn : UITextView!
+    @IBOutlet var addrTh : UITextView!
     @IBOutlet var tel : UILabel!
     @IBOutlet var fax : UILabel!
     @IBOutlet var email : UILabel!
@@ -123,13 +123,15 @@ class ContactCell : UITableViewCell {
         campusName.font = UIFont.boldSystemFont(ofSize: 20)
         campusName.frame = CGRect(x: 40, y: 10, width: scWid, height: 30)
         
-        addrEn.font = UIFont.systemFont(ofSize: 12)
-        addrEn.frame = CGRect(x: 40, y: 40, width: scWid, height: 30)
-        addrEn.textColor = UIColor.darkGray
+//        addrEn.font = UIFont.systemFont(ofSize: 12)
+//        addrEn.frame = CGRect(x: 40, y: 40, width: scWid - 10, height: 50)
+//        addrEn.textColor = UIColor.darkGray
         
-        addrTh.font = UIFont.systemFont(ofSize: 12)
-        addrTh.frame = CGRect(x: 40, y: 60, width: scWid, height: 30)
-        addrTh.textColor = UIColor.darkGray
+    
+//        
+//        addrTh.font = UIFont.systemFont(ofSize: 12)
+//        //addrTh.frame = CGRect(x: 40, y: 60, width: scWid-10, height: 50)
+//        addrTh.textColor = UIColor.darkGray
         
         tel.font = UIFont.systemFont(ofSize: 12)
         tel.frame = CGRect(x: 40, y: 80, width: scWid, height: 30)
@@ -149,13 +151,7 @@ class ContactCell : UITableViewCell {
         emaillogo.frame = CGRect(x: 10, y: 105, width: scWid*0.05, height: scWid*0.05)
     }
     
-    
-    
-    
-    
-    
-    
-    
+
     
     
     

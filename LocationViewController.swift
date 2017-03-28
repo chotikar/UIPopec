@@ -1,8 +1,10 @@
 
 import UIKit
 import MapKit
+import SWRevealViewController
 
 class LocationViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate {
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
     
     @IBOutlet var mainMap : MKMapView!
     var scoll : UIView = {
@@ -19,11 +21,14 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         return butShow
     }()
     @IBOutlet weak var PlaceTableView: UITableView!
+
     
     var currentMap = CGFloat(0.9)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        CustomNavbar()
+        Sidemenu()
         self.title = "Map"
         self.view.addSubview(self.scoll)
         self.scoll.addSubview(showButton)
@@ -59,6 +64,21 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
             }, completion: nil)
         
         PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+10, width: scWid, height: scHei*0.8)
+    }
+    
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
     }
     
     ///Show List of Place

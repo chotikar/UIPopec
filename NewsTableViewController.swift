@@ -6,9 +6,13 @@ class NewsTableViewController: UITableViewController {
     
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     var allNewsList : [NewsModel]!
+    let ws = WebService.self
+    var newsList : [NewsModel] = []
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        reloadTableViewInNews()
         Sidemenu()
         CustomNavbar()  
         // Uncomment the following line to preserve selection between presentations
@@ -30,7 +34,7 @@ class NewsTableViewController: UITableViewController {
 
     // number of row
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return self.newsList.count
     }
 
     //action in each cell
@@ -42,7 +46,7 @@ class NewsTableViewController: UITableViewController {
 //        let url = NSURL(string:"www.publicdomainpictures.net/pictures/40000/velka/white-daisy-flower.jpg")
 //        let data = NSData(contentsOf:url! as URL)
 //        cell.newsImg.image = UIImage(data:data as! Data)
-        
+        var news = self.newsList[indexPath.row]
         if indexPath.row == 0 {
             cell.newsImg.backgroundColor = UIColor.brown
             cell.newsImg.frame = CGRect(x: 0, y: 0, width:scWid, height: scHei*0.4)
@@ -55,6 +59,9 @@ class NewsTableViewController: UITableViewController {
             cell.newsTitle.backgroundColor = UIColor.black
             cell.newsSubtitle.frame = CGRect(x: scWid*0.361, y: scHei*0.0775, width: scWid*0.595, height: scHei*0.0575)
             cell.newsSubtitle.backgroundColor = UIColor.yellow
+            cell.newsTitle.text = news.topicEn
+            cell.newsSubtitle.text = news.descriptionEn
+            
         }
         
         return cell
@@ -85,6 +92,16 @@ class NewsTableViewController: UITableViewController {
 //        vc.facNewsList = fnl
 //        self.navigationController?.pushViewController(vc, animated: true)
    }
+    
+    func reloadTableViewInNews(){
+        ws.GetNewsRequireWS(lastNewsId: 0, numberOfNews: 10 ) { (responseData: [NewsModel], nil) in
+            DispatchQueue.main.async( execute: {
+                self.newsList = responseData
+                self.tableView.reloadData()
+//                print(self.faclist)
+            })
+        }
+    }
     
     
     func Sidemenu() {

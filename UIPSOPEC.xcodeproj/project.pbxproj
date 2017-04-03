@@ -37,6 +37,8 @@
 		4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */; };
 		4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */; };
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
+		7501D5B41E8BC1B9006FAAC8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */; };
+		7501D5B51E8BC1B9006FAAC8 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */; };
 		7545F3381E865C4400603222 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545F3371E865C4400603222 /* ContactTableViewController.swift */; };
 		7545F33A1E8666AA00603222 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545F3391E8666AA00603222 /* ContactModel.swift */; };
 		756E17A31E8960B40071EFD6 /* applyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756E17A21E8960B40071EFD6 /* applyViewController.swift */; };
@@ -75,6 +77,8 @@
 		4FAF16FE1E7BCC2500EF3FB9 /* CalculateMutual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculateMutual.swift; sourceTree = "<group>"; };
 		4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDProfileDevice.swift; sourceTree = "<group>"; };
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
+		7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		7545F3371E865C4400603222 /* ContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
 		7545F3391E8666AA00603222 /* ContactModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		756E17A21E8960B40071EFD6 /* applyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = applyViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 		4F4F8D451E517AE0004B4419 = {
 			isa = PBXGroup;
 			children = (
+				7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */,
+				7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */,
 				4FE09F2B1E59F80A0020A2C5 /* CoreData */,
 				4F8247861E77FE4E00F2341C /* Necessary */,
 				4F2511EC1E5D4E4D0055D312 /* Controller */,
@@ -296,6 +302,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7501D5B41E8BC1B9006FAAC8 /* Roboto-Bold.ttf in Resources */,
+				7501D5B51E8BC1B9006FAAC8 /* Roboto-Light.ttf in Resources */,
 				4F4F8D5F1E517AE0004B4419 /* LaunchScreen.storyboard in Resources */,
 				4F4F8D5C1E517AE0004B4419 /* Assets.xcassets in Resources */,
 				4F4F8D571E517AE0004B4419 /* Main.storyboard in Resources */,

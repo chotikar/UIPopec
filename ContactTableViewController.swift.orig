@@ -1,10 +1,3 @@
-//
-//  ContactViewController.swift
-//  UIPSOPEC
-//
-//  Created by Popp on 3/25/17.
-//  Copyright © 2017 Senior Project. All rights reserved.
-//
 
 import UIKit
 import SWRevealViewController
@@ -50,42 +43,44 @@ class ContactTableViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return self.contactlist.count
+        return self.contactlist.count+1
     }
     
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellItem", for: indexPath) as! ContactCell
-//let header = tableView.dequeueReusableCell(withIdentifier: "ContactHeaderCellItem", for: indexPath) as! ContactHeaderCell
-        
+let header = tableView.dequeueReusableCell(withIdentifier: "ContactHeaderCellItem", for: indexPath) as! ContactHeaderCell
+        print("indexPath.row: \(indexPath.row)")
         var  contactdetail : ContactModel!
 //        print(indexPath.row)
-//        if indexPath.row == 0 {
-////            header.selectionStyle = .none
-//           return header
-//        }else{
-            contactdetail = self.contactlist[indexPath.row]
+        if indexPath.row == 0 {
+//            header.selectionStyle = .none
+           return header
+        }else{
+            contactdetail = self.contactlist[indexPath.row-1]
             print(contactdetail.CampusnameEn)
                     cell.campusName.text = contactdetail.CampusnameEn
         cell.addrEn.text = contactdetail.AddrEn
+        cell.addrTh.text = contactdetail.AddrTh
         cell.tel.text = "Tel. \(contactdetail.Telephone)"
         cell.fax.text = "Fax. \(contactdetail.Fax)"
         cell.email.text = contactdetail.Email
         cell.addrlogo1.image = UIImage(named: "map")
+        cell.addrlogo2.image = UIImage(named: "map")
         cell.tellogo.image = UIImage(named: "phone-call")
         cell.emaillogo.image = UIImage(named: "mail")
         return cell
-
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      
-//        if indexPath.row == 0 {
-//            return scHei*0.25
-//        }else{
-            return scHei*0.2
-//        }
+        if indexPath.row == 0 {
+            return scHei*0.25
+        }else{
+            return scHei*0.35
+        }
 
     }
 }
@@ -93,24 +88,28 @@ class ContactTableViewController : UITableViewController {
 class ContactCell : UITableViewCell {
     @IBOutlet var campusName : UILabel!
     @IBOutlet var addrEn : UITextView!
+    @IBOutlet var addrTh : UITextView!
     @IBOutlet var tel : UILabel!
     @IBOutlet var fax : UILabel!
     @IBOutlet var email : UILabel!
     @IBOutlet var addrlogo1 : UIImageView!
+    @IBOutlet var addrlogo2 : UIImageView!
     @IBOutlet var tellogo : UIImageView!
     @IBOutlet var emaillogo : UIImageView!
+    
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(campusName)
         self.contentView.addSubview(addrEn)
+        self.contentView.addSubview(addrTh)
         self.contentView.addSubview(tel)
         self.contentView.addSubview(fax)
         self.contentView.addSubview(email)
         self.contentView.addSubview(addrlogo1)
+        self.contentView.addSubview(addrlogo2)
         self.contentView.addSubview(tellogo)
-        self.contentView.addSubview(emaillogo)
-        self.contentView.addSubview(addrEn)
+        self.contentView.addSubview(emaillogo)    
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -120,33 +119,39 @@ class ContactCell : UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        campusName.font = UIFont(name:"Roboto-Bold", size: 20)
+        campusName.font = UIFont.boldSystemFont(ofSize: 20)
         campusName.frame = CGRect(x: 40, y: 10, width: scWid, height: 30)
-        campusName.textColor = UIColor.darkTextx
         
-        addrEn.frame = CGRect(x: 35, y: 35, width: scWid  * 0.88, height: self.addrEn.contentSize.height)
-        addrEn.font = UIFont(name: "Roboto-Light", size: 12)
+        addrEn.font = UIFont.systemFont(ofSize: 12)
+        addrEn.frame = CGRect(x: 40, y: 40, width: scWid - 10, height: 30)
         addrEn.textColor = UIColor.darkGray
-        addrEn.isEditable = false
+    
         
-        tel.font = UIFont(name: "Roboto-Light", size: 12)
-        tel.frame = CGRect(x: 40, y: 70, width: scWid, height: 30)
+        addrTh.font = UIFont.systemFont(ofSize: 12)
+        addrTh.frame = CGRect(x: 40, y: 60, width: scWid-10, height: 30)
+        addrTh.textColor = UIColor.darkGray
+        
+        tel.font = UIFont.systemFont(ofSize: 12)
+        tel.frame = CGRect(x: 40, y: 80, width: scWid, height: 30)
         tel.textColor  = UIColor.darkGray
         
-        fax.font = UIFont(name: "Roboto-Light", size: 12)
-        fax.frame = CGRect(x: 140, y: 70, width: scWid, height: 30)
+        fax.font = UIFont.systemFont(ofSize: 12)
+        fax.frame = CGRect(x: 140, y: 80, width: scWid, height: 30)
         fax.textColor  = UIColor.darkGray
         
-        email.font = UIFont(name: "Roboto-Light", size: 12)
-        email.frame = CGRect(x: 40, y: 90, width: scWid, height: 30)
+        email.font = UIFont.systemFont(ofSize: 12)
+        email.frame = CGRect(x: 40, y: 100, width: scWid, height: 30)
+
         email.textColor = UIColor.darkGray
 
-        addrlogo1.frame = CGRect(x: 10, y: 48, width: scWid*0.05, height: scWid*0.05)
-
-        tellogo.frame = CGRect(x: 10, y: 75, width: scWid*0.05, height: scWid*0.05)
-        emaillogo.frame = CGRect(x: 10, y:95, width: scWid*0.05, height: scWid*0.05)
+        addrlogo1.frame = CGRect(x: 10, y: 45, width: scWid*0.05, height: scWid*0.05)
+        addrlogo2.frame = CGRect(x: 10, y: 65, width: scWid*0.05, height: scWid*0.05)
+        
+        tellogo.frame = CGRect(x: 10, y: 85, width: scWid*0.05, height: scWid*0.05)
+        emaillogo.frame = CGRect(x: 10, y: 105, width: scWid*0.05, height: scWid*0.05)
     }
     
+
 }
 
 

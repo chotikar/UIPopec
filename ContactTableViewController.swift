@@ -122,7 +122,7 @@ class ContactCell : UITableViewCell {
         
         campusName.font = UIFont(name:"Roboto-Bold", size: 20)
         campusName.frame = CGRect(x: 40, y: 10, width: scWid, height: 30)
-        campusName.textColor = UIColor.darkTextx
+        campusName.textColor = UIColor.darkGray
         
         addrEn.frame = CGRect(x: 35, y: 35, width: scWid  * 0.88, height: self.addrEn.contentSize.height)
         addrEn.font = UIFont(name: "Roboto-Light", size: 12)

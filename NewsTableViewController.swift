@@ -115,7 +115,7 @@ class NewsTableViewController: UITableViewController {
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     }
@@ -179,9 +179,7 @@ class NewsTableViewController: UITableViewController {
 }
 
 class NewsCell: UITableViewCell {
-    let scWid = UIScreen.main.bounds.width
-    let scHei = UIScreen.main.bounds.height
-    
+    let fm = FunctionMutual.self
     @IBOutlet weak var newsImg: UIImageView!
     @IBOutlet weak var newsTitle: UITextView!
     @IBOutlet weak var newsSubtitle: UITextView!
@@ -189,12 +187,12 @@ class NewsCell: UITableViewCell {
     
     override func awakeFromNib() {
         newsTitle.textColor = UIColor.white
-        newsTitle.font = UIFont.boldSystemFont(ofSize: 14)
+        newsTitle.font = fm.setFontSizeBold(fs: 14)
         newsTitle.textAlignment = .left
         newsTitle.text = "Title"
         //        newsTitle.scrollsToTop = false
         newsSubtitle.textColor = UIColor.black
-        newsSubtitle.font = UIFont.systemFont(ofSize: 8)
+        newsSubtitle.font = fm.setFontSizeLight(fs: 8)
         newsSubtitle.textAlignment = .left
         newsSubtitle.text = "Sub Title"
         //        newsSubtitle.scrollsToTop = false

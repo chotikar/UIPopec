@@ -96,7 +96,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     }
@@ -105,6 +105,14 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.placeList.count
     }
+    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 1
+//    }
+//    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCellItem", for: indexPath) as! PlaceCell
@@ -129,7 +137,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
 class PlaceCell : UITableViewCell {
     
     @IBOutlet var name: UILabel!
-    
+    let fm = FunctionMutual.self
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(name)
@@ -143,7 +151,7 @@ class PlaceCell : UITableViewCell {
         super.layoutSubviews()
         name.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
         name.textAlignment = .center
-        name.font = UIFont.boldSystemFont(ofSize: 20)
+        name.font = fm.setFontSizeLight(fs: 20)
         name.textColor = UIColor.darkGray
     }
     

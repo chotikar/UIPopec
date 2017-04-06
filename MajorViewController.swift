@@ -8,7 +8,7 @@ class MajorViewController: UIViewController {
     var facCode : Int!
     var majorCode : Int!
     var facultyFullName : String!
-    let cm = CalculateMutual.self
+    let fm = FunctionMutual.self
     let ws = WebService.self
     
     var scoll : UIScrollView = {
@@ -58,24 +58,24 @@ class MajorViewController: UIViewController {
         majorImage.backgroundColor = UIColor.yellow
         self.scoll.addSubview(majorImage)
         
-        var texthei = cm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: UIFont.boldSystemFont(ofSize: 16), tbWid :scWid * 0.9 ).height
+        var texthei = fm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: fm.setFontSizeBold(fs: 16), tbWid :scWid * 0.9 ).height
         majorTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: texthei))
         majorTitle.text = self.majorInformation.departmentNameEn
-        majorTitle.font = UIFont.boldSystemFont(ofSize: 16)
+        majorTitle.font = fm.setFontSizeBold(fs: 16)
         self.scoll.addSubview(majorTitle)
         
         hei = majorTitle.frame.origin.y + majorTitle.frame.height
-        texthei = cm.calculateHeiFromString(text: self.facultyFullName,fontsize: UIFont.systemFont(ofSize: 14), tbWid : scWid*0.9).height
+        texthei = fm.calculateHeiFromString(text: self.facultyFullName,fontsize: fm.setFontSizeLight(fs: 15), tbWid : scWid*0.9).height
         facName = UILabel(frame: CGRect(x: scWid * 0.05, y:  hei, width: scWid*0.9, height: texthei))
         facName.text = self.facultyFullName
-        facName.font = UIFont.systemFont(ofSize: 15)
+        facName.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facName)
         
         hei = facName.frame.height + facName.frame.origin.y+10
-        texthei = cm.calculateHeiFromString(text: self.majorInformation.descriptionTh,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
+        texthei = fm.calculateHeiFromString(text: self.majorInformation.descriptionTh,fontsize:fm.setFontSizeLight(fs: 12), tbWid : scWid * 0.86).height + 40
         print("MessageBoxSize : \(texthei)")
         majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
-        majorDescrip.font = UIFont.systemFont(ofSize: 12)
+        majorDescrip.font = fm.setFontSizeLight(fs: 12)
         majorDescrip.textAlignment = .center
         majorDescrip.isUserInteractionEnabled = false
         majorDescrip.text = self.majorInformation.descriptionTh

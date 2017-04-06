@@ -3,7 +3,7 @@ import UIKit
 import Foundation
 
 class NewsInforViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    
+    let fm  = FunctionMutual.self
     let scoll : UIScrollView = {
         var sc = UIScrollView()
         sc.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)

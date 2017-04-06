@@ -7,8 +7,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     var facultyCode : Int!
     var facultyMajorInformation = FacultyMajorModel()
     var majorCellItemId = "MajorCellItem"
-    let cm = CalculateMutual.self
-    
+    let fm = FunctionMutual.self
     @IBOutlet var majorTableView : UITableView!
     let scoll : UIScrollView = {
         var sc = UIScrollView()
@@ -52,18 +51,18 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         mainImage = UIImageView(frame: CGRect(x: 0, y: scWid * 0.05, width: scWid, height: scWid*0.7))
         mainImage.image = UIImage(named: "abacImg")
         self.scoll.addSubview(mainImage)
-         var texthei = cm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: UIFont.boldSystemFont(ofSize: 20), tbWid :scWid * 0.9 ).height + 5
+         var texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: fm.setFontSizeBold(fs: 20), tbWid :scWid * 0.9 ).height + 5
         
         facTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: texthei))
         facTitle.text = self.facultyMajorInformation.facultyAbb
-        facTitle.font = UIFont.boldSystemFont(ofSize: 20)
+        facTitle.font = fm.setFontSizeBold(fs: 20)
         self.scoll.addSubview(facTitle)
         hei = facTitle.frame.origin.y + facTitle.frame.height
-        texthei = cm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyNameEn,fontsize: UIFont.systemFont(ofSize: 14), tbWid : scWid*0.86).height
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyNameEn,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.86).height
         
         facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei))
         facSubtitle.text = self.facultyMajorInformation.facultyNameEn
-        facSubtitle.font = UIFont.systemFont(ofSize: 15)
+        facSubtitle.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facSubtitle)
         hei = facSubtitle.frame.height + facSubtitle.frame.origin.y
 //        texthei = estimateFrameForText(text:  "N/A",fontsize: UIFont.systemFont(ofSize: 13)).height+10
@@ -78,11 +77,11 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
 //        loDef.text = "N/A"
 //        self.location.addSubview(loDef)
 //        hei = location.frame.height + location.frame.origin.y+20
-        texthei = cm.calculateHeiFromString(text:  self.facultyMajorInformation.descriptionTh,fontsize: UIFont.systemFont(ofSize: 12), tbWid : scWid * 0.86).height + 40
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.descriptionTh,fontsize: fm.setFontSizeLight(fs: 13), tbWid : scWid * 0.86).height + 40
         
         descrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
-        descrip.font = UIFont.systemFont(ofSize: 12)
-        descrip.textAlignment = .center
+        descrip.font = fm.setFontSizeLight(fs: 13)
+        descrip.textAlignment = .left
         descrip.isUserInteractionEnabled = false
         descrip.text = self.facultyMajorInformation.descriptionTh
         self.scoll.addSubview(descrip)
@@ -135,7 +134,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
 }
 
 class  MajorCell : UITableViewCell{
-    
+    let fm = FunctionMutual.self
     @IBOutlet var bgMajor : UIImageView!
     @IBOutlet var bgName : UIView!
     @IBOutlet var name : UILabel!
@@ -161,7 +160,7 @@ class  MajorCell : UITableViewCell{
         bgName.alpha = 0.7
         name.frame = cgframe
         name.textAlignment = .center
-        name.font = UIFont.boldSystemFont(ofSize: 20)
+        name.font = fm.setFontSizeBold(fs: 20)
         name.textColor = UIColor.darkGray
     }
     

@@ -7,7 +7,7 @@ import SystemConfiguration
  // width and height of current Scrren
 let scWid = UIScreen.main.bounds.width
 let scHei = UIScreen.main.bounds.height
-
+let abacRed = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
 class LoginViewController: UIViewController , FBSDKLoginButtonDelegate{
     
     var data:[String:AnyObject]!

@@ -18,4 +18,7 @@ class FunctionMutual {
         return UIFont(name: "Roboto-Bold", size: fs)!
     }
     
+    static func getColorrgb(r:CGFloat , g : CGFloat, b: CGFloat,al : CGFloat) -> UIColor{
+     return UIColor(displayP3Red: r/225, green: g/225, blue: b/225, alpha: al)
+    }
 }

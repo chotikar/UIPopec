@@ -25,10 +25,7 @@ class MajorViewController: UIViewController {
         super.viewDidLoad()
         reloadMajor(facId: facCode, majorId: majorCode)
         self.view.addSubview(scoll)
-        scoll.backgroundColor = UIColor.red
-        // scoll.contentSize(drawMajorInformation())
-
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,43 +39,38 @@ class MajorViewController: UIViewController {
                 self.majorInformation = responseData
                 self.reloadInputViews()
                 self.reloadInputViews()
-                print(self.majorInformation.departmentNameEn)
-                print(self.majorInformation.descriptionTh)
-                print(self.majorInformation.departmentId)
                 self.scoll.contentSize = CGSize(width: scWid, height: self.drawMajorInformation())
             })
         }
     }
-    
 
     func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
-        print(facultyFullName)
-        majorImage = UIImageView(frame: CGRect(x: 0, y: scWid * 0.05, width: scWid, height: scWid*0.7))
-        majorImage.backgroundColor = UIColor.yellow
+        majorImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
+        majorImage.image = UIImage(named: "abacImg")
         self.scoll.addSubview(majorImage)
         
-        var texthei = fm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: fm.setFontSizeBold(fs: 16), tbWid :scWid * 0.9 ).height
-        majorTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: texthei))
+        hei = majorImage.frame.origin.y + majorImage.frame.height+20
+        var texthei = fm.calculateHeiFromString(text: self.majorInformation.departmentNameEn,fontsize: fm.setFontSizeBold(fs: 15), tbWid :scWid * 0.9 ).height
+        majorTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.9, height: texthei))
         majorTitle.text = self.majorInformation.departmentNameEn
         majorTitle.font = fm.setFontSizeBold(fs: 16)
         self.scoll.addSubview(majorTitle)
         
         hei = majorTitle.frame.origin.y + majorTitle.frame.height
-        texthei = fm.calculateHeiFromString(text: self.facultyFullName,fontsize: fm.setFontSizeLight(fs: 15), tbWid : scWid*0.9).height
+        texthei = fm.calculateHeiFromString(text: self.facultyFullName,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.9).height
         facName = UILabel(frame: CGRect(x: scWid * 0.05, y:  hei, width: scWid*0.9, height: texthei))
         facName.text = self.facultyFullName
         facName.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facName)
         
-        hei = facName.frame.height + facName.frame.origin.y+10
-        texthei = fm.calculateHeiFromString(text: self.majorInformation.descriptionTh,fontsize:fm.setFontSizeLight(fs: 12), tbWid : scWid * 0.86).height + 40
-        print("MessageBoxSize : \(texthei)")
-        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
+        hei = facName.frame.height + facName.frame.origin.y
+        texthei = fm.calculateHeiFromString(text: self.majorInformation.descriptionTh,fontsize:fm.setFontSizeLight(fs: 13), tbWid : scWid * 0.86).height
+        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: texthei))
         majorDescrip.font = fm.setFontSizeLight(fs: 12)
-        majorDescrip.textAlignment = .center
+        majorDescrip.textAlignment = .left
         majorDescrip.isUserInteractionEnabled = false
-        majorDescrip.text = self.majorInformation.descriptionTh
+        majorDescrip.text = "     \(self.majorInformation.descriptionTh as! String)"
         self.scoll.addSubview(majorDescrip)
         
         hei = majorDescrip.frame.height + majorDescrip.frame.origin.y + 20

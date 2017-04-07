@@ -1,4 +1,4 @@
-
+import Foundation
 import UIKit
 import SWRevealViewController
 
@@ -86,6 +86,31 @@ class FacultyTableViewController: UITableViewController {
     }
 }
 
+//let imageCache = NSCache()
+//
+//extension UIImageView{
+//    func loadImageUsingUrl(urlString : String) {
+//        let url = NSURL(string: urlString)
+//        image = nil
+//        if let imgFromCache = imageCache.objectForKey(forKey: urlString as AnyObject) as? UIImage{
+//            self.image = imageCache
+//            return
+//        }
+//        
+//        URLSession.shared.dataTask(with: url, completionHandler:
+//            {(data, respones , Error) in
+//                if Error != nil {
+//                    print (Error)
+//                    return
+//                }
+//                dispatch_async(dispatch_get_main_queue(),{
+//                    let imageToCache = UIImage(data: data!)
+//                    imageCache.setObject(imageToCache!, forKey: urlString)
+//                    self.image = imageCache
+//                })
+//        }).resume()
+//    }
+//}
 
 class FacultyCell : UITableViewCell {
     

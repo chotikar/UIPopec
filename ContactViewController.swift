@@ -14,13 +14,16 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     let abacRed = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
     var contactList :  [ContactModel] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Sidemenu()
         CustomNavbar()
-//        navigationBarHeight = (self.navigationController?.navigationBar.bounds.size.height)!
+        navigationBarHeight = (self.navigationController?.navigationBar.bounds.size.height)!+20
         print(navigationBarHeight)
-        scollView.frame = CGRect(x: 0, y: navigationBarHeight, width: scWid, height: scHei - navigationBarHeight)
+        print(navigationBarHeight)
+        scollView.frame = CGRect(x: 0, y: 64, width: scWid, height: scHei - navigationBarHeight)
+        scollView.backgroundColor = UIColor.red
          self.setContactTableView(num: CGFloat(10), headerSize: self.drawHeaderIn())
 //        reloadTableViewContact()
         self.view.addSubview(scollView)
@@ -43,7 +46,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setContactTableView(num : CGFloat, headerSize : CGFloat){
         self.scollView.addSubview(contactListTableView)
-        self.contactListTableView.backgroundColor = UIColor.red
+        self.contactListTableView.backgroundColor = UIColor.white
         contactListTableView.frame = CGRect(x: 0, y: headerSize, width: scWid, height: CGFloat(num)*(scHei*0.3))
         scollView.contentSize = CGSize(width: scWid, height: (num*(scHei*0.3))+headerSize)
     }
@@ -79,7 +82,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return scHei*0.3
+        return scHei*0.25
     }
     
     func Sidemenu() {
@@ -92,7 +95,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.barTintColor = UIColor.clear//abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     }

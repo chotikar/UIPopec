@@ -13,5 +13,5 @@ pod 'FacebookShare'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'SWRevealViewController'
-pod 'JTAppleCalendar'
+pod 'JTAppleCalendar', '~> 6.1'
 end

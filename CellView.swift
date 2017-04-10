@@ -6,9 +6,12 @@
 //  Copyright © 2017 Senior Project. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import JTAppleCalendar
 
 class CellView: JTAppleDayCellView {
-    @IBOutlet var dayLabel: UILabel!
+
+     @IBOutlet var dayLabel: UILabel!
+    @IBOutlet var selectedView: UIView!
+
 }

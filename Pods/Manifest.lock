@@ -41,7 +41,7 @@ DEPENDENCIES:
   - FacebookShare
   - GoogleMaps
   - GooglePlaces
-  - JTAppleCalendar
+  - JTAppleCalendar (~> 6.1)
   - SwiftR
   - SWRevealViewController
 
@@ -59,6 +59,6 @@ SPEC CHECKSUMS:
   SwiftR: 340a0c3c6d665e8f243e4b57c8121e0d81f3a345
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: 40fcf362adadce414e4cd8f93b10eba5c6f43198
+PODFILE CHECKSUM: 666eaa1a1bbe877a9f22a1aabd4264e12bdafb79
 
 COCOAPODS: 1.2.0

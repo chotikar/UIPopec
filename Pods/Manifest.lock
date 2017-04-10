@@ -31,6 +31,7 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (2.1.1):
     - GoogleMaps/Base (= 2.1.1)
+  - JTAppleCalendar (6.1.2)
   - SwiftR (0.13.0)
   - SWRevealViewController (2.3.0)
 
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - FacebookShare
   - GoogleMaps
   - GooglePlaces
+  - JTAppleCalendar
   - SwiftR
   - SWRevealViewController
 
@@ -53,9 +55,10 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 5953758366278430dc322d5cdc906db361ed7f81
   GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
   GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
+  JTAppleCalendar: 4424fdd0daac0daf1db93299c07949505055135d
   SwiftR: 340a0c3c6d665e8f243e4b57c8121e0d81f3a345
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: 37c90ccbdac54ea3f8b3499cdcff94805f836cab
+PODFILE CHECKSUM: 40fcf362adadce414e4cd8f93b10eba5c6f43198
 
 COCOAPODS: 1.2.0

@@ -13,4 +13,5 @@ pod 'FacebookShare'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'SWRevealViewController'
+pod 'JTAppleCalendar'
 end

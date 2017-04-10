@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'DDBCFDE490CDFDABF6F16A26F346932D'
-               BlueprintName = 'FacebookCore'
+               BlueprintIdentifier = '9B22756F1BC69AB282A6C7FFC7EB05C3'
+               BlueprintName = 'JTAppleCalendar'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'FacebookCore.framework'>
+               BuildableName = 'JTAppleCalendar.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

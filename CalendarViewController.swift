@@ -6,4 +6,12 @@
 //  Copyright © 2017 Senior Project. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import JTAppleCalendar
+
+//class ViewController: UIViewController {
+//    @IBOutlet weak var calendarView: JTAppleCalendarView!
+//    
+//
+//    
+//}

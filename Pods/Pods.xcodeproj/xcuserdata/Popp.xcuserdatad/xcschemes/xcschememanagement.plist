@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FSCalendar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FacebookCore.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -35,11 +40,6 @@
 			<false/>
 		</dict>
 		<key>FacebookShare.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>JTAppleCalendar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,6 +72,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>543D7B561DC17791C1D0676DEE2E8069</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>593E9479C06FB200807D11AB29EB50BD</key>
 		<dict>
 			<key>primary</key>
@@ -87,27 +92,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>87BEEE2A153523878027BF87CA251BB0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9B22756F1BC69AB282A6C7FFC7EB05C3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9C1E3AA890483F6A1A999916A7CF14B2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>A7FEAA14E89971698ACA148F7F7202F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C92B84402B3BBC40F2B5CDFA6DD4B840</key>
+		<key>BC5DA99AC2F9023EDAA75944256AD0E3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5A2DB7A84B7B78E359870D2E1B24AA7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D430D070D8116EA51754CE78175D3E02</key>
 		<dict>
 			<key>primary</key>
 			<true/>

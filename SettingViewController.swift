@@ -47,7 +47,8 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         drawSettingPage(lang: CRUDSettingValue.GetUserSetting())
-
+        Sidemenu()
+        CustomNavbar()
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +65,22 @@ class SettingViewController: UIViewController {
             drawSettingPage(lang:"EN")
         }
     }
+    
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
+
     
     func drawSettingPage(lang:String){
         
@@ -97,21 +114,5 @@ class SettingViewController: UIViewController {
         }
         
     }
-    
-    func Sidemenu() {
-        if revealViewController() != nil {
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-    }
-    
-    func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.clear//abacRed
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
-    }
-
     
 }

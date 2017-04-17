@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import SWRevealViewController
 
 class MessageTableViewController: UITableViewController {
 
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
     var profileDevice : UserLogInDetail!
     var friendsChatLog : [UserLogInDetail]!
     let tableCellCode = "cellId"
@@ -18,7 +20,9 @@ class MessageTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Sidemenu()
+        CustomNavbar()
+        
         tableView.register(UserCell.self, forCellReuseIdentifier: tableCellCode)
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector())
     }
@@ -108,6 +112,20 @@ class MessageTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
 
 }
 

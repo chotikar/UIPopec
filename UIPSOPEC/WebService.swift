@@ -5,7 +5,7 @@ class WebService {
     
     static let domainName:String = "http://www.supanattoy.com:89/"
     
-    //Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." 
+    //Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set."
     //error: unexpectedly found nil while unwrapping an Optional value
     // WRONG URL OR
     
@@ -24,7 +24,7 @@ class WebService {
                 
                 if let validJson = jsonResult as? [[String:AnyObject]] {
                     for i in validJson {
-                       facultyList.append(FacultyModel(dic: i as AnyObject))
+                        facultyList.append(FacultyModel(dic: i as AnyObject))
                     }
                     completion(facultyList, error as NSError?)
                 } else {
@@ -84,7 +84,7 @@ class WebService {
         }
         task.resume()
     }
-
+    
     //*****News*****
     static func GetNewsRequireWS(lastNewsId : Int ,numberOfNews : Int ,completion:@escaping (_ responseData:[NewsModel],_ errorMessage:NSError?)->Void)
     {
@@ -97,7 +97,7 @@ class WebService {
                     for i in validJson {
                         NewsList.append(NewsModel(dic: i as AnyObject))
                     }
-
+                    
                     completion(NewsList, error as NSError?)
                 } else {
                     print("Error")
@@ -161,6 +161,7 @@ class WebService {
     static func GetCalendarWS (completion:@escaping (_ responseData:[CalendarModel],_ errorMessage:NSError?) -> Void) {
         
         var CalendarEvent : [CalendarModel] = []
+        
         let url = NSURL(string: "\(domainName)Calendar/GetCalendar?year=2017&language=E")
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
@@ -182,5 +183,34 @@ class WebService {
         task.resume()
     }
     
+    
+    static func ApplyWS (Semester: Int,Year: Int , isThai: Bool, Citizen: String,titlename: String,
+                         fname: String, lname: String, national: String, birthdate: String, mobile: String,
+                         email: String, highsch: String, degree: Int, facultyID: Int, programID: Int,
+                         ielts: Int, toefl_ibt: Int, toefl_p: Int, sat_math: Int, sat_writing: Int)
+        ->Void{
+        
+        
+        var urlstring = "\(domainName)AppliedStudent/ApplyNewStudent?year=\(Year)&semester=\(Semester) &isThai=\(isThai)&IDnumber=\(Citizen)&profile=\(titlename);\(fname);\(lname);\(national);\(birthdate);\(mobile);\(email);\(highsch)&degree=\(degree)&facultyID=\(facultyID)&programID=\(programID)&scorelist=\(ielts);\(toefl_ibt);\(toefl_p);\(sat_math);\(sat_writing)"
+        
+        
+        urlstring = urlstring.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
+        
+        let requestURL: NSURL = NSURL(string: urlstring)!
+        let request = URLRequest(url: requestURL as URL)
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request) {
+            (data, response, error) -> Void in
+            
+            if error == nil {
+                let stringData = String(data: data!, encoding: .utf8)
+                print ("**\(String(describing: stringData))*")
+                
+            }
+        }
+        task.resume()
+    }
+    
 }
-

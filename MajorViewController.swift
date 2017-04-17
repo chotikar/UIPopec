@@ -70,7 +70,9 @@ class MajorViewController: UIViewController {
         majorDescrip.font = fm.setFontSizeLight(fs: 12)
         majorDescrip.textAlignment = .left
         majorDescrip.isUserInteractionEnabled = false
+
         majorDescrip.text = "     \(self.majorInformation.description as! String)"
+
         self.scoll.addSubview(majorDescrip)
         
         hei = majorDescrip.frame.height + majorDescrip.frame.origin.y + 20

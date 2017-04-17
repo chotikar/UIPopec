@@ -27,6 +27,9 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var ielts: UITextField!
     @IBOutlet weak var toefl: UITextField!
     @IBOutlet weak var appltBtn: UIButton!
+    @IBOutlet weak var satwriting: UITextField!
+    @IBOutlet weak var satmath: UITextField!
+    
     
     let datePicker = UIDatePicker()
     let picker1 = UIPickerView()
@@ -48,18 +51,90 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         createDatePicker()
         customlayout()
         
-        appltBtn.addTarget(self, action: #selector(applyViewController.pressbtn(_:)), for: UIControlEvents.touchUpInside)
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapview(gesture:)))
+//        view.addGestureRecognizer(tapGesture)
         
     }
     
+//    func didTapview(gesture: UITapGestureRecognizer) {
+//        view.endEditing(true)
+//    
+//    }
+//    
+//    func addObserver() {
+//        NotificationCenter.default.addObserver(forName: .UIKeyboardWillShow, object: nil, queue: nil) {
+//            Notification in self.keyboardWillShow(notification: notification)
+//        }
+//        
+//        NotificationCenter.default.addObserver(forName: .UIKeyboardWillHide, object: nil, queue: nil) {
+//            Notification in self.keyboardWillShow(notification: notification)
+//        }
+//        
+//    }
+//    
+//    func keyboardWillShow(notification: Notification) {
+//        guard let userInfo  = notification.userInfo,
+//            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgReactValue else: {
+//                return
+//        }
+//        let contentInsert = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
+//    }
+//    
+    
+    
+    /// add condition passportnumber and citizennumber
+    
     func pressbtn(_ sender : AnyObject) {
         
-        print ("Press")
-        
-        
-        
+        if citizenNumber.text! == "" {
+            iosToast(noti: "Please Input Citizen Number")
+        }else if Fname.text! == "" {
+            iosToast(noti: "Please Input First Name")
+        }else if Lname.text! == "" {
+            iosToast(noti: "Please Input Last Name")
+        }else if nationality.text! == "" {
+            iosToast(noti: "Please Input Nationality")
+        }else if Birthdate.text! == "" {
+            iosToast(noti: "Please Select Birthdate")
+        }else if mobile.text! == "" {
+            iosToast(noti: "Please Input Mobile Number")
+        }else if email.text! == "" {
+            iosToast(noti: "Please Input Email")
+        }else if highschool.text! == "" {
+            iosToast(noti: "Please Input HighSchool")
+        }else {
+            let alert = UIAlertController(title: "Do you want to apply?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+            let cofirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+                
+                self.ws.ApplyWS(Semester: 2, Year: 2017, isThai: true, Citizen: self.citizenNumber.text!, titlename: self.titleName.text!, fname: self.Fname.text!, lname: self.Lname.text!, national: self.nationality.text!, birthdate: self.Birthdate.text!, mobile: self.mobile.text!, email: self.email.text!, highsch: self.highschool.text!, degree: 3, facultyID: 11, programID: 2, ielts: Int(self.ielts.text!)!, toefl_ibt: Int(self.toefl.text!)!, toefl_p: 30, sat_math: Int(self.satmath.text!)!, sat_writing: Int(self.satwriting.text!)!)
+                
+                //            self.ws.ApplyWS(Semester: 2, Year: 2017, isThai: true, Citizen: "1710500278484", titlename: "xxxxxx", fname: "xxxxx", lname: "xxxxxxxx", national: "xxxxxxxx", birthdate: "14/06/1995", mobile: "000000", email: "xxxxxxxx", highsch: "xxxxxxxx", degree: 3, facultyID: 11, programID: 2, ielts: 10, toefl_ibt: 20, toefl_p: 30, sat_math: 30, sat_writing: 30)
+                //
+                let alertt = UIAlertController(title: "Application success", message: "", preferredStyle: UIAlertControllerStyle.alert)
+                let cofirmAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+                }
+                
+                alertt.addAction(cofirmAction)
+                self.present(alertt, animated: true, completion: nil)
+                
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+            }
+            
+            alert.addAction(cofirmAction)
+            alert.addAction(cancelAction )
+            self.present(alert, animated: true, completion: nil)
+        }
+
+    }
+    
+    func iosToast(noti:String){
+        let alert = UIAlertController(title: "Invalid Input", message: noti, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         
     }
+    
     func Sidemenu() {
         if revealViewController() != nil {
             MenuButton.target = SWRevealViewController()
@@ -125,8 +200,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     func donePress () {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .none
+        dateFormatter.dateFormat = "dd/MM/yyy"
         
         Birthdate.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)

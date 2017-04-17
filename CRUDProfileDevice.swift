@@ -78,7 +78,6 @@ class CRUDProfileDevice {
         } catch let error as NSError {
             print("Detele all data in Major error : \(error) \(error.userInfo)")
         }
-        
 
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //        let managedContext = appDelegate.persistentContainer.viewContext

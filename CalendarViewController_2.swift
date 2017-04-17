@@ -1,10 +1,4 @@
-//
-//  CalendarViewController_2.swift
-//  UIPSOPEC
-//
-//  Created by Popp on 4/13/17.
-//  Copyright © 2017 Senior Project. All rights reserved.
-//
+
 
 import Foundation
 import UIKit

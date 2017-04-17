@@ -34,6 +34,8 @@
 		4F8DF6FE1E82E0EF008B37B5 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */; };
 		4FAF16FD1E7BCA4B00EF3FB9 /* MajorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF16FC1E7BCA4B00EF3FB9 /* MajorViewController.swift */; };
 		4FAF16FF1E7BCC2500EF3FB9 /* FunctionMutual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF16FE1E7BCC2500EF3FB9 /* FunctionMutual.swift */; };
+		4FBD05011EA49245008D5EB2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05001EA49245008D5EB2 /* SettingViewController.swift */; };
+		4FBD05031EA49705008D5EB2 /* CRUDSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05021EA49705008D5EB2 /* CRUDSetting.swift */; };
 		4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */; };
 		4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */; };
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
@@ -77,6 +79,8 @@
 		4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		4FAF16FC1E7BCA4B00EF3FB9 /* MajorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MajorViewController.swift; sourceTree = "<group>"; };
 		4FAF16FE1E7BCC2500EF3FB9 /* FunctionMutual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionMutual.swift; sourceTree = "<group>"; };
+		4FBD05001EA49245008D5EB2 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		4FBD05021EA49705008D5EB2 /* CRUDSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDSetting.swift; sourceTree = "<group>"; };
 		4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDProfileDevice.swift; sourceTree = "<group>"; };
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 				4F6010651E643FF300311509 /* TestGoogleViewController.swift */,
 				4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */,
 				4F56F4E81E961CF6002704BE /* ContactViewController.swift */,
+				4FBD05001EA49245008D5EB2 /* SettingViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */,
+				4FBD05021EA49705008D5EB2 /* CRUDSetting.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -392,12 +398,14 @@
 				4F8247881E77FEEC00F2341C /* FacultyModel.swift in Sources */,
 				4F4AD4BE1E65E4BE00F509C5 /* NewsModel.swift in Sources */,
 				4F4F8D731E5185D6004B4419 /* ChatLogTableViewController.swift in Sources */,
+				4FBD05031EA49705008D5EB2 /* CRUDSetting.swift in Sources */,
 				4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */,
 				4F8247831E77F6FF00F2341C /* WebService.swift in Sources */,
 				4F4F8D6A1E51830C004B4419 /* ChatLog.swift in Sources */,
 				4F4F8D6F1E51832B004B4419 /* ChatMessageCell.swift in Sources */,
 				4F4F8D711E5185C4004B4419 /* MessageTableViewController.swift in Sources */,
 				4F82478A1E78672B00F2341C /* FacultyTableViewController.swift in Sources */,
+				4FBD05011EA49245008D5EB2 /* SettingViewController.swift in Sources */,
 				7545F33A1E8666AA00603222 /* ContactModel.swift in Sources */,
 				4F4F8D751E5194A9004B4419 /* UserCell.swift in Sources */,
 				4FAF16FF1E7BCC2500EF3FB9 /* FunctionMutual.swift in Sources */,

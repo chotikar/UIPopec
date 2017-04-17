@@ -40,9 +40,10 @@
 		7501D5B41E8BC1B9006FAAC8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */; };
 		7501D5B51E8BC1B9006FAAC8 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */; };
 		7545F33A1E8666AA00603222 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545F3391E8666AA00603222 /* ContactModel.swift */; };
+		756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */; };
+		756C02C01EA1EEC500D25B2D /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */; };
 		756E17A31E8960B40071EFD6 /* applyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756E17A21E8960B40071EFD6 /* applyViewController.swift */; };
 		758DDFE91E9E0AEB00EAAFA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 758DDFE71E9E0AEB00EAAFA8 /* Main.storyboard */; };
-		759964BE1E9DE00300846143 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759964BD1E9DE00300846143 /* CalendarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,9 +82,10 @@
 		7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		7545F3391E8666AA00603222 /* ContactModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
+		756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController_2.swift; sourceTree = "<group>"; };
+		756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		756E17A21E8960B40071EFD6 /* applyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = applyViewController.swift; sourceTree = "<group>"; };
 		758DDFE81E9E0AEB00EAAFA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		759964BD1E9DE00300846143 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		829F2D6DD9A0C9CFF209E3F8 /* Pods-UIPSOPEC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPSOPEC.release.xcconfig"; path = "Pods/Target Support Files/Pods-UIPSOPEC/Pods-UIPSOPEC.release.xcconfig"; sourceTree = "<group>"; };
 		D1587B5D2676B1EE902098CC /* Pods-UIPSOPEC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPSOPEC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UIPSOPEC/Pods-UIPSOPEC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,6 +166,7 @@
 				4F2D74941E798A2F0021FE37 /* FacultyMajorModel.swift */,
 				4F50FE481E83C1590028B299 /* PlaceModel.swift */,
 				7545F3391E8666AA00603222 /* ContactModel.swift */,
+				756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -245,7 +248,7 @@
 		756448131E9B623100D331B5 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				759964BD1E9DE00300846143 /* CalendarViewController.swift */,
+				756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				4F8DF6FE1E82E0EF008B37B5 /* LocationViewController.swift in Sources */,
 				4F2D74931E7972270021FE37 /* FacultyMajorViewController.swift in Sources */,
 				4F4F8D5A1E517AE0004B4419 /* UIPSOPEC.xcdatamodeld in Sources */,
+				756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */,
 				4F8247881E77FEEC00F2341C /* FacultyModel.swift in Sources */,
 				4F4AD4BE1E65E4BE00F509C5 /* NewsModel.swift in Sources */,
 				4F4F8D731E5185D6004B4419 /* ChatLogTableViewController.swift in Sources */,
@@ -397,6 +401,7 @@
 				7545F33A1E8666AA00603222 /* ContactModel.swift in Sources */,
 				4F4F8D751E5194A9004B4419 /* UserCell.swift in Sources */,
 				4FAF16FF1E7BCC2500EF3FB9 /* FunctionMutual.swift in Sources */,
+				756C02C01EA1EEC500D25B2D /* CalendarModel.swift in Sources */,
 				4F6010661E643FF300311509 /* TestGoogleViewController.swift in Sources */,
 				4F4F8D521E517AE0004B4419 /* AppDelegate.swift in Sources */,
 				4F4F8D771E51B7F8004B4419 /* LoginViewController.swift in Sources */,
@@ -404,7 +409,6 @@
 				4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */,
 				4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */,
 				4F2511F61E5D8D9E0055D312 /* NewsInforViewController.swift in Sources */,
-				759964BE1E9DE00300846143 /* CalendarViewController.swift in Sources */,
 				4F56F4E91E961CF6002704BE /* ContactViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

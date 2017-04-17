@@ -46,7 +46,7 @@ class NewsTableViewController: UITableViewController {
 //        let url = NSURL(string:"www.publicdomainpictures.net/pictures/40000/velka/white-daisy-flower.jpg")
 //        let data = NSData(contentsOf:url! as URL)
 //        cell.newsImg.image = UIImage(data:data as! Data)
-        var news = self.newsList[indexPath.row]
+        let news = self.newsList[indexPath.row]
         if indexPath.row == 0 {
             cell.newsImg.backgroundColor = UIColor.brown
             cell.newsImg.frame = CGRect(x: 0, y: 0, width:scWid, height: scHei*0.4)

@@ -154,7 +154,30 @@ class WebService {
         }
         task.resume()
     }
-
+    
+    static func GetCalendarWS (completion:@escaping (_ responseData:[CalendarModel],_ errorMessage:NSError?) -> Void) {
+        
+        var CalendarEvent : [CalendarModel] = []
+        let url = NSURL(string: "\(domainName)Calendar/GetCalendar?year=2017&language=E")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                if let validJson = jsonResult as? [[String:AnyObject]] {
+                    for i in validJson {
+                        CalendarEvent.append(CalendarModel(dic: i as AnyObject))
+                    }
+                    completion(CalendarEvent, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
     
 }
 

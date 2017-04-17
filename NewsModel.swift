@@ -12,7 +12,6 @@ class NewsModel {
     var descriptionTh : String!
     var imageURL : String!
     
-    
     init() {
         newsId = 999999999
         topicEn = "N/A"

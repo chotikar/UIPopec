@@ -13,6 +13,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     
+    @IBOutlet weak var genderTextField: UITextField!
     @IBOutlet weak var citizenNumber: UITextField!
     @IBOutlet weak var passportNumber: UITextField!
     @IBOutlet weak var Fname: UITextField!
@@ -27,28 +28,38 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var toefl: UITextField!
     @IBOutlet weak var appltBtn: UIButton!
     
-    
     let datePicker = UIDatePicker()
-    let picker = UIPickerView()
+    let picker1 = UIPickerView()
+    let picker2 = UIPickerView()
     var Title_Name  = ["MR.", "MS.", "MRS."]
-    
+    var Gender = ["Male" , "Female"]
+    let ws = WebService.self
     override func viewDidLoad() {
         super.viewDidLoad()
         
         Sidemenu()
         CustomNavbar()
-        picker.delegate = self
-        picker.dataSource = self
-        titleName.inputView = picker
+        picker1.delegate = self
+        picker1.dataSource = self
+        picker2.delegate = self
+        picker2.dataSource = self
+        titleName.inputView = picker1
+        genderTextField.inputView = picker2
         createDatePicker()
         customlayout()
         
-        //        if !(citizenNumber.text?.isEmpty)!{
-        //            passportNumber.isUserInteractionEnabled = false
-        //        }
+        appltBtn.addTarget(self, action: #selector(applyViewController.pressbtn(_:)), for: UIControlEvents.touchUpInside)
         
     }
     
+    func pressbtn(_ sender : AnyObject) {
+        
+        print ("Press")
+        
+        
+        
+        
+    }
     func Sidemenu() {
         if revealViewController() != nil {
             MenuButton.target = SWRevealViewController()
@@ -69,16 +80,34 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Title_Name.count
+        var count: Int = Title_Name.count
+        if pickerView == picker2 {
+            count = self.Gender.count
+        }
+        return count
         
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Title_Name[row]
+        if pickerView == picker1 {
+            let title = Title_Name[row]
+            return title
+        }else if pickerView == picker2 {
+            let title = Gender[row]
+            return title
+        }
+        return ""
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        titleName.text = Title_Name[row]
+        if pickerView == picker1 {
+            self.titleName.text = self.Title_Name[row]
+            //            self.picker1.isHidden = true
+            
+        }else if pickerView == picker2 {
+            self.genderTextField.text = self.Gender[row]
+            //            self.picker2.isHidden = true
+        }
         self.view.endEditing(false)
     }
     
@@ -114,18 +143,21 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     
     //------------function to check user input citizen or passport number
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let userEnteredString = citizenNumber.text
+        let inputstr = (userEnteredString! as NSString).replacingCharacters(in: range, with: string) as NSString
+        
+        if inputstr != "" {
+            passportNumber.isEnabled = false
+        }else {
+            passportNumber.isEnabled = true
+        }
+        
+        return true
+        
+    }
     
-    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    //
-    //        let text = (citizenNumber.text! as NSString).replacingCharacters(in: range, with: string)
-    //        if !text.isEmpty{
-    //            passportNumber.isEnabled = false
-    //        }else {
-    //            passportNumber.isEnabled = true
-    //        }
-    //        return true
-    //    }
-    //
     
     //------------ Move keyboard up when input textfield (out of screen)
     
@@ -155,7 +187,9 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         self.view.endEditing(true)
         return true
     }
+    
 }
+
 
 
 

@@ -7,15 +7,14 @@
 //
 
 import Foundation
+
 class FacultyMajorModel {
     
     var faculyId : Int!
-    var facultyNameEn  : String!
-    var facultyNameTh : String!
+    var facultyName : String!
     var facultyAbb : String!
     var imageURL :String!
-    var descriptionEn: String!
-    var descriptionTh: String!
+    var description: String!
     var facebook: String!
     var webpage: String!
     var email: String!
@@ -25,12 +24,10 @@ class FacultyMajorModel {
     
     init() {
         faculyId = 99999
-        facultyNameEn = "N/A"
-        facultyNameTh = "N/A"
+        facultyName = "N/A"
         facultyAbb = "N/A"
         imageURL = "N/A"
-        descriptionEn = "N/A"
-        descriptionTh = "N/A"
+        description = "N/A"
         facebook = "N/A"
         webpage = "N/A"
         email = "N/A"
@@ -39,12 +36,10 @@ class FacultyMajorModel {
     
     init(dic : AnyObject) {
         faculyId = dic["facultyID"] as! Int
-        facultyNameEn = dic["facultyNameEN"] as! String
-        facultyNameTh = dic["facultyNameTH"] as! String
+        facultyName = dic["facultyName"] as! String
         facultyAbb = dic["facultyAbb"] as! String
         imageURL = (dic["imageURL"] as? String ?? "N/A")
-        descriptionEn = (dic["descriptionEN"] as? String ?? "N/A")
-        descriptionTh = (dic["descriptionTH"] as? String ?? "N/A")
+        description = (dic["description"] as? String ?? "N/A")
         facebook = (dic["facebook"] as? String ?? "N/A")
         webpage = (dic["webpage"] as? String ?? "N/A")
         email = (dic["email"] as? String ?? "N/A")
@@ -61,37 +56,31 @@ class FacultyMajorModel {
 class MajorModel {
     
     var departmentId : Int!
-    var departmentNameEn: String!
-    var departmentNameTh: String!
+    var departmentName: String!
     var degree: Int!
     var degreeName : String!
     var departmentAbb: String!
     var imageURL: String!
-    var descriptionEn: String!
-    var descriptionTh:String!
+    var description: String!
     
     init(){
         departmentId = 99999
-        departmentNameEn = "N/A"
-        departmentNameTh = "N/A"
+        departmentName = "N/A"
         degree = 99999
         degreeName = "N/A"
         departmentAbb = "N/A"
         imageURL = "N/A"
-        descriptionEn = "N/A"
-        descriptionTh = "N/A"
+        description = "N/A"
     }
     
     init(dic :AnyObject) {
         departmentId = dic["departmentID"]  as! Int
-        departmentNameEn = dic["departmentNameEN"] as! String
-        departmentNameTh = dic["departmentNameTH"] as! String
+        departmentName = dic["departmentName"] as! String
         degree = dic["degree"] as! Int
         degreeName = (dic["degreeName"] as? String ?? "N/A")
         departmentAbb = (dic["departmentAbb"] as? String ?? "N/A")
         imageURL = (dic["imageURL"] as? String ?? "N/A")
-        descriptionEn = (dic["descriptionEN"] as? String ?? "N/A")
-        descriptionTh = (dic["descriptionTH"] as? String ?? "N/A")
+        description = (dic["description"] as? String ?? "N/A")
     }
     
 }

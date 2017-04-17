@@ -49,7 +49,7 @@ class ViewController: UIViewController {
     private func filterFacultyBy(searchInput: String){
         facultyFilter = facultyList.filter({
             (fac: FacultyModel) -> Bool in
-            return fac.facultyNameTh.lowercased().contains(searchInput.lowercased()) || fac.facultyNameEn.lowercased().contains(searchInput.lowercased()) || fac.facultyAbb.lowercased().contains(searchInput.lowercased())||searchInput == ""
+            return fac.facultyName.lowercased().contains(searchInput.lowercased()) || fac.facultyAbb.lowercased().contains(searchInput.lowercased())||searchInput == ""
         })
     }
     

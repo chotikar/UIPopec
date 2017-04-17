@@ -22,7 +22,7 @@
 		4F4F8D6C1E51830C004B4419 /* FacultyChatAndLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D691E51830C004B4419 /* FacultyChatAndLog.swift */; };
 		4F4F8D6F1E51832B004B4419 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D6E1E51832B004B4419 /* ChatMessageCell.swift */; };
 		4F4F8D711E5185C4004B4419 /* MessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D701E5185C4004B4419 /* MessageTableViewController.swift */; };
-		4F4F8D731E5185D6004B4419 /* ChatLogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D721E5185D6004B4419 /* ChatLogTableViewController.swift */; };
+		4F4F8D731E5185D6004B4419 /* ChatLogCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D721E5185D6004B4419 /* ChatLogCollectionViewController.swift */; };
 		4F4F8D751E5194A9004B4419 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D741E5194A9004B4419 /* UserCell.swift */; };
 		4F4F8D771E51B7F8004B4419 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */; };
 		4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F50FE481E83C1590028B299 /* PlaceModel.swift */; };
@@ -36,6 +36,7 @@
 		4FAF16FF1E7BCC2500EF3FB9 /* FunctionMutual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF16FE1E7BCC2500EF3FB9 /* FunctionMutual.swift */; };
 		4FBD05011EA49245008D5EB2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05001EA49245008D5EB2 /* SettingViewController.swift */; };
 		4FBD05031EA49705008D5EB2 /* CRUDSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05021EA49705008D5EB2 /* CRUDSetting.swift */; };
+		4FBD05051EA50ADF008D5EB2 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05041EA50ADF008D5EB2 /* Extension.swift */; };
 		4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */; };
 		4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */; };
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
@@ -67,7 +68,7 @@
 		4F4F8D691E51830C004B4419 /* FacultyChatAndLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacultyChatAndLog.swift; sourceTree = "<group>"; };
 		4F4F8D6E1E51832B004B4419 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		4F4F8D701E5185C4004B4419 /* MessageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTableViewController.swift; path = UIPSOPEC/MessageTableViewController.swift; sourceTree = "<group>"; };
-		4F4F8D721E5185D6004B4419 /* ChatLogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLogTableViewController.swift; path = UIPSOPEC/ChatLogTableViewController.swift; sourceTree = "<group>"; };
+		4F4F8D721E5185D6004B4419 /* ChatLogCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLogCollectionViewController.swift; path = UIPSOPEC/ChatLogCollectionViewController.swift; sourceTree = "<group>"; };
 		4F4F8D741E5194A9004B4419 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = UIPSOPEC/LoginViewController.swift; sourceTree = "<group>"; };
 		4F50FE481E83C1590028B299 /* PlaceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		4FAF16FE1E7BCC2500EF3FB9 /* FunctionMutual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionMutual.swift; sourceTree = "<group>"; };
 		4FBD05001EA49245008D5EB2 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		4FBD05021EA49705008D5EB2 /* CRUDSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDSetting.swift; sourceTree = "<group>"; };
+		4FBD05041EA50ADF008D5EB2 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDProfileDevice.swift; sourceTree = "<group>"; };
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */,
 				4F8247821E77F6FF00F2341C /* WebService.swift */,
 				4FAF16FE1E7BCC2500EF3FB9 /* FunctionMutual.swift */,
+				4FBD05041EA50ADF008D5EB2 /* Extension.swift */,
 			);
 			name = Necessary;
 			sourceTree = "<group>";
@@ -220,7 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				4F4F8D701E5185C4004B4419 /* MessageTableViewController.swift */,
-				4F4F8D721E5185D6004B4419 /* ChatLogTableViewController.swift */,
+				4F4F8D721E5185D6004B4419 /* ChatLogCollectionViewController.swift */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -397,7 +400,7 @@
 				756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */,
 				4F8247881E77FEEC00F2341C /* FacultyModel.swift in Sources */,
 				4F4AD4BE1E65E4BE00F509C5 /* NewsModel.swift in Sources */,
-				4F4F8D731E5185D6004B4419 /* ChatLogTableViewController.swift in Sources */,
+				4F4F8D731E5185D6004B4419 /* ChatLogCollectionViewController.swift in Sources */,
 				4FBD05031EA49705008D5EB2 /* CRUDSetting.swift in Sources */,
 				4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */,
 				4F8247831E77F6FF00F2341C /* WebService.swift in Sources */,
@@ -412,6 +415,7 @@
 				756C02C01EA1EEC500D25B2D /* CalendarModel.swift in Sources */,
 				4F6010661E643FF300311509 /* TestGoogleViewController.swift in Sources */,
 				4F4F8D521E517AE0004B4419 /* AppDelegate.swift in Sources */,
+				4FBD05051EA50ADF008D5EB2 /* Extension.swift in Sources */,
 				4F4F8D771E51B7F8004B4419 /* LoginViewController.swift in Sources */,
 				4F2511EE1E5D4E7F0055D312 /* NewsTableViewController.swift in Sources */,
 				4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */,

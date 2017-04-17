@@ -13,7 +13,7 @@ class FacultyTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Faculty"
-        reloadTableViewInFac()
+        reloadTableViewInFac(lang: CRUDSettingValue.GetUserSetting())
         Sidemenu()
         CustomNavbar()
         
@@ -46,9 +46,10 @@ class FacultyTableViewController: UITableViewController {
     }
 
     
-    func reloadTableViewInFac(){
-        ws.GetFacultyWS() { (responseData: [FacultyModel], nil) in
+    func reloadTableViewInFac(lang:String){
+        ws.GetFacultyWS(language: lang) { (responseData: [FacultyModel], nil) in
             DispatchQueue.main.async( execute: {
+                print("start faculty")
                 self.faclist = responseData
                 self.tableView.reloadData()
                 print(self.faclist)
@@ -70,7 +71,7 @@ class FacultyTableViewController: UITableViewController {
         let facultyDetail = self.faclist[indexPath.row]
 ////        cell.logo.image = UIImage(named: "vme_logo")
 //        cell.facView.image = UIImage(named: "abaccl")
-        cell.name.text = facultyDetail.facultyNameEn
+        cell.name.text = facultyDetail.facultyName
 //        cell.abb.text = facultyDetail.facultyAbb
         return cell
     }

@@ -19,7 +19,7 @@ class CRUDSettingValue{
             if ( settingValue_DB as? [NSManagedObject]) != nil {
                 settingValueInt = (settingValue_DB.first?.value(forKey: "language") as? String ?? "")!
                 if settingValueInt == "" {
-                    CRUDSettingValue.SaveSettingDevice(lang: "TH")
+                    CRUDSettingValue.SaveSettingDevice(lang: "T")
                 }
                 
             } else {
@@ -30,12 +30,10 @@ class CRUDSettingValue{
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        if settingValueInt == "TH" {
-            return "TH"
-        }else if settingValueInt == "EN"{
-            return "EN"
-        }else{
-            return "NULL"
+        if settingValueInt == "T" {
+            return "T"
+        }else {
+            return "E"
         }
         
     }

@@ -13,10 +13,11 @@ class WebService {
     ///////////////////
     
     //tskyonline.com:89/Faculty/getFacultyList
-    static func GetFacultyWS(completion:@escaping (_ responseData:[FacultyModel],_ errorMessage:NSError?)->Void)
+    static func GetFacultyWS(language : String ,completion:@escaping (_ responseData:[FacultyModel],_ errorMessage:NSError?)->Void)
     {
         var facultyList : [FacultyModel] = []
-        let url = NSURL(string: "\(domainName)Faculty/getFacultyList")
+        let url = NSURL(string: "\(domainName)Faculty/GetFacultyList?language=\(language)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -38,10 +39,11 @@ class WebService {
     }
     
     //tskyonline.com:89/Faculty/getFacultyDetail?facultyID=5
-    static func GetMajorWS(facultyId : Int ,completion:@escaping (_ responseData:FacultyMajorModel,_ errorMessage:NSError?)->Void)
+    static func GetMajorWS(facultyId : Int, language : String,completion:@escaping (_ responseData:FacultyMajorModel,_ errorMessage:NSError?)->Void)
     {
         var facultyMajor = FacultyMajorModel()
-        let url = NSURL(string: "\(domainName)Faculty/getFacultyDetail?facultyID=\(facultyId)")
+        let url = NSURL(string: "\(domainName)Faculty/GetFacultyDetail?facultyID=\(facultyId)&language=\(language)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -61,10 +63,11 @@ class WebService {
     }
     
     //tskyonline.com:89/Faculty/getDepartmentDetail?facultyID=5&departmentID=36
-    static func GetMajorDetailWS(facultyId : Int,departmentId : Int ,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
+    static func GetMajorDetailWS(facultyId : Int,departmentId : Int , language : String,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
     {
         var major = MajorModel()
-        let url = NSURL(string: "\(domainName)Faculty/getDepartmentDetail?facultyID=\(facultyId)&departmentID=\(departmentId)")
+        let url = NSURL(string: "\(domainName)Faculty/GetDepartmentDetail?facultyID=\(facultyId)&departmentID=\(departmentId)&language=\(language)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)

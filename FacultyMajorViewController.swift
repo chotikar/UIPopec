@@ -23,7 +23,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadTableViewInFacMajor(facId: self.facultyCode)
+        reloadTableViewInFacMajor(facId: self.facultyCode,lang: CRUDSettingValue.GetUserSetting())
         self.majorTableView.delegate = self
         self.majorTableView.dataSource = self
         self.view.addSubview(self.scoll)
@@ -35,8 +35,8 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadTableViewInFacMajor(facId : Int) {
-        WebService.GetMajorWS(facultyId: facId){ (responseData: FacultyMajorModel, nil) in
+    func reloadTableViewInFacMajor(facId : Int,lang:String) {
+        WebService.GetMajorWS(facultyId: facId,language: lang){ (responseData: FacultyMajorModel, nil) in
             DispatchQueue.main.async( execute: {
                 self.facultyMajorInformation = responseData
                 self.majorTableView.reloadData()
@@ -60,9 +60,9 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         self.scoll.addSubview(facTitle)
         hei = facTitle.frame.origin.y + facTitle.frame.height
 
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyNameEn,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.86).height
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyName,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.86).height
         facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei))
-        facSubtitle.text = self.facultyMajorInformation.facultyNameEn
+        facSubtitle.text = self.facultyMajorInformation.facultyName
         facSubtitle.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facSubtitle)
         hei = facSubtitle.frame.height + facSubtitle.frame.origin.y + 10
@@ -79,12 +79,12 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
 //        self.location.addSubview(loDef)
 //        hei = location.frame.height + location.frame.origin.y
         
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.descriptionTh,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid * 0.86).height
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid * 0.86).height
         descrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
         descrip.font = fm.setFontSizeLight(fs: 13)
         descrip.textAlignment = .justified
         descrip.isUserInteractionEnabled = false
-        descrip.text = "    \(self.facultyMajorInformation.descriptionTh as! String)"
+        descrip.text = "    \(self.facultyMajorInformation.description as! String)"
         self.scoll.addSubview(descrip)
         hei = descrip.frame.height + descrip.frame.origin.y
         
@@ -114,14 +114,14 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         }else{
             cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
         }
-        cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentNameEn
+        cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentName
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "MajorLayout") as! MajorViewController
-        vc.facultyFullName = self.facultyMajorInformation.facultyNameEn
+        vc.facultyFullName = self.facultyMajorInformation.facultyName
         vc.facCode = self.facultyMajorInformation.faculyId
         vc.majorCode = self.facultyMajorInformation.marjorList[indexPath.row].departmentId
         //self.present(vc, animated: true, completion: nil)

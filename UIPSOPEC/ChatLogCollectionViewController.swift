@@ -247,7 +247,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         let message = chatLog[indexPath.item]
         
         cell.textView.text = message.text
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 13), tbWid: scWid*0.3).width + 20
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 20
         
         setupCell(cell: cell, who: message.name)
         

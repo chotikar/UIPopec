@@ -80,12 +80,12 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
 //        self.location.addSubview(loDef)
 //        hei = location.frame.height + location.frame.origin.y
         
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid * 0.86).height
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 12.5), tbWid : scWid * 0.86).height + 20
         descrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
-        descrip.font = fm.setFontSizeLight(fs: 13)
+        descrip.font = fm.setFontSizeLight(fs: 14)
         descrip.textAlignment = .justified
         descrip.isUserInteractionEnabled = false
-        descrip.text = "    \(self.facultyMajorInformation.description as! String)"
+        descrip.text = "\(self.facultyMajorInformation.description as! String)"
         self.scoll.addSubview(descrip)
         hei = descrip.frame.height + descrip.frame.origin.y
         

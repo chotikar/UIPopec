@@ -66,13 +66,12 @@ class MajorViewController: UIViewController {
         self.scoll.addSubview(facName)
         
         hei = facName.frame.height + facName.frame.origin.y
-        texthei = fm.calculateHeiFromString(text: self.majorInformation.description,fontsize:fm.setFontSizeLight(fs: 13), tbWid : scWid * 0.86).height
-        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: texthei))
-        majorDescrip.font = fm.setFontSizeLight(fs: 12)
+        texthei = fm.calculateHeiFromString(text: self.majorInformation.description,fontsize:fm.setFontSizeLight(fs: 12.5), tbWid : scWid * 0.86).height
+        majorDescrip  = UITextView(frame: CGRect(x: scWid * 0.05, y: hei + 10, width: scWid*0.9, height: texthei))
+        majorDescrip.font = fm.setFontSizeLight(fs: 14)
         majorDescrip.textAlignment = .left
         majorDescrip.isUserInteractionEnabled = false
-
-        majorDescrip.text = "     \(self.majorInformation.description as! String)"
+        majorDescrip.text = "\(self.majorInformation.description as! String)"
 
         self.scoll.addSubview(majorDescrip)
         

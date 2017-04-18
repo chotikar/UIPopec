@@ -228,9 +228,37 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
      }
      */
     
+ 
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 0...4:
+            print("Do nothing")
+        default:
+            ScrollView.setContentOffset(CGPoint(x: 0, y: 100), animated:  true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+         ScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated:  true)
+    }
+    
     // hide keyboard with return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
+        
+        if textField.tag == 0 {
+            email.becomeFirstResponder()
+        }else if textField.tag == 1 {
+            ielts.becomeFirstResponder()
+        }else if textField.tag == 2 {
+            toefl.becomeFirstResponder()
+        }else if textField.tag == 3 {
+            satmath.becomeFirstResponder()
+        }else if textField.tag == 4 {
+            satwriting.becomeFirstResponder()
+        }else {
+            textField.resignFirstResponder()
+        }
+        //self.view.endEditing(true)
         return true
     }
     

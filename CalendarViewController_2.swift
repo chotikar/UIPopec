@@ -11,6 +11,10 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var eventTable: UITableView!
     
+    @IBOutlet weak var dateTopic: UITextView!
+    @IBOutlet weak var Topic: UITextView!
+   
+    
     private var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyy"
@@ -21,6 +25,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     let gregorian: NSCalendar! = NSCalendar(calendarIdentifier:NSCalendar.Identifier.gregorian)
     var datesWithEvent = ["03/04/2017", "06/04/2017", "12/04/2017", "25/04/2017"]
     var dateWithMultiEvent = ["05/04/2017", "16/04/2017" , "01/05/2017"]
+//    var dateEvent:[String]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,6 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
         customCalendar()
         customTable()
         reloadWS()
-        
     }
     
     func reloadWS() {
@@ -82,8 +86,15 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
         
         print("selected dates is \(selectedDates)")
         
-        self.calendar.frame.size = CGSize(width: self.calendar.frame.size.width, height: self.calendar.frame.size.height * 0.55)
-        eventTable.isHidden = false
+        if eventTable.isHidden {
+            eventTable.isHidden = false
+            self.calendar.frame.size = CGSize(width: self.calendar.frame.size.width, height: self.calendar.frame.size.height * 0.55)
+        } else {
+            eventTable.isHidden = true
+            self.calendar.frame.size = CGSize(width: scWid - 20, height: scHei * 0.87)
+        }
+        
+        
     }
     
     
@@ -99,6 +110,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let dateString = self.dateFormatter.string(from: date)
+        
         if self.datesWithEvent.contains(dateString) {
             return 1
         }
@@ -141,21 +153,12 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = eventTable.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let event = self.eventList[indexPath.row]
-        
-//        let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
-        
-        var strdate = [String]()
-        strdate.append(event.Date)
-        print("------\(strdate)")
-//        print("-----\(selectedDates)")
-        
-        cell.textLabel?.text = event.Topic
-        
-        
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+        cell.textLabel?.text = ("\(event.Date!) : \(event.Topic!)")
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
         cell.isUserInteractionEnabled = false
+
         return cell
     }
     
@@ -163,14 +166,10 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
         return 50
     }
     
-    //-----------------------------
-    
-    //    func dismissView() {
-    //        print ("tap")
-    //        self.calendar.frame.size = CGSize(width: self.calendar.frame.size.width, height: scHei * 0.8)
-    //        eventTable.isHidden = true
-    //    }
 }
+
+
+
 
 
 

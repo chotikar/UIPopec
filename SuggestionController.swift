@@ -57,7 +57,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         SuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid*0.8, height: scHei*0.7)
         doneBut.frame = CGRect(x: scWid*0.3, y: scHei*0.725, width: scWid*0.2, height: scHei*0.05 )
         doneBut.addTarget(self, action: #selector(getChoose), for: .touchUpInside)
-        SuggestTableView.backgroundColor = UIColor.blue
+        SuggestTableView.backgroundColor = UIColor.white
         FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
     }
     
@@ -128,7 +128,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         }
         
         if tableView == self.FacSuggestTableView{
-            var programe = self.facSugWs[indexPath.row]
+            let programe = self.facSugWs[indexPath.row]
             let vc = storyboard?.instantiateViewController(withIdentifier: "MajorLayout") as! MajorViewController
             vc.facultyFullName = programe.facultyName
             vc.facCode = programe.facultyID

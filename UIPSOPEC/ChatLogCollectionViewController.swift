@@ -73,6 +73,8 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         collectionView?.keyboardDismissMode = .interactive
         collectionView?.backgroundColor = UIColor.white
         
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        
         connection = SignalR("http://www.supanattoy.com:89")
         connection.useWKWebView = true
         connection.signalRVersion = .v2_2_0

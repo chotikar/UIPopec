@@ -28,6 +28,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         self.majorTableView.dataSource = self
         self.view.addSubview(self.scoll)
         self.scoll.addSubview(majorTableView)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
 
     override func didReceiveMemoryWarning() {
@@ -146,6 +147,7 @@ class  MajorCell : UITableViewCell{
         self.contentView.addSubview(bgMajor)
         self.contentView.addSubview(bgName)
         self.contentView.addSubview(name)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

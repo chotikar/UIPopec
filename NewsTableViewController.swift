@@ -58,6 +58,8 @@ class NewsTableViewController: UITableViewController {
             cell.newsSubtitle.frame = CGRect(x: scWid*0.361, y: scHei*0.0775, width: scWid*0.595, height: scHei*0.0575)
             cell.newsTitle.text = news.topic
             cell.newsSubtitle.text = news.description
+            cell.newsTitle.isUserInteractionEnabled = false
+            cell.newsSubtitle.isUserInteractionEnabled = false
             
         }
         

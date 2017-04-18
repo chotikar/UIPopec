@@ -94,7 +94,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.clear//abacRed
+        navigationController?.navigationBar.barTintColor = UIColor.red
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     }

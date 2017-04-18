@@ -7,27 +7,24 @@
 //
 import Foundation
 class ContactModel {
-    var CampusnameEn : String
-    var AddrEn : String
-    var AddrTh : String
+    var Campusname : String
+    var Addr : String
     var Telephone : String
     var Fax : String
     var Email : String
     
     init() {
         
-        CampusnameEn = "N/A"
-        AddrEn = "N/A"
-        AddrTh = "N/A"
+        Campusname = "N/A"
+        Addr = "N/A"
         Telephone  = "N/A"
         Fax = "N/A"
         Email = "N/A"
     }
     
     init(dic :AnyObject) {
-        CampusnameEn = dic["campusName"] as! String
-        AddrEn = dic["addressEN"] as! String
-        AddrTh = dic["addressTH"] as! String
+        Campusname = dic["campusName"] as! String
+        Addr = dic["address"] as! String
         Telephone = dic["telephone"] as! String
         Fax = dic["fax"] as! String
         Email = dic["mail"] as! String

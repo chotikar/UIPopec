@@ -1,10 +1,3 @@
-//
-//  UserProfile.swift
-//  UIPS_SignalR_05.02.17
-//
-//  Created by Chotikar on 2/13/2560 BE.
-//  Copyright © 2560 Senior Project. All rights reserved.
-//
 
 import Foundation
 

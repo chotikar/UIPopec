@@ -73,6 +73,7 @@ class WebService {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? AnyObject {
                     major =  MajorModel(dic: validJson)
+                    print(major.departmentName)
                     completion(major, error as NSError?)
                 } else {
                     print("Error")
@@ -86,10 +87,10 @@ class WebService {
     }
     
     //*****News*****
-    static func GetNewsRequireWS(lastNewsId : Int ,numberOfNews : Int ,completion:@escaping (_ responseData:[NewsModel],_ errorMessage:NSError?)->Void)
+    static func GetNewsRequireWS(lastNewsId : Int ,numberOfNews : Int ,lang :String,completion:@escaping (_ responseData:[NewsModel],_ errorMessage:NSError?)->Void)
     {
         var NewsList : [NewsModel] = []
-        let url = NSURL(string: "\(domainName)News/getNews?lastNewsId=\(lastNewsId)&numberOfNews=\(numberOfNews)")
+        let url = NSURL(string: "\(domainName)News/GetNews?lastNewsId=\(lastNewsId)&numberOfNews=\(numberOfNews)&language=\(lang)")
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -110,10 +111,10 @@ class WebService {
         task.resume()
     }
     
-    static func GetContactRequireWS (completion:@escaping (_ responseData:[ContactModel],_ errorMessage:NSError?) -> Void) {
+    static func GetContactRequireWS (lang:String,completion:@escaping (_ responseData:[ContactModel],_ errorMessage:NSError?) -> Void) {
         
         var ContactList : [ContactModel] = []
-        let url = NSURL(string: "\(domainName)Contact/GetAllContact")
+        let url = NSURL(string: "\(domainName)Contact/GetAllContact?language=\(lang)")
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -134,10 +135,10 @@ class WebService {
         task.resume()
     }
     
-    static func GetAllPlaceWS (completion:@escaping (_ responseData:[PlaceModel],_ errorMessage:NSError?) -> Void) {
+    static func GetAllPlaceWS (lang :String,completion:@escaping (_ responseData:[PlaceModel],_ errorMessage:NSError?) -> Void) {
         
         var PlaceList : [PlaceModel] = []
-        let url = NSURL(string: "\(domainName)Location/GetAllLocation")
+        let url = NSURL(string: "\(domainName)Location/GetAllLocation?language=\(lang)")
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -212,5 +213,61 @@ class WebService {
         }
         task.resume()
     }
+    
+    //http://www.supanattoy.com:89/Suggestion/GetKeywordList?language%20=%20E
+    ///Suggestion
+    static func GetKeyWordRequireWS(lang : String ,completion:@escaping (_ responseData:[KeyWordModel],_ errorMessage:NSError?)->Void)
+    {
+        var KeyWordList : [KeyWordModel] = []
+        let url = NSURL(string: "\(domainName)Suggestion/GetKeywordList?language=\(lang)")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? [[String : AnyObject ]]{
+                    for i in validJson {
+                        KeyWordList.append(KeyWordModel(dic: i as AnyObject))
+                    }
+                    
+                    completion(KeyWordList, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+    
+    static func GetSuggestionFacRequireWS(sugCode:String,lang : String ,completion:@escaping (_ responseData:[FacSuggestionModel],_ errorMessage:NSError?)->Void)
+    {
+        var facSugList : [FacSuggestionModel] = []
+        let url = NSURL(string: "\(domainName)Suggestion/GetSuggestionProgram?keywordlist=\(sugCode)&language=\(lang)")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? [[String : AnyObject ]]{
+                    for i in validJson {
+                       facSugList.append(FacSuggestionModel(dic: i as AnyObject))
+                    }
+                    
+                    completion(facSugList, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+    
+
+    
+
+    
+    
     
 }

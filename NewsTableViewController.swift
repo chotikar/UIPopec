@@ -12,7 +12,7 @@ class NewsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadTableViewInNews()
+        reloadTableViewInNews(lang: CRUDSettingValue.GetUserSetting())
         Sidemenu()
         CustomNavbar()  
         // Uncomment the following line to preserve selection between presentations
@@ -48,19 +48,16 @@ class NewsTableViewController: UITableViewController {
 //        cell.newsImg.image = UIImage(data:data as! Data)
         let news = self.newsList[indexPath.row]
         if indexPath.row == 0 {
-            cell.newsImg.backgroundColor = UIColor.brown
             cell.newsImg.frame = CGRect(x: 0, y: 0, width:scWid, height: scHei*0.4)
             cell.newsTitle.isHidden = true
             cell.newsSubtitle.isHidden = true
         } else {
-            cell.newsImg.backgroundColor = UIColor.red
+//            cell.newsImg.image  = UIImage(named: "abacImg")
             cell.newsImg.frame = CGRect(x: scWid*0.035, y: scHei*0.0125, width: scWid*0.3, height: scHei*0.15)
             cell.newsTitle.frame = CGRect(x: scWid*0.361, y: scHei*0.0125, width: scWid*0.595, height: scHei*0.06)
-            cell.newsTitle.backgroundColor = UIColor.black
             cell.newsSubtitle.frame = CGRect(x: scWid*0.361, y: scHei*0.0775, width: scWid*0.595, height: scHei*0.0575)
-            cell.newsSubtitle.backgroundColor = UIColor.yellow
-            cell.newsTitle.text = news.topicEn
-            cell.newsSubtitle.text = news.descriptionEn
+            cell.newsTitle.text = news.topic
+            cell.newsSubtitle.text = news.description
             
         }
         
@@ -93,8 +90,8 @@ class NewsTableViewController: UITableViewController {
 //        self.navigationController?.pushViewController(vc, animated: true)
    }
     
-    func reloadTableViewInNews(){
-        ws.GetNewsRequireWS(lastNewsId: 0, numberOfNews: 10 ) { (responseData: [NewsModel], nil) in
+    func reloadTableViewInNews(lang:String){
+        ws.GetNewsRequireWS(lastNewsId: 0, numberOfNews: 10 ,lang: lang) { (responseData: [NewsModel], nil) in
             DispatchQueue.main.async( execute: {
                 self.newsList = responseData
                 self.tableView.reloadData()
@@ -186,13 +183,14 @@ class NewsCell: UITableViewCell {
     
     
     override func awakeFromNib() {
-        newsTitle.textColor = UIColor.white
+        newsImg.image = UIImage(named: "abacImg")
+        newsTitle.textColor = UIColor.darkGray
         newsTitle.font = fm.setFontSizeBold(fs: 14)
         newsTitle.textAlignment = .left
         newsTitle.text = "Title"
         //        newsTitle.scrollsToTop = false
         newsSubtitle.textColor = UIColor.black
-        newsSubtitle.font = fm.setFontSizeLight(fs: 8)
+        newsSubtitle.font = fm.setFontSizeLight(fs: 13)
         newsSubtitle.textAlignment = .left
         newsSubtitle.text = "Sub Title"
         //        newsSubtitle.scrollsToTop = false

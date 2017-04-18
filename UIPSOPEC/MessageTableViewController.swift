@@ -1,8 +1,12 @@
 
 import UIKit
+import SWRevealViewController
 
 class MessageTableViewController: UITableViewController {
-    
+
+
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
+
     var profileDevice : UserLogInDetail!
     var friendsChatLog : [UserLogInDetail]!
     let tableCellCode = "cellId"
@@ -11,6 +15,9 @@ class MessageTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        Sidemenu()
+        CustomNavbar()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: tableCellCode)
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector())
@@ -39,7 +46,7 @@ class MessageTableViewController: UITableViewController {
         cell.textLabel?.text = "Dummy message"
         cell.detailTextLabel?.text = "Detail dummy messagekllllksdkwkenxmewkdojwememopdkeopkdpwokeod"
         cell.detailTextLabel?.textColor = UIColor.darkGray
-        cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
+//        cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
         cell.imageView?.contentMode = .scaleAspectFill
         return cell
     }
@@ -58,6 +65,22 @@ class MessageTableViewController: UITableViewController {
 //                self.navigationController?.pushViewController(vc, animated: true)
 
     }
+    
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
+
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -112,7 +135,7 @@ class UserCell : UITableViewCell {
         textLabel?.frame = CGRect(x:  56, y: (textLabel!.frame.origin.y - 2), width: (textLabel!.frame.width), height: (textLabel!.frame.height))
         detailTextLabel?.frame = CGRect(x: 56, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
     }
-    
+
     let profileImageView : UIImageView = {
         let piv = UIImageView()
 //        piv.image = (UIImage(named: "User_Shield"))
@@ -168,7 +191,7 @@ class UserCell : UITableViewCell {
     //        sl.textAlignment = .left
     //        return sl
     //    }()
-    
+
 }
 
 

@@ -13,6 +13,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     
+    @IBOutlet weak var ScrollView: UIScrollView!
     @IBOutlet weak var genderTextField: UITextField!
     @IBOutlet weak var citizenNumber: UITextField!
     @IBOutlet weak var passportNumber: UITextField!
@@ -51,36 +52,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         createDatePicker()
         customlayout()
         
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapview(gesture:)))
-//        view.addGestureRecognizer(tapGesture)
-        
     }
-    
-//    func didTapview(gesture: UITapGestureRecognizer) {
-//        view.endEditing(true)
-//    
-//    }
-//    
-//    func addObserver() {
-//        NotificationCenter.default.addObserver(forName: .UIKeyboardWillShow, object: nil, queue: nil) {
-//            Notification in self.keyboardWillShow(notification: notification)
-//        }
-//        
-//        NotificationCenter.default.addObserver(forName: .UIKeyboardWillHide, object: nil, queue: nil) {
-//            Notification in self.keyboardWillShow(notification: notification)
-//        }
-//        
-//    }
-//    
-//    func keyboardWillShow(notification: Notification) {
-//        guard let userInfo  = notification.userInfo,
-//            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgReactValue else: {
-//                return
-//        }
-//        let contentInsert = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
-//    }
-//    
-    
     
     /// add condition passportnumber and citizennumber
     

@@ -53,8 +53,9 @@ class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawSettingPage()
-
+        drawSettingPage(lang: CRUDSettingValue.GetUserSetting())
+        Sidemenu()
+        CustomNavbar()
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,8 +73,24 @@ class SettingViewController: UIViewController {
         }
     }
     
-    func drawSettingPage(){
-        self.view.addSubview(languageTitle)
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+    }
+
+    
+    func drawSettingPage(lang:String){
+        
         self.view.addSubview(boxLanguage)
         boxLanguage.addSubview(boxButton)
         boxLanguage.addSubview(thLanguage)
@@ -109,20 +126,5 @@ class SettingViewController: UIViewController {
         }
 
     }
-    func Sidemenu() {
-        if revealViewController() != nil {
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-    }
-    
-    func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
-    }
-
     
 }

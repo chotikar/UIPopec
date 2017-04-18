@@ -270,6 +270,10 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        connection.stop()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var heigh : CGFloat = 80
         

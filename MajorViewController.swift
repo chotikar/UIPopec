@@ -4,7 +4,7 @@ import UIKit
 
 class MajorViewController: UIViewController {
 
-    var majorInformation = MajorModel()
+    var majorInformation : MajorModel!
     var facCode : Int!
     var majorCode : Int!
     var facultyFullName : String!
@@ -23,8 +23,9 @@ class MajorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+         self.view.addSubview(scoll)
         reloadMajor(facId: facCode, majorId: majorCode,lang: CRUDSettingValue.GetUserSetting())
-        self.view.addSubview(scoll)
+       
         
     }
 
@@ -37,7 +38,7 @@ class MajorViewController: UIViewController {
         ws.GetMajorDetailWS(facultyId: facId, departmentId: majorId,language:lang){ (responseData: MajorModel, nil) in
             DispatchQueue.main.async( execute: {
                 self.majorInformation = responseData
-                self.reloadInputViews()
+                print(self.majorInformation.degreeName)
                 self.reloadInputViews()
                 self.scoll.contentSize = CGSize(width: scWid, height: self.drawMajorInformation())
             })

@@ -51,7 +51,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         self.title = "Map"
         navigationBarHeight = (self.navigationController?.navigationBar.bounds.size.height)!
         setscreen(nav: navigationBarHeight)
-        reloadTableViewInLocation()
+        reloadTableViewInLocation(language: CRUDSettingValue.GetUserSetting())
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +67,6 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         self.scoll.addSubview(self.PlaceTableView)
         self.showButton.addSubview(self.symIcon)
         self.showButton.addTarget(self, action: #selector(showOrHideMap), for: .touchUpInside)
-        
         self.scoll.frame = CGRect(x: 0, y: nav, width: scWid, height: scHei-nav)
         self.showOrHideMap(sender: UIButton())
 
@@ -80,9 +79,9 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         self.mainMap.setRegion(coordinateRegion, animated: true)
     }
     
-    func reloadTableViewInLocation(){
+    func reloadTableViewInLocation(language:String){
         self.setMainMap(la: "13.612320", lo: "100.836808")
-        ws.GetAllPlaceWS(){ (responseData: [PlaceModel], nil) in
+        ws.GetAllPlaceWS(lang:language){ (responseData: [PlaceModel], nil) in
             DispatchQueue.main.async( execute: {
                 self.placeList = responseData
                 self.PlaceTableView.reloadData()
@@ -164,6 +163,7 @@ class PlaceCell : UITableViewCell {
     
     @IBOutlet var name: UILabel!
     let fm = FunctionMutual.self
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(name)

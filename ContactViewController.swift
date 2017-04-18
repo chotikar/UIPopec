@@ -22,10 +22,9 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         navigationBarHeight = (self.navigationController?.navigationBar.bounds.size.height)!+20
         print(navigationBarHeight)
         print(navigationBarHeight)
-        scollView.frame = CGRect(x: 0, y: 64, width: scWid, height: scHei - navigationBarHeight)
-        scollView.backgroundColor = UIColor.red
+        scollView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei - navigationBarHeight)
          self.setContactTableView(num: CGFloat(10), headerSize: self.drawHeaderIn())
-//        reloadTableViewContact()
+//        reloadTableViewContact(language: CRUDSettingValue.GetUserSetting())
         self.view.addSubview(scollView)
         
     }
@@ -35,8 +34,8 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadTableViewContact() {
-        ws.GetContactRequireWS() { (responseData : [ContactModel], nil) in DispatchQueue.main.async ( execute: {
+    func reloadTableViewContact(language:String) {
+        ws.GetContactRequireWS(lang: language) { (responseData : [ContactModel], nil) in DispatchQueue.main.async ( execute: {
             self.contactList = responseData
             self.contactListTableView.reloadData()
             self.setContactTableView(num: CGFloat(10), headerSize: self.drawHeaderIn())
@@ -143,7 +142,6 @@ class ContactCell : UITableViewCell {
         addrEn.font = fm.setFontSizeLight(fs: 13)
         addrEn.textColor = UIColor.darkGray
         addrEn.textAlignment = .natural
-        addrEn.backgroundColor = UIColor.yellow
         addrEn.isEditable = false
         
         heir = addrEn.frame.origin.y + addrEn.frame.height+10

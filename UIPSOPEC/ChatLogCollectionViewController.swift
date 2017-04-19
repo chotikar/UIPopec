@@ -247,7 +247,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         let message = chatLog[indexPath.item]
         
         cell.textView.text = message.text
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 20
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 10
         
         setupCell(cell: cell, who: message.name)
         
@@ -265,7 +265,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         }else{
             //income message gray
             cell.profileImageView.isHidden = false
-            cell.bubbleView.backgroundColor = UIColor.red//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
+            cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
             cell.bubbleRightAnchor?.isActive = false
             cell.bubbleLeftAnchor?.isActive = true
         }
@@ -286,8 +286,6 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     }
     
 }
-
-
 
 
 

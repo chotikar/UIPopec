@@ -28,8 +28,7 @@ class ChatMessageCell: UICollectionViewCell{
     
     let profileImageView : UIImageView = {
         let img = UIImageView()
-        //img.image = UIImage(named: <#T##String#>)
-        img.backgroundColor = UIColor.yellow
+        img.image = UIImage(named: "User_Shield")
         img.translatesAutoresizingMaskIntoConstraints = false
         img.layer.cornerRadius = 16
         img.layer.masksToBounds = true

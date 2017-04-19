@@ -11,7 +11,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     
     let fm = FunctionMutual.self
     var chatLog = [ChatLog]()
-    var ownerName = "Eye"
+    var ownerName = "Pop"
     lazy var inputTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter message..."
@@ -85,6 +85,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         chatHub.on("broadcastMessage") { [weak self] args in
             if let namee = args?[0] as? String, let message = args?[1] as? String {
                 self?.chatLog.append(ChatLog(name: namee, text: message))
+            print("TEST LOG \(self?.chatLog)")
                 self?.collectionView?.reloadData()
             }
         }

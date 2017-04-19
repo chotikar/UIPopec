@@ -13,16 +13,20 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     var keywordWs = [KeyWordModel]()
     let  filterview = UIView()
     let ws = WebService.self
-
-//    var suggestProgram :[]()
     let facSuggestId = "facSugCellID"
     let suggestId = "sugCellID"
+    
     var titleButton = UIButton()
     var doneBut = UIButton()
+    var navWid : CGFloat!
+    var navIcon = UIImageView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.titleView = titleButton
+        navWid = self.navigationItem.titleView?.frame.width
+        self.navigationItem.titleView?.backgroundColor = UIColor.yellow
         titleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         drawSuggestionFac()
         setTableview()
@@ -48,11 +52,10 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         self.view.addSubview(FacSuggestTableView)
         self.filterview.addSubview(SuggestTableView)
         self.filterview.addSubview(doneBut)
-        titleButton.setTitle("Suggestion", for: .normal)
+        titleButton.setTitle("Recommendation", for: .normal)
         doneBut.setTitle("Done", for: .normal)
         doneBut.layer.cornerRadius = 20
         doneBut.clipsToBounds = true
-//        doneBut.layer.borderColor = UIColor.white as! CGColor 
         SuggestTableView.backgroundColor = UIColor.red
         SuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid*0.8, height: scHei*0.7)
         doneBut.frame = CGRect(x: scWid*0.3, y: scHei*0.725, width: scWid*0.2, height: scHei*0.05 )

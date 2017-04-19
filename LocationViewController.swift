@@ -5,7 +5,7 @@ import SWRevealViewController
 
 
 class LocationViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate {
-    
+    //http://www.supanattoy.com:89/Location/GetAllLocation?language=T
     let fm = FunctionMutual.self
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     

@@ -11,7 +11,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     
     let fm = FunctionMutual.self
     var chatLog = [ChatLog]()
-    var ownerName = "Eye"
+    var ownerName = "Pop"
     lazy var inputTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter message..."
@@ -83,6 +83,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         chatHub.on("broadcastMessage") { [weak self] args in
             if let namee = args?[0] as? String, let message = args?[1] as? String {
                 self?.chatLog.append(ChatLog(name: namee, text: message))
+            print("TEST LOG \(self?.chatLog)")
                 self?.collectionView?.reloadData()
             }
         }
@@ -245,7 +246,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         let message = chatLog[indexPath.item]
         
         cell.textView.text = message.text
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 20
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 10
         
         setupCell(cell: cell, who: message.name)
         

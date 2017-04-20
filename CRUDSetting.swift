@@ -65,7 +65,7 @@ class CRUDSettingValue{
     }
     
 
-    static func ClearProfileDevice(){
+    static func ClearSettingDevice(){
         
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
@@ -83,7 +83,7 @@ class CRUDSettingValue{
     
     static func UpdateSetting(lang:String){
                 if self.GetUserSetting() != lang {
-                    self.ClearProfileDevice()
+                    self.ClearSettingDevice()
                     self.SaveSettingDevice(lang: lang)
             }
         }

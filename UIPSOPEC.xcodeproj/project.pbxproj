@@ -39,6 +39,7 @@
 		4FBD05051EA50ADF008D5EB2 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05041EA50ADF008D5EB2 /* Extension.swift */; };
 		4FBD05071EA53CBC008D5EB2 /* FacSuggestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05061EA53CBC008D5EB2 /* FacSuggestionModel.swift */; };
 		4FBD05091EA53E57008D5EB2 /* KeywordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBD05081EA53E57008D5EB2 /* KeywordModel.swift */; };
+		4FDDFA091EA78F9600B708E8 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDDFA081EA78F9600B708E8 /* MessageModel.swift */; };
 		4FE09F2D1E59F8410020A2C5 /* CRUDProfileDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */; };
 		4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */; };
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
@@ -88,6 +89,7 @@
 		4FBD05041EA50ADF008D5EB2 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		4FBD05061EA53CBC008D5EB2 /* FacSuggestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacSuggestionModel.swift; sourceTree = "<group>"; };
 		4FBD05081EA53E57008D5EB2 /* KeywordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordModel.swift; sourceTree = "<group>"; };
+		4FDDFA081EA78F9600B708E8 /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		4FE09F2C1E59F8410020A2C5 /* CRUDProfileDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDProfileDevice.swift; sourceTree = "<group>"; };
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
@@ -123,7 +125,6 @@
 				4FAF16F31E7BC7CC00EF3FB9 /* Faculty */,
 				756E17A21E8960B40071EFD6 /* applyViewController.swift */,
 				755EA9121EA5173500C622CE /* SuggestionController.swift */,
-				4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */,
 				4F6010651E643FF300311509 /* TestGoogleViewController.swift */,
 				4F8DF6FD1E82E0EF008B37B5 /* LocationViewController.swift */,
 				4F56F4E81E961CF6002704BE /* ContactViewController.swift */,
@@ -183,6 +184,7 @@
 				756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */,
 				4FBD05061EA53CBC008D5EB2 /* FacSuggestionModel.swift */,
 				4FBD05081EA53E57008D5EB2 /* KeywordModel.swift */,
+				4FDDFA081EA78F9600B708E8 /* MessageModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -231,6 +233,7 @@
 		4FAF16F51E7BC7F600EF3FB9 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				4F4F8D761E51B7F8004B4419 /* LoginViewController.swift */,
 				4F4F8D701E5185C4004B4419 /* MessageTableViewController.swift */,
 				4F4F8D721E5185D6004B4419 /* ChatLogCollectionViewController.swift */,
 			);
@@ -428,6 +431,7 @@
 				4F4F8D521E517AE0004B4419 /* AppDelegate.swift in Sources */,
 				4FBD05051EA50ADF008D5EB2 /* Extension.swift in Sources */,
 				4F4F8D771E51B7F8004B4419 /* LoginViewController.swift in Sources */,
+				4FDDFA091EA78F9600B708E8 /* MessageModel.swift in Sources */,
 				4F2511EE1E5D4E7F0055D312 /* NewsTableViewController.swift in Sources */,
 				4FBD05091EA53E57008D5EB2 /* KeywordModel.swift in Sources */,
 				4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */,

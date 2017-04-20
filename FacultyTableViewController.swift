@@ -5,7 +5,7 @@ import SWRevealViewController
 class FacultyTableViewController: UITableViewController {
 
     @IBOutlet weak var MenuButton: UIBarButtonItem!
-    
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     var faclist : [FacultyModel] = []
     let facCellItemId = "FacultyCellItem"
     let ws = WebService.self
@@ -13,6 +13,7 @@ class FacultyTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Faculty"
+        startIndicator()
         reloadTableViewInFac(lang: CRUDSettingValue.GetUserSetting())
         Sidemenu()
         CustomNavbar()
@@ -29,6 +30,17 @@ class FacultyTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
+    }
     
     func Sidemenu() {
         if revealViewController() != nil {
@@ -53,6 +65,7 @@ class FacultyTableViewController: UITableViewController {
                 self.faclist = responseData
                 self.tableView.reloadData()
                 print(self.faclist)
+                self.stopIndicator()
             })
         }
     }

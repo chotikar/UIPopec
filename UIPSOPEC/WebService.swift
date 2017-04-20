@@ -9,9 +9,9 @@ class WebService {
     //error: unexpectedly found nil while unwrapping an Optional value
     // WRONG URL OR
     
-    //*****Faculty*****
-    ///////////////////
+ 
     
+    // MARK: FACULTY
     //tskyonline.com:89/Faculty/getFacultyList
     static func GetFacultyWS(language : String ,completion:@escaping (_ responseData:[FacultyModel],_ errorMessage:NSError?)->Void)
     {
@@ -86,11 +86,13 @@ class WebService {
         task.resume()
     }
     
-    //*****News*****
+    
+    // MARK: NEWS
     static func GetNewsRequireWS(lastNewsId : Int ,numberOfNews : Int ,lang :String,completion:@escaping (_ responseData:[NewsModel],_ errorMessage:NSError?)->Void)
     {
         var NewsList : [NewsModel] = []
         let url = NSURL(string: "\(domainName)News/GetNews?lastNewsId=\(lastNewsId)&numberOfNews=\(numberOfNews)&language=\(lang)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -111,10 +113,13 @@ class WebService {
         task.resume()
     }
     
+    
+    // MARK: CONTACT
     static func GetContactRequireWS (lang:String,completion:@escaping (_ responseData:[ContactModel],_ errorMessage:NSError?) -> Void) {
         
         var ContactList : [ContactModel] = []
         let url = NSURL(string: "\(domainName)Contact/GetAllContact?language=\(lang)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -135,10 +140,13 @@ class WebService {
         task.resume()
     }
     
+    
+    // MARK: LOCATION
     static func GetAllPlaceWS (lang :String,completion:@escaping (_ responseData:[PlaceModel],_ errorMessage:NSError?) -> Void) {
         
         var PlaceList : [PlaceModel] = []
         let url = NSURL(string: "\(domainName)Location/GetAllLocation?language=\(lang)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -159,11 +167,13 @@ class WebService {
         task.resume()
     }
     
+    
+    // MARK: CALENDAR
     static func GetCalendarWS (completion:@escaping (_ responseData:[CalendarModel],_ errorMessage:NSError?) -> Void) {
         
         var CalendarEvent : [CalendarModel] = []
-        
         let url = NSURL(string: "\(domainName)Calendar/GetCalendar?year=2017&language=E")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -185,16 +195,15 @@ class WebService {
     }
     
     
+    // MARK: APPLICATION
     static func ApplyWS (Semester: Int,Year: Int , isThai: Bool, Citizen: String,titlename: String,
                          fname: String, lname: String, national: String, birthdate: String, mobile: String,
                          email: String, highsch: String, degree: Int, facultyID: Int, programID: Int,
-                         ielts: Int, toefl_ibt: Int, toefl_p: Int, sat_math: Int, sat_writing: Int)
-        ->Void{
+                         ielts: Int, toefl_ibt: Int, toefl_p: Int, sat_math: Int, sat_writing: Int) ->Void {
         
         
         var urlstring = "\(domainName)AppliedStudent/ApplyNewStudent?year=\(Year)&semester=\(Semester) &isThai=\(isThai)&IDnumber=\(Citizen)&profile=\(titlename);\(fname);\(lname);\(national);\(birthdate);\(mobile);\(email);\(highsch)&degree=\(degree)&facultyID=\(facultyID)&programID=\(programID)&scorelist=\(ielts);\(toefl_ibt);\(toefl_p);\(sat_math);\(sat_writing)"
-        
-        
+        print(urlstring)
         urlstring = urlstring.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
         
         let requestURL: NSURL = NSURL(string: urlstring)!
@@ -214,12 +223,14 @@ class WebService {
         task.resume()
     }
     
-    //http://www.supanattoy.com:89/Suggestion/GetKeywordList?language%20=%20E
-    ///Suggestion
+    
+    // MARK: SUGGESTION
+    //http://www.supanattoy.com:89/Suggestion/GetKeywordList?language=E
     static func GetKeyWordRequireWS(lang : String ,completion:@escaping (_ responseData:[KeyWordModel],_ errorMessage:NSError?)->Void)
     {
         var KeyWordList : [KeyWordModel] = []
         let url = NSURL(string: "\(domainName)Suggestion/GetKeywordList?language=\(lang)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -244,6 +255,7 @@ class WebService {
     {
         var facSugList : [FacSuggestionModel] = []
         let url = NSURL(string: "\(domainName)Suggestion/GetSuggestionProgram?keywordlist=\(sugCode)&language=\(lang)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -265,9 +277,49 @@ class WebService {
     }
     
 
+    // MARK: LOGIN
+    //http://www.supanattoy.com:89/Chat/SignInAndSignUp?byFacebook=1&userDetail=kornkamol;1234567890;0987654321&deviceID=0001&imageURL=N/A
+    //FIXME: sign in
+    static func sentLoginInformationWS(byfacebook : Int , userDetail : String , deviceId : String,imageUrl : String ,completion:@escaping (_ responseData:UserLogInDetail,_ errorMessage:NSError?)->Void)
+    {
+        var loginInformation : UserLogInDetail!
+        let url = NSURL(string: "\(domainName) Chat/SignInAndSignUp?byFacebook=\(byfacebook)&userDetail=\(userDetail)&deviceID=\(deviceId)&imageURL=\(imageUrl)")
+        print(url)
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? [String : AnyObject ]{
+                    if byfacebook == 0 {
+                        loginInformation = UserLogInDetail(dic: validJson as AnyObject, typews: Int16(1), udid: deviceId)
+                    }else{
+                        loginInformation = UserLogInDetail(dic: validJson as AnyObject, typews: Int16(1), udid: deviceId)
+                    }
+                    
+                    
+                    completion(loginInformation, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
     
+    //FIXME: Signup
+    
+    //FIXME: Logout
+    
+    //FIXNE: Get Message List
+    
+    //FIXME: Get Chat Log
+    
+    //FIXME: Get Chat Log Previous
 
-    
-    
-    
+    // MARK: Chat
+    // TODO: get message list
+    // TODO: get chat befor list
+    // FIXME: TEST
 }

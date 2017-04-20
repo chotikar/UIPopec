@@ -63,11 +63,14 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     var facbookBut : FBSDKLoginButton!
     
     /////////////////////MessageList
+    var logoutBut : UIBarButtonItem!
     var messageTableView : UITableView!
     var messageCell = "messageItemCell"
     var messageList = [MessageModel]()
+    
     override func viewWillAppear(_ animated: Bool) {
-        drawLoginPage()
+        drawMessagePage()
+        //drawLoginPage()
 //        self.userLoginInfor = CRUDProfileDevice.GetUserProfile()
 //        if self.userLoginInfor.type == 0 {
 //            self.goToMessage(status: false)
@@ -177,6 +180,10 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
 //            })
 //        }
 
+    }
+    
+    func logOutAction(sender : UIBarButtonItem){
+        
     }
     
     
@@ -299,7 +306,10 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         messageTableView.dataSource = self
 //        messageTableView.scrollIndicatorInsets.bottom
             //.scrollToRow(at: , at: UITableViewScrollPosition.bottom, animated: true)
+        //logOutAction
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
+        logoutBut = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutAction(sender:)))
+       self.navigationItem.rightBarButtonItem = logoutBut
     }
     
     func drawSignupPage(){

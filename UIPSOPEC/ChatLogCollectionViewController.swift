@@ -106,6 +106,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         
         connection.connected = { [weak self] in
             print("Connection ID: \(self!.connection.connectionID!)")
+            self?.joinGroup()
             self?.title  = "Connected"
             
         }
@@ -225,7 +226,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     func sentMessage(){
         if let hub = chatHub, let message = inputTextField.text {
             do {
-                try hub.invoke("send", arguments: [ownerName, message])
+                try hub.invoke("sent", arguments: ["1234","mook",message])
                 self.inputTextField.text =  ""
             } catch {
                 print(error)
@@ -284,6 +285,17 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         heigh = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid).height + 20
         
         return CGSize(width: view.frame.width+20, height: heigh)
+    }
+    
+    func joinGroup(){
+        if let hub = chatHub {
+            do {
+                try hub.invoke("joinRoom", arguments: ["1234"])
+            } catch {
+                print(error)
+            }
+        }
+        
     }
     
 }

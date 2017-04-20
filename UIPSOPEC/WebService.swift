@@ -186,17 +186,15 @@ class WebService {
     
     
     static func ApplyWS (Semester: Int,Year: Int , isThai: Bool, Citizen: String,titlename: String,
-                         fname: String, lname: String, national: String, birthdate: String, mobile: String,
+                         fname: String, lname: String,gender: String, national: String, birthdate: String, mobile: String,
                          email: String, highsch: String, degree: Int, facultyID: Int, programID: Int,
                          ielts: Int, toefl_ibt: Int, toefl_p: Int, sat_math: Int, sat_writing: Int)
         ->Void{
         
-        
-        var urlstring = "\(domainName)AppliedStudent/ApplyNewStudent?year=\(Year)&semester=\(Semester) &isThai=\(isThai)&IDnumber=\(Citizen)&profile=\(titlename);\(fname);\(lname);\(national);\(birthdate);\(mobile);\(email);\(highsch)&degree=\(degree)&facultyID=\(facultyID)&programID=\(programID)&scorelist=\(ielts);\(toefl_ibt);\(toefl_p);\(sat_math);\(sat_writing)"
-        
-        
+        var urlstring = "\(domainName)AppliedStudent/ApplyNewStudent?year=\(Year)&semester=\(Semester) &isThai=\(isThai)&IDnumber=\(Citizen)&profile=\(titlename);\(fname);\(lname);\(gender);\(national);\(birthdate);\(mobile);\(email);\(highsch)&degree=\(degree)&facultyID=\(facultyID)&programID=\(programID)&scorelist=\(ielts);\(toefl_ibt);\(toefl_p);\(sat_math);\(sat_writing)"
         urlstring = urlstring.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
-        
+        print ("-------\(urlstring)")
+            
         let requestURL: NSURL = NSURL(string: urlstring)!
         let request = URLRequest(url: requestURL as URL)
         
@@ -214,7 +212,6 @@ class WebService {
         task.resume()
     }
     
-    //http://www.supanattoy.com:89/Suggestion/GetKeywordList?language%20=%20E
     ///Suggestion
     static func GetKeyWordRequireWS(lang : String ,completion:@escaping (_ responseData:[KeyWordModel],_ errorMessage:NSError?)->Void)
     {
@@ -244,6 +241,8 @@ class WebService {
     {
         var facSugList : [FacSuggestionModel] = []
         let url = NSURL(string: "\(domainName)Suggestion/GetSuggestionProgram?keywordlist=\(sugCode)&language=\(lang)")
+        
+        print ("-------\(url)")
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)

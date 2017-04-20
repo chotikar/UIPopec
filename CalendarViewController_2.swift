@@ -145,7 +145,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
         eventTable.layer.borderWidth = 0.5
         eventTable.layer.borderColor = UIColor.gray.cgColor
         eventTable.layer.cornerRadius = 5
-        eventTable.isHidden = true
+//        eventTable.isHidden = true
         eventTable.separatorColor = UIColor.gray
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

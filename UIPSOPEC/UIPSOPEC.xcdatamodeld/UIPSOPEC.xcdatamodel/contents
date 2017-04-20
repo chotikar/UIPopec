@@ -5,13 +5,17 @@
         <attribute name="facebook_access_token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facebook_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facebook_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="udid_device" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="SettingTest" representedClassName="SettingTest" syncable="YES" codeGenerationType="class">
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ProfileInformation" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="ProfileInformation" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="SettingTest" positionX="-54" positionY="27" width="128" height="60"/>
     </elements>
 </model>

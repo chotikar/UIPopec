@@ -8,17 +8,15 @@ class MessageTableViewController: UITableViewController {
     @IBOutlet weak var MenuButton: UIBarButtonItem!
 
     var profileDevice : UserLogInDetail!
-    var friendsChatLog : [UserLogInDetail]!
+    var facList : [MessageModel]!
     let tableCellCode = "cellId"
     
     let scHei = UIScreen.main.bounds.height
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         Sidemenu()
         CustomNavbar()
-        
         tableView.register(UserCell.self, forCellReuseIdentifier: tableCellCode)
         //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector())
     }
@@ -60,6 +58,7 @@ class MessageTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatLogController.roomCode = "1234"
         navigationController?.pushViewController(chatLogController, animated: true)
 //                        let vc = ChatLogCollectionViewController()
 //                self.navigationController?.pushViewController(vc, animated: true)
@@ -128,71 +127,71 @@ class MessageTableViewController: UITableViewController {
     
 }
 
-class UserCell : UITableViewCell {
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        textLabel?.frame = CGRect(x:  56, y: (textLabel!.frame.origin.y - 2), width: (textLabel!.frame.width), height: (textLabel!.frame.height))
-        detailTextLabel?.frame = CGRect(x: 56, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
-    }
-
-    let profileImageView : UIImageView = {
-        let piv = UIImageView()
-//        piv.image = (UIImage(named: "User_Shield"))
-        piv.contentMode = .scaleAspectFill
-        piv.translatesAutoresizingMaskIntoConstraints = false
-        piv.layer.cornerRadius = 20
-        piv.layer.masksToBounds = true
-        piv.backgroundColor = UIColor.brown
-        return piv
-    }()
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier:String?){
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        addSubview(profileImageView)
-        profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
-        profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    required init?(coder aDecorder : NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //    override func layoutSubviews() {
-    //        super.layoutSubviews()
-    //    }
-    //  profileImageView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
-    ////        name.textAlignment = .center
-    ////        name.font = fm.setFontSizeLight(fs: 20)
-    ////        name.textColor = UIColor.darkGray
-    //    }
-    //    let picUser : UIImageView = {
-    //       let pu = UIImageView()
-    //        pu.frame = CGRect(x: 0, y:0, width: sWid*0.3, height: sWid*0.3)
-    //        pu.image = UIImage(cgImage: "User_Shield" as! CGImage)
-    //
-    //        return pu
-    //    }()
-    
-    //    let titleLabel: UITextView = {
-    //        let tl = UITextView()
-    //        tl.font = UIFont.systemFont(ofSize: 16)
-    //        tl.textColor = UIColor.black
-    //        tl.textAlignment = .left
-    //       return tl
-    //    }()
-    //
-    //    let subtitleLabel : UITextView = {
-    //       let sl = UITextView()
-    //        sl.font = UIFont.systemFont(ofSize: 12)
-    //        sl.textColor = UIColor.black
-    //        sl.textAlignment = .left
-    //        return sl
-    //    }()
-
-}
+//class UserCell : UITableViewCell {
+//    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        textLabel?.frame = CGRect(x:  56, y: (textLabel!.frame.origin.y - 2), width: (textLabel!.frame.width), height: (textLabel!.frame.height))
+//        detailTextLabel?.frame = CGRect(x: 56, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
+//    }
+//
+//    let profileImageView : UIImageView = {
+//        let piv = UIImageView()
+////        piv.image = (UIImage(named: "User_Shield"))
+//        piv.contentMode = .scaleAspectFill
+//        piv.translatesAutoresizingMaskIntoConstraints = false
+//        piv.layer.cornerRadius = 20
+//        piv.layer.masksToBounds = true
+//        piv.backgroundColor = UIColor.brown
+//        return piv
+//    }()
+//    
+//    override init(style: UITableViewCellStyle, reuseIdentifier:String?){
+//        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+//        addSubview(profileImageView)
+//        profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+//        profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+//        profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+//    }
+//    
+//    required init?(coder aDecorder : NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//    
+//    //    override func layoutSubviews() {
+//    //        super.layoutSubviews()
+//    //    }
+//    //  profileImageView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
+//    ////        name.textAlignment = .center
+//    ////        name.font = fm.setFontSizeLight(fs: 20)
+//    ////        name.textColor = UIColor.darkGray
+//    //    }
+//    //    let picUser : UIImageView = {
+//    //       let pu = UIImageView()
+//    //        pu.frame = CGRect(x: 0, y:0, width: sWid*0.3, height: sWid*0.3)
+//    //        pu.image = UIImage(cgImage: "User_Shield" as! CGImage)
+//    //
+//    //        return pu
+//    //    }()
+//    
+//    //    let titleLabel: UITextView = {
+//    //        let tl = UITextView()
+//    //        tl.font = UIFont.systemFont(ofSize: 16)
+//    //        tl.textColor = UIColor.black
+//    //        tl.textAlignment = .left
+//    //       return tl
+//    //    }()
+//    //
+//    //    let subtitleLabel : UITextView = {
+//    //       let sl = UITextView()
+//    //        sl.font = UIFont.systemFont(ofSize: 12)
+//    //        sl.textColor = UIColor.black
+//    //        sl.textAlignment = .left
+//    //        return sl
+//    //    }()
+//
+//}
 
 
 

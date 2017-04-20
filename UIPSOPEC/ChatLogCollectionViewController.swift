@@ -7,7 +7,7 @@ import SwiftR
 
 private let reuseIdentifier = "Cell"
 
-class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDelegate ,UICollectionViewDelegateFlowLayout{
+class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDelegate ,UICollectionViewDelegateFlowLayout {
     
     let fm = FunctionMutual.self
     var chatLog = [ChatLog]()
@@ -61,8 +61,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     ////// CHAT //////
     var chatHub: Hub!
     var connection: SignalR!
-    
-    
+    var roomCode : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +84,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         chatHub.on("broadcastMessage") { [weak self] args in
             if let namee = args?[0] as? String, let message = args?[1] as? String {
                 self?.chatLog.append(ChatLog(name: namee, text: message))
-            print("TEST LOG \(self?.chatLog)")
+            print(" \(self?.chatLog))")
                 self?.collectionView?.reloadData()
             }
         }
@@ -106,7 +105,8 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         
         connection.connected = { [weak self] in
             print("Connection ID: \(self!.connection.connectionID!)")
-            self?.joinGroup()
+
+            self?.joinGroup(roomcode: (self?.roomCode)!)
             self?.title  = "Connected"
             
         }
@@ -139,8 +139,6 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         //        setupKeyboardObserver()
         
     }
-    
-    
     
     override var inputAccessoryView: UIView? {
         get {
@@ -223,11 +221,21 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         seperateLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
+    func joinGroup(roomcode:String){
+        if let hub = chatHub {
+            do {
+                try hub.invoke("joinRoom", arguments: [roomcode])
+            } catch {
+                print(error)
+            }
+        }
+        
+    }
+    
     func sentMessage(){
         if let hub = chatHub, let message = inputTextField.text {
             do {
-                try hub.invoke("sent", arguments: ["1234","mook",message])
-                self.inputTextField.text =  ""
+                try hub.invoke("sent", arguments: [self.roomCode,ownerName,message])
             } catch {
                 print(error)
             }

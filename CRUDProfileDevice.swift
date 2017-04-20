@@ -5,33 +5,59 @@ import CoreData
 
 class CRUDProfileDevice {
     
+    
+    
+//    func GetUserSetting() -> String {
+//        
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SettingTest")
+//        
+//        var settingValueInt = ""
+//        var settingValue_DB =  [NSManagedObject]()
+//        do {
+//            let result = try managedContext.fetch(fetchRequest)
+//            settingValue_DB = result
+//            if ( settingValue_DB as? [NSManagedObject]) != nil {
+//                settingValueInt = (settingValue_DB.first?.value(forKey: "language") as? String ?? "")!
+//                if settingValueInt == "" {
+//                    CRUDSettingValue.SaveSettingDevice(lang: "T")
+//                }
+//                
+//            } else {
+//                print("Error null")
+//            }
+//            
+//        }catch let error as NSError {
+//            print("Could not fetch. \(error), \(error.userInfo)")
+//        }
+//
+//    }
+    
+    
     static func GetUserProfile() -> UserLogInDetail {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
+                let managedContext = appDelegate.persistentContainer.viewContext
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
         
-        var userProfile:UserLogInDetail = UserLogInDetail()
-        var userProfile_DB = [NSManagedObject]()
-        
-        
-        do {
-            let result = try managedContext.fetch(fetchRequest)
-            userProfile_DB = result 
-            
-            if (userProfile_DB as? [NSManagedObject]) != nil {
-                userProfile = (UserLogInDetail(obj: userProfile_DB.first!))
-                //completion(userProfile, nil)
-                
-            } else {
-                print("Error null")
-            }
-            
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
+                var userProfile = UserLogInDetail()
+                var profileValue_DB =  [NSManagedObject]()
+                do {
+                    let result = try managedContext.fetch(fetchRequest)
+                    profileValue_DB = result
+                    if ( profileValue_DB as? [NSManagedObject]) != nil {
+                        userProfile = UserLogInDetail(obj: profileValue_DB, typeobj: 1)                        //userProfile = UserLogInDetail(dic) ( profileValue_DB.first? ?? UserLogInDetail())!
+                        
+                    } else {
+                        print("Error null")
+                    }
+                    
+                }catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.userInfo)")
+                }
         return userProfile
     }
-    
+   
     ///Save Profile device to mobile database
     static func SaveProfileDevice(loginInfor:UserLogInDetail){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -44,12 +70,11 @@ class CRUDProfileDevice {
         managedObject.setValue(loginInfor.facebookName, forKey: "facebook_name")
         managedObject.setValue(loginInfor.facebookAccessToken, forKey: "facebook_access_token")
         managedObject.setValue(loginInfor.udid, forKey: "udid_device")
-        
-        print("\(loginInfor.email) = \(managedObject.value(forKey: "email"))")
-        print("\(loginInfor.facebookId) = \(managedObject.value(forKey: "facebook_id"))")
-        print("\(loginInfor.facebookName) = \(managedObject.value(forKey: "facebook_name"))")
-        print("\(loginInfor.facebookAccessToken) = \(managedObject.value(forKey: "facebook_access_token"))")
-        print("\(loginInfor.udid) = \(managedObject.value(forKey: "udid_device"))")
+        managedObject.setValue(loginInfor.username, forKey: "username")
+        managedObject.setValue(loginInfor.password, forKey: "password")
+        managedObject.setValue(loginInfor.type, forKey: "type")
+        managedObject.setValue(loginInfor.userId, forKey: "userId")
+
         
         do {
             try managedContext.save()
@@ -58,27 +83,52 @@ class CRUDProfileDevice {
             print("Could not insert the new record. \(error)")
         }
     }
-
+    
     /// Clear device information
     static func ClearProfileDevice(){
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
-        fetchRequest.returnsObjectsAsFaults = false
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let context = delegate.persistentContainer.viewContext
         
-        do
-        {
-            let results = try managedContext.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-            for managedObject in results
-            {
-                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                managedContext.delete(managedObjectData)
-            }
-        } catch let error as NSError {
-            print("Detele all data in Major error : \(error) \(error.userInfo)")
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ProfileInformation")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch {
+            print ("There was an error")
         }
-
+    }
+    
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    static func ClearProfileDevice(){
+//        
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //        let managedContext = appDelegate.persistentContainer.viewContext
 //        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
@@ -87,15 +137,31 @@ class CRUDProfileDevice {
 //        do
 //        {
 //            let results = try managedContext.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-//            let managedObjectData:NSManagedObject = results as! NSManagedObject
-//            managedContext.delete(managedObjectData)
-//            
+//            for managedObject in results
+//            {
+//                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+//                managedContext.delete(managedObjectData)
+//            }
 //        } catch let error as NSError {
-//            print("Detele all data in Profile Device error : \(error) \(error.userInfo)")
+//            print("Detele all data in Major error : \(error) \(error.userInfo)")
 //        }
-        
-    }
-
+//
+////        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+////        let managedContext = appDelegate.persistentContainer.viewContext
+////        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
+////        fetchRequest.returnsObjectsAsFaults = false
+////        
+////        do
+////        {
+////            let results = try managedContext.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+////            let managedObjectData:NSManagedObject = results as! NSManagedObject
+////            managedContext.delete(managedObjectData)
+////            
+////        } catch let error as NSError {
+////            print("Detele all data in Profile Device error : \(error) \(error.userInfo)")
+////        }
+//        
+//    }
 //    //  Update Building
 //    static func UpdateBuilding(building:BuildingObject){
 //        var buildingList_DB = [NSManagedObject]()
@@ -131,5 +197,4 @@ class CRUDProfileDevice {
 //            print("Could not fetch from Building. \(error)")
 //        }
 //    }
-
-}
+//}

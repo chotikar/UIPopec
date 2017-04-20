@@ -65,7 +65,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     /////////////////////MessageList
     var messageTableView : UITableView!
     var messageCell = "messageItemCell"
-    var messageList = [MessageModel]
+    var messageList = [MessageModel]()
     override func viewWillAppear(_ animated: Bool) {
         drawLoginPage()
 //        self.userLoginInfor = CRUDProfileDevice.GetUserProfile()

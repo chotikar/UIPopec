@@ -2,7 +2,6 @@
 import UIKit
 import CoreData
 import FBSDKCoreKit
-import FBSDKLoginKit
 import GoogleMaps
 import GooglePlaces
 
@@ -15,20 +14,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+       
+    
         GMSServices.provideAPIKey("AIzaSyBSF-Eq8PYSca9JKxF9WQiz6a-7PprQuyE")
         GMSPlacesClient.provideAPIKey("AIzaSyBSF-Eq8PYSca9JKxF9WQiz6a-7PprQuyE")
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        window?.makeKeyAndVisible()
-        
+
         UIApplication.shared.statusBarStyle = .lightContent
         
-        return true
+         return true
     }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        let handled = FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        // Add any custom logic here.
+        return handled
+    }
+    
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -46,8 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
-        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -101,6 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
 }
 

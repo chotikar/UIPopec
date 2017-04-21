@@ -6,10 +6,10 @@ target 'UIPSOPEC' do
   use_frameworks!
 
   # Pods for UIPSOPEC
+  
 pod 'SwiftR'
 pod 'FacebookCore'
 pod 'FacebookLogin'
-pod 'FacebookShare'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'SWRevealViewController'

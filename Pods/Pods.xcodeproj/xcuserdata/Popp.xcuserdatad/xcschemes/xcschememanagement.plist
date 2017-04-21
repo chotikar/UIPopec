@@ -19,11 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FBSDKShareKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>FSCalendar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -35,11 +30,6 @@
 			<false/>
 		</dict>
 		<key>FacebookLogin.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>FacebookShare.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -67,21 +57,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>332F91393FB1DE033D370B4CEDDD5FCF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3729F3A0CF6B929289D994384FE1EA4E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>43236830E0E1D718D6C774923A726AD2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>44CAD6CE523055ED339E87154473A254</key>
 		<dict>
 			<key>primary</key>
@@ -102,12 +77,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>833780D9749BA4AFC0E115C6B04C8B3D</key>
+		<key>7DCF1574D73735B950CD5D50DE89994B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A7FEAA14E89971698ACA148F7F7202F2</key>
+		<key>AADCC734D6F28F280CC047D141E91F14</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AC8C97EDDCB0541BB828DE149E14B4CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,12 +97,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DDBCFDE490CDFDABF6F16A26F346932D</key>
+		<key>CADD2ACF275CF511EF68FC7C1709B12A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F26A37B3EE558AB2ABD3DC18B35E79FB</key>
+		<key>DDBCFDE490CDFDABF6F16A26F346932D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

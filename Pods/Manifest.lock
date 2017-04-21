@@ -13,16 +13,9 @@ PODS:
     - FacebookCore (~> 0.2)
     - FBSDKCoreKit (~> 4.15)
     - FBSDKLoginKit (~> 4.15)
-  - FacebookShare (0.2.0):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.2)
-    - FBSDKCoreKit (~> 4.15)
-    - FBSDKShareKit (~> 4.15)
   - FBSDKCoreKit (4.22.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.22.0):
-    - FBSDKCoreKit
-  - FBSDKShareKit (4.22.0):
     - FBSDKCoreKit
   - FSCalendar (2.7.4)
   - GoogleMaps (2.2.0):
@@ -39,7 +32,6 @@ PODS:
 DEPENDENCIES:
   - FacebookCore
   - FacebookLogin
-  - FacebookShare
   - FSCalendar
   - GoogleMaps
   - GooglePlaces
@@ -51,10 +43,8 @@ SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
-  FacebookShare: 8e9ee8ea06505e6a1d3d719b0cc63e840fb8aaeb
   FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
   FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
-  FBSDKShareKit: 21ab3c8d173f4fa20c47c1061f3a9fac5950b5fa
   FSCalendar: e95995a746acae531c4a7dd636b8393233125ec5
   GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
   GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
@@ -62,6 +52,6 @@ SPEC CHECKSUMS:
   SwiftR: 340a0c3c6d665e8f243e4b57c8121e0d81f3a345
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: 036ed5740ffd43cd2a0f94dca5677c9d009b52d5
+PODFILE CHECKSUM: a07609811576716f6299aea626ae2a869e392614
 
 COCOAPODS: 1.2.0

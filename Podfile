@@ -14,4 +14,5 @@ pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'SWRevealViewController'
 pod 'FSCalendar'
+pod 'SkyFloatingLabelTextField', '~> 2.0.0'
 end

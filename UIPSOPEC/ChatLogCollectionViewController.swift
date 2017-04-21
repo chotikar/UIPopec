@@ -72,6 +72,8 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         collectionView?.keyboardDismissMode = .interactive
         collectionView?.backgroundColor = UIColor.white
         
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        
         connection = SignalR("http://www.supanattoy.com:89")
         connection.useWKWebView = true
         connection.signalRVersion = .v2_2_0
@@ -103,6 +105,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         
         connection.connected = { [weak self] in
             print("Connection ID: \(self!.connection.connectionID!)")
+
             self?.joinGroup(roomcode: (self?.roomCode)!)
             self?.title  = "Connected"
             
@@ -272,7 +275,7 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         }else{
             //income message gray
             cell.profileImageView.isHidden = false
-            cell.bubbleView.backgroundColor = UIColor.red//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
+            cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
             cell.bubbleRightAnchor?.isActive = false
             cell.bubbleLeftAnchor?.isActive = true
         }
@@ -292,9 +295,18 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         return CGSize(width: view.frame.width+20, height: heigh)
     }
     
+    func joinGroup(){
+        if let hub = chatHub {
+            do {
+                try hub.invoke("joinRoom", arguments: ["1234"])
+            } catch {
+                print(error)
+            }
+        }
+        
+    }
+    
 }
-
-
 
 
 

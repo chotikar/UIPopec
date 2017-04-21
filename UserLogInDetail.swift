@@ -4,7 +4,7 @@ import CoreData
 
 class UserLogInDetail {
     
-    var userId : String!
+    var userId : Int64!
     var email : String!
     var facebookId : String!
     var facebookName : String!
@@ -12,10 +12,10 @@ class UserLogInDetail {
     var udid : String!
     var username : String!
     var password : String!
-    var type : Int16!
+    var result : ResultModle!
     
     init() {
-        self.userId = "N/A"
+        self.userId = 0
         self.email = "N/A"
         self.facebookId = "N/A"
         self.facebookName = "N/A"
@@ -23,19 +23,19 @@ class UserLogInDetail {
         self.udid = "N/A"
         self.username = "N/A"
         self.password = "N/A"
-        self.type = 0
+        self.result = ResultModle()
     }
     
-    init(obj : [NSManagedObject], typeobj : Int16) {
-        self.userId = obj.first?.value(forKey: "userId") as? String ?? "N/A"
-        self.email = obj.first?.value(forKey: "email") as? String ?? "N/A"
-        self.facebookId = obj.first?.value(forKey: "facebook_id") as? String ?? "N/A"
-        self.facebookName = obj.first?.value(forKey: "facebook_name") as? String ?? "N/A"
-        self.facebookAccessToken = obj.first?.value(forKey: "facebook_access_token") as? String ?? "N/A"
-        self.udid = obj.first?.value(forKey: "udid_device") as? String ?? "N/A"
-        self.username = obj.first?.value(forKey: "username") as? String ?? "N/A"
-        self.password = obj.first?.value(forKey: "password") as? String ?? "N/A"
-        self.type = typeobj
+    init(obj : [NSManagedObject]) {
+        self.userId = obj.first?.value(forKey: "userId") as? Int64
+        self.email = obj.first?.value(forKey: "email") as? String
+        self.facebookId = obj.first?.value(forKey: "facebook_id") as? String
+        self.facebookName = obj.first?.value(forKey: "facebook_name") as? String
+        self.facebookAccessToken = obj.first?.value(forKey: "facebook_access_token") as? String
+        self.udid = obj.first?.value(forKey: "udid_device") as? String
+        self.username = obj.first?.value(forKey: "username") as? String
+        self.password = obj.first?.value(forKey: "password") as? String 
+        self.result = ResultModle()
     }
     
 //    UserID: 5,
@@ -47,16 +47,20 @@ class UserLogInDetail {
 //    AccessToken: "0987654321",
 //    ImageURL: "https://image.flaticon.com/icons/svg/201/201818.svg"
     
-    init(dic: AnyObject, typews : Int16, udid : String) {
-        self.userId = dic["UserID"] as? String ?? "N/A"
-        self.email = dic["Email"] as? String ?? "N/A"
-        self.facebookId = dic["FacebookID"] as? String ?? "N/A"
-        self.facebookName = dic["FacebookName"] as? String ?? "N/A"
-        self.facebookAccessToken = dic["AccessToken"] as? String ?? "N/A"
-        self.username = dic["Username"] as? String ?? "N/A"
-        self.password = dic["Password"] as? String ?? "N/A"
-        self.type = typews
+    init(dic: AnyObject, udid : String) {
+//        print(dic["result"])
+        self.userId = dic["UserID"] as? Int64
+        self.email = dic["Email"] as? String
+        self.facebookId = dic["FacebookID"] as? String
+        self.facebookName = dic["FacebookName"] as? String
+        self.facebookAccessToken = dic["AccessToken"] as? String
+        self.username = dic["Username"] as? String
+        self.password = dic["Password"] as? String 
         self.udid = udid
+        if dic["result"] != nil {
+            self.result = ResultModle(dic: dic["result"] as AnyObject)
+        }else{
+            self.result = ResultModle()
+        }
     }
-    
 }

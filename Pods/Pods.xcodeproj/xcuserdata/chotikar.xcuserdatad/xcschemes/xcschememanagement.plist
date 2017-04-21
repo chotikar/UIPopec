@@ -72,6 +72,11 @@
 			<key>orderHint</key>
 			<integer>10</integer>
 		</dict>
+		<key>SkyFloatingLabelTextField.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>SwiftR.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -88,6 +93,16 @@
 			<true/>
 		</dict>
 		<key>332F91393FB1DE033D370B4CEDDD5FCF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3729F3A0CF6B929289D994384FE1EA4E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>43236830E0E1D718D6C774923A726AD2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -113,6 +128,11 @@
 			<true/>
 		</dict>
 		<key>7335E9C9689F3B8A16F063A884748533</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>833780D9749BA4AFC0E115C6B04C8B3D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -148,6 +168,11 @@
 			<true/>
 		</dict>
 		<key>EA3DBED9D3407407C3904234878CC904</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F26A37B3EE558AB2ABD3DC18B35E79FB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

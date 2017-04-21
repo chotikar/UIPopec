@@ -5,6 +5,7 @@ import FBSDKLoginKit
 import FBSDKCoreKit
 import SystemConfiguration
 import SWRevealViewController
+import SkyFloatingLabelTextField
 
  // width and height of current Scrren
 let scWid = UIScreen.main.bounds.width
@@ -22,6 +23,8 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     var text = ""
     var tokenn  = ""
     
+    var bg : UIView!
+   
     var phoneBg : UIImageView = {
        var pb = UIImageView()
         pb.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
@@ -30,34 +33,20 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         pb.image = UIImage(named: "loginBG2")
         return pb
     }()
-    var loginView : UIView = {
-        var pb = UIView()
-        pb.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-        pb.backgroundColor = UIColor.clear
-        return pb
-    }()
-    var messageView : UIView = {
-        var pb = UIView()
-        pb.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-        pb.backgroundColor = UIColor.white
-        return pb
-    }()
+    var loginView : UIView!
+    var messageView : UIView!
     
     var logoAbac : UIImageView!
     
     var loginButton : UIButton!
-    var username : UITextField!
-    var password : UITextField!
+    var username : SkyFloatingLabelTextField!
+    var password : SkyFloatingLabelTextField!
     
-    var signupView : UIView = {
-        var pb = UIView()
-        pb.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-        pb.backgroundColor = UIColor.clear
-        return pb
-    }()
+    var signupView : UIView!
+    
     var signupButton : UIButton!
-    var email:UITextField!
-    var repassword : UITextField!
+    var email:SkyFloatingLabelTextField!
+    var repassword : SkyFloatingLabelTextField!
     var backBut : UIButton!
     
     var facbookBut : FBSDKLoginButton!
@@ -67,23 +56,26 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     var messageTableView : UITableView!
     var messageCell = "messageItemCell"
     var messageList = [MessageModel]()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        drawMessagePage()
-        //drawLoginPage()
+
+//    override func viewWillAppear(_ animated: Bool) {
 //        self.userLoginInfor = CRUDProfileDevice.GetUserProfile()
-//        if self.userLoginInfor.type == 0 {
+//        if self.userLoginInfor.userId == 0 {
 //            self.goToMessage(status: false)
 //        }else{
 //             self.goToMessage(status: true)
 //        }
-    }
+//    }
     var url = UserLogInDetail()
         
     override func viewDidLoad() {
         super.viewDidLoad()
         Sidemenu()
         CustomNavbar()
+        bg = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        bg.backgroundColor = UIColor.red
+        self.view.addSubview(bg)
+        mangegeLayout()
+//        self.view.addSubview(bg)
 //        url.username = "Mook Test"
 //        url.type = 1
 //        CRUDProfileDevice.SaveProfileDevice(loginInfor: url)
@@ -120,13 +112,27 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     
     // MARK : MUTAL
     
-    func sentLoginSignupWS(byfb: Int16, userDe: String, imageUrl: String){
+    func mangegeLayout(){
+        self.userLoginInfor = CRUDProfileDevice.GetUserProfile()
+        print(self.userLoginInfor.userId)
+        if self.userLoginInfor.userId == 0 {
+            self.goToMessage(status: false)
+        }else{
+            self.goToMessage(status: true)
+        }
+    }
+    
+    func sentSignupWS(byfb: Int16, userDe: String, imageUrl: String){
         let udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
-        ws.sentLoginInformationWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid, imageUrl:imageUrl ) { (responseData: UserLogInDetail, nil) in
+        ws.sentSignUpWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid, imageUrl:imageUrl ) { (responseData: UserLogInDetail, nil) in
             DispatchQueue.main.async( execute: {
                 self.userLoginInfor = responseData
-                if self.userLoginInfor.type != 0 {
-                    //TODO: message list
+                if self.userLoginInfor.userId == 0 {
+                    //TODO: Noti that ever noti  
+                }else{
+                    print("Signup Success")
+                    CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginInfor)
+                    self.drawMessagePage()
                 }
             })
         }
@@ -142,19 +148,19 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     // MARK: SignUp
-    func signupAction() ->Int16 {
+    func signupAction() {
         //0 == incorect password
         //1 == correct password
         if password.text == repassword.text {
             if username.text != "" && email.text != "" {
-                let ud = "\(username.text);\(password.text)\(email.text)"
-            sentLoginSignupWS(byfb: 0, userDe: ud, imageUrl: "N/A")
-            return 1
+                let ud = "\(username.text!);\(password.text!);\(email.text!)"
+                print(ud)
+            sentSignupWS(byfb: 0, userDe: ud, imageUrl: "N/A")
             }else {
-                return 0
+                // FIXME: noti username email
             }
         }else{
-            return 0
+            // FIXME: noti password
         }
     }
 
@@ -165,9 +171,43 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func signIn(sender : AnyObject){
-        self.goToMessage(status: true)
+        if password.text != "" {
+            if username.text != "" {
+                let ud = "N/A;\(password.text!);\(username.text!)"
+                sentLoginWS(byfb: 0, userDe: ud)
+                
+            }else {
+                //FIXME: noti that not input email
+            }
+        }else{
+            //FIXME: noti that do not input password
+        }
+        
     }
     
+    func sentLoginWS(byfb: Int16, userDe: String){
+        let udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
+        ws.sentSignInWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid) { (responseData: UserLogInDetail, nil) in
+            DispatchQueue.main.async( execute: {
+                self.userLoginInfor = responseData
+                if self.userLoginInfor.userId == 0 {
+                    //TODO: Noti that ever noti
+                }else{
+                    CRUDProfileDevice.ClearProfileDevice()
+                    CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginInfor)
+                    let tr = CRUDProfileDevice.GetUserProfile()
+                    print("GetValueWhen Login :\(tr.userId)")
+                    self.goToMessage(status: true)
+                }
+            })
+        }
+    }
+    
+    func backAction(sender : AnyObject){
+        drawLoginPage()
+    }
+    
+
    
    // MARK: Message
     func getMessageListWs(){
@@ -182,8 +222,12 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
 
     }
     
+    // FIXME: logout
     func logOutAction(sender : UIBarButtonItem){
-        
+        CRUDProfileDevice.ClearProfileDevice()
+        CRUDProfileDevice.SaveProfileDevice(loginInfor: UserLogInDetail())
+        drawLoginPage()
+        self.navigationItem.rightBarButtonItem = nil
     }
     
     
@@ -299,25 +343,28 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func drawMessagePage(){
+        messageView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        messageView.backgroundColor = UIColor.clear
+        self.bg.addSubview(messageView)
         messageTableView = UITableView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
-        self.view.addSubview(messageView)
         self.messageView.addSubview(messageTableView)
         messageTableView.delegate = self
         messageTableView.dataSource = self
-//        messageTableView.scrollIndicatorInsets.bottom
-            //.scrollToRow(at: , at: UITableViewScrollPosition.bottom, animated: true)
-        //logOutAction
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
         logoutBut = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutAction(sender:)))
        self.navigationItem.rightBarButtonItem = logoutBut
     }
     
     func drawSignupPage(){
+        loginView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        loginView.backgroundColor = UIColor.clear
+        self.bg.addSubview(phoneBg)
+        self.bg.addSubview(loginView)
         logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.15, width: scHei*0.25, height: scHei*0.25))
         logoAbac.image = UIImage(named: "abaclogo")
         var hei = logoAbac.frame.origin.y + logoAbac.frame.height + 20
         
-        var boxHei = fm.calculateHeiFromString(text: "n/a", fontsize: fm.setFontSizeLight(fs: 27), tbWid: scWid*0.6)
+        let boxHei = fm.calculateHeiFromString(text: "n/a", fontsize: fm.setFontSizeLight(fs: 27), tbWid: scWid*0.6)
         let boxFacebook = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxFacebook.layer.cornerRadius = 5
         boxFacebook.layer.borderColor = UIColor.white.cgColor
@@ -336,16 +383,16 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxOr.text = "or"
         hei = boxOr.frame.origin.y +  boxOr.frame.height + 5
         
+        
         let boxUsername = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxUsername.layer.cornerRadius = 5
         boxUsername.backgroundColor = UIColor.white
         boxUsername.alpha = 0.7
-        username = UITextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
+        username = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         username.textColor = UIColor.black
         username.textAlignment = .center
         username.delegate = self
         username.font = fm.setFontSizeLight(fs: 14)
-        username.placeholder = "Username"
         username.keyboardType = .emailAddress
         hei = boxUsername.frame.origin.y +  boxUsername.frame.height + 10
         
@@ -353,40 +400,36 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxEmail.layer.cornerRadius = 5
         boxEmail.backgroundColor = UIColor.white
         boxEmail.alpha = 0.7
-        email = UITextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
+        email = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         email.textColor = UIColor.black
         email.textAlignment = .center
         email.delegate = self
         email.font = fm.setFontSizeLight(fs: 14)
-        email.placeholder = "Email"
         email.keyboardType = .emailAddress
         hei = boxEmail.frame.origin.y +  boxEmail.frame.height + 10
 
-        
         let boxPassword = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxPassword.layer.cornerRadius = 5
         boxPassword.backgroundColor = UIColor.white
         boxPassword.alpha = 0.7
-        password = UITextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
+        password = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         password.textColor = UIColor.black
         password.textAlignment = .center
         password.delegate = self
         password.font = fm.setFontSizeLight(fs: 14)
-        password.placeholder = "Password"
         hei = password.frame.origin.y +  password.frame.height + 2
         
         let boxRepassword = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxRepassword.layer.cornerRadius = 5
         boxRepassword.backgroundColor = UIColor.white
         boxRepassword.alpha = 0.8
-        repassword = UITextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
+        repassword = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         repassword.textColor = UIColor.black
         repassword.textAlignment = .center
         repassword.delegate = self
         repassword.font = fm.setFontSizeLight(fs: 14)
-        repassword.placeholder = " Re-password"
         hei = boxRepassword.frame.origin.y +  boxRepassword.frame.height + 15
-        
+ 
         let boxSingupBut = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxSingupBut.layer.cornerRadius = 5
         boxSingupBut.backgroundColor = UIColor.darkGray
@@ -394,11 +437,33 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         signupButton = UIButton(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         signupButton.addTarget(self, action: #selector(signupAction), for: .touchUpInside)
         signupButton.setTitleColor(UIColor.white, for: .normal)
-        signupButton.setTitle("Sign Up", for: .normal)
         
+        let boxBack = UIView(frame: CGRect(x: 20, y: 70, width: scWid*0.3, height: scHei*0.04))
+        boxBack.layer.cornerRadius = 5
+        boxBack.backgroundColor = UIColor.darkGray
+        boxBack.alpha = 0.8
+        let backButton = UIButton(frame: CGRect(x: 0, y: 80, width: scWid*0.3, height: scHei*0.03))
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        backButton.setTitleColor(UIColor.white, for: .normal)
         
-        self.view.addSubview(phoneBg)
-        self.view.addSubview(loginView)
+//        if CRUDSettingValue.GetUserSetting() == "T" {
+//            username.placeholder = "Username"
+//            email.placeholder = "Email"
+//            password.placeholder = "Password"
+//            repassword.placeholder = " Re-password"
+//            signupButton.setTitle("Sign Up", for: .normal)
+//            backButton.setTitle("Back", for: .normal)
+//        }else{
+            username.placeholder = "Username"
+            email.placeholder = "Email"
+            password.placeholder = "Password"
+            repassword.placeholder = " Re-password"
+            signupButton.setTitle("Sign Up", for: .normal)
+            backButton.setTitle("Back", for: .normal)
+//        }
+
+//        loginView.addSubview(boxBack)
+        loginView.addSubview(backButton)
         loginView.addSubview(logoAbac)
         loginView.addSubview(boxFacebook)
         loginView.addSubview(boxOr)
@@ -416,11 +481,16 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func drawLoginPage(){
+        signupView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        signupView.backgroundColor = UIColor.clear
+        self.view.addSubview(bg)
+        self.bg.addSubview(phoneBg)
+        self.bg.addSubview(signupView)
         logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.15, width: scHei*0.25, height: scHei*0.25))
         logoAbac.image = UIImage(named: "abaclogo")
         var hei = logoAbac.frame.origin.y + logoAbac.frame.height + 40
         
-        var boxHei = fm.calculateHeiFromString(text: "n/a", fontsize: fm.setFontSizeLight(fs: 27), tbWid: scWid*0.6)
+        let boxHei = fm.calculateHeiFromString(text: "n/a", fontsize: fm.setFontSizeLight(fs: 27), tbWid: scWid*0.6)
         let boxFacebook = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxFacebook.layer.cornerRadius = 5
         boxFacebook.layer.borderColor = UIColor.white.cgColor
@@ -438,18 +508,21 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxOr.textAlignment = .center
         boxOr.text = "or"
         
-        hei = boxOr.frame.origin.y +  boxOr.frame.height + 5
         
-        let boxUsername = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
+        hei = boxOr.frame.origin.y +  boxOr.frame.height + 5
+        let boxUsername = UIView()
+        boxUsername.frame = CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height)
         boxUsername.layer.cornerRadius = 5
         boxUsername.backgroundColor = UIColor.white
         boxUsername.alpha = 0.8
-        username = UITextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
+        username = SkyFloatingLabelTextField()
+        username.frame = CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height)
         username.textColor = UIColor.black
         username.textAlignment = .center
         username.delegate = self
         username.font = fm.setFontSizeLight(fs: 14)
-        username.placeholder = "Username"
+        username.text = ""
+        username.placeholder = "Email"
         username.keyboardType = .emailAddress
         hei = boxUsername.frame.origin.y +  boxUsername.frame.height + 2
         
@@ -457,11 +530,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxPassword.layer.cornerRadius = 5
         boxPassword.backgroundColor = UIColor.white
         boxPassword.alpha = 0.8
-        password = UITextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
+        password = SkyFloatingLabelTextField()
+        password.frame = CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height)
         password.textColor = UIColor.black
         password.textAlignment = .center
         password.delegate = self
         password.font = fm.setFontSizeLight(fs: 14)
+        password.text = ""
         password.placeholder = "Password"
         hei = password.frame.origin.y +  password.frame.height + 15
         
@@ -471,7 +546,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxLogin.backgroundColor = UIColor.darkGray
         boxLogin.alpha = 0.8
         loginButton = UIButton(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
-        loginButton.addTarget(self, action: #selector(sentLoginSignupWS), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         loginButton.setTitleColor(UIColor.white, for: .normal)
         loginButton.setTitle("Login", for: .normal)
         hei = boxLogin.frame.origin.y +  boxLogin.frame.height + 10
@@ -486,9 +561,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         signupButton.setTitle("SignUp", for: .normal)
         hei = boxSignup.frame.origin.y +  boxSignup.frame.height + 10
         
-        
-        self.view.addSubview(phoneBg)
-        self.view.addSubview(signupView)
+
         signupView.addSubview(logoAbac)
         signupView.addSubview(boxFacebook)
         signupView.addSubview(boxOr)
@@ -517,9 +590,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
 }
-
-
-
 
 
 class UserCell : UITableViewCell {

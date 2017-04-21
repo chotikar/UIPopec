@@ -4,6 +4,7 @@ import SWRevealViewController
 
 class ContactViewController: UIViewController {
     
+    @IBOutlet weak var MenuButton: UIBarButtonItem!
     let ws = WebService.self
     let fm = FunctionMutual.self
     
@@ -20,7 +21,6 @@ class ContactViewController: UIViewController {
     }()
     
     var contactList :  [ContactModel] = []
-     @IBOutlet weak var MenuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,21 +137,21 @@ class ContactViewController: UIViewController {
         }
         return hei
     }
-    func Sidemenu() {
-                if revealViewController() != nil {
-                    MenuButton.target = SWRevealViewController()
-                    MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-                    revealViewController().rearViewRevealWidth = 275
-                    view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-                }
-            }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
-            func CustomNavbar() {
-                navigationController?.navigationBar.barTintColor = abacRed
-                navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-                
-            }
-
+    }
+    func Sidemenu() {
+        if revealViewController() != nil {
+            MenuButton.target = SWRevealViewController()
+            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 275
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
     
 }
 
@@ -171,7 +171,7 @@ class ContactViewController: UIViewController {
 //    @IBOutlet weak var MenuButton: UIBarButtonItem!
 //    let abacRed = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
 //    var contactList :  [ContactModel] = []
-//    
+//
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //        Sidemenu()
@@ -183,14 +183,14 @@ class ContactViewController: UIViewController {
 //         self.setContactTableView(num: CGFloat(10), headerSize: self.drawHeaderIn())
 //        reloadTableViewContact(language: CRUDSettingValue.GetUserSetting())
 //        self.view.addSubview(scollView)
-//        
+//
 //    }
 //
 //    override func didReceiveMemoryWarning() {
 //        super.didReceiveMemoryWarning()
 //        // Dispose of any resources that can be recreated.
 //    }
-//    
+//
 //    func reloadTableViewContact(language:String) {
 //        ws.GetContactRequireWS(lang: language) { (responseData : [ContactModel], nil) in DispatchQueue.main.async ( execute: {
 //            self.contactList = responseData
@@ -199,14 +199,14 @@ class ContactViewController: UIViewController {
 //        })
 //        }
 //    }
-//    
+//
 //    func setContactTableView(num : CGFloat, headerSize : CGFloat){
 //        self.scollView.addSubview(contactListTableView)
 //        self.contactListTableView.backgroundColor = UIColor.white
 //        contactListTableView.frame = CGRect(x: 0, y: headerSize, width: scWid, height: CGFloat(num)*(scHei*0.3))
 //        scollView.contentSize = CGSize(width: scWid, height: (num*(scHei*0.3))+headerSize)
 //    }
-//    
+//
 //    func drawHeaderIn() -> CGFloat{
 //        headerContect.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.27)
 //        scollView.addSubview(headerContect)
@@ -226,11 +226,11 @@ class ContactViewController: UIViewController {
 //        return headerContect.frame.origin.y + headerContect.frame.height + 20
 //    }
 //
-//    
+//
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return self.contactList.count
 //    }
-//    
+//
 //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellItem", for: indexPath) as! ContactCell
 //        let contact = self.contactList[indexPath.row]
@@ -243,14 +243,14 @@ class ContactViewController: UIViewController {
 //        return cell
 //
 //    }
-//    
+//
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        let contact = self.contactList[indexPath.row]
 //        let conHei = fm.calculateHeiFromString(text: contact.Addr, fontsize: fm.setFontSizeLight(fs: 12.5), tbWid: 200).height + 20
 //        print("Heic : \(113.5 + conHei)")
 //        return (113.5 + conHei)
 //    }
-//    
+//
 //    func Sidemenu() {
 //        if revealViewController() != nil {
 //            MenuButton.target = SWRevealViewController()
@@ -259,11 +259,11 @@ class ContactViewController: UIViewController {
 //            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
 //        }
 //    }
-//    
+//
 //    func CustomNavbar() {
 //        navigationController?.navigationBar.barTintColor = abacRed
 //        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-//        
+//
 //    }
 //}
 //
@@ -292,17 +292,17 @@ class ContactViewController: UIViewController {
 //        self.contentView.addSubview(emaillogo)
 //        self.contentView.addSubview(addrEn)
 //    }
-//    
+//
 //    required init?(coder aDecoder: NSCoder) {
 //        super.init(coder: aDecoder)
 //    }
-//    
+//
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
 //        campusName.font = fm.setFontSizeBold(fs: 20)
 //        campusName.frame = CGRect(x: scWid*0.05 , y: 10, width: scWid*0.9, height: 30)
 //        campusName.textColor = UIColor.darkGray
-//        
+//
 //        heir = campusName.frame.origin.y + campusName.frame.height + 5
 //        addrlogo1.frame = CGRect(x: 10, y: heir+5, width: scWid*0.05, height: scWid*0.05)
 //        addrlogo1.image = UIImage(named: "map")
@@ -313,34 +313,34 @@ class ContactViewController: UIViewController {
 //        addrEn.textAlignment = .natural
 ////        addrEn.isScrollEnabled = false
 ////        addrEn.isEditable = false
-//        
+//
 //        heir = addrEn.frame.origin.y + addrEn.frame.height
 //        tellogo.frame = CGRect(x: 10, y: heir, width: scWid*0.05, height: scWid*0.05)
 //        tellogo.image = UIImage(named: "phone-call")
 //        tel.font = fm.setFontSizeLight(fs: 13)
 //        tel.frame = CGRect(x: 15+scWid*0.05, y: heir, width: scWid-(scWid*0.05+14)-5, height: scWid*0.05)
 //        tel.textColor  = UIColor.darkGray
-//       
+//
 //        heir = tellogo.frame.origin.y + tellogo.frame.height+5
 //        fax.font = fm.setFontSizeLight(fs: 13)
 //        fax.frame = CGRect(x: 10, y: heir, width: scWid, height: scWid*0.05)
 //        fax.textColor  = UIColor.darkGray
-//        
+//
 //        heir = fax.frame.origin.y + fax.frame.height+5
 //        emaillogo.frame = CGRect(x: 10, y:heir, width: scWid*0.05, height: scWid*0.05)
 //        emaillogo.image = UIImage(named: "mail")
 //        email.font = fm.setFontSizeLight(fs: 13)
 //        email.frame = CGRect(x: 15+scWid*0.05, y: heir, width: scWid-(scWid*0.05+14), height: scWid*0.05)
 //        email.textColor = UIColor.darkGray
-//        
+//
 //        let line  = UIView()
 //        line.frame = CGRect(x: scWid*0.05, y: email.frame.origin.y+email.frame.height + 10, width: scWid*0.9, height: 0.5)
 //        line.backgroundColor = UIColor.lightGray
-//        
+//
 //        print(line.frame.height + line.frame.origin.y)
 //
 //    }
-//    
+//
 //}
 //
 //

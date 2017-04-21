@@ -18,20 +18,21 @@ PODS:
     - FacebookCore (~> 0.2)
     - FBSDKCoreKit (~> 4.15)
     - FBSDKShareKit (~> 4.15)
-  - FBSDKCoreKit (4.19.0):
+  - FBSDKCoreKit (4.22.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.19.0):
+  - FBSDKLoginKit (4.22.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.19.0):
+  - FBSDKShareKit (4.22.0):
     - FBSDKCoreKit
-  - FSCalendar (2.7.1)
-  - GoogleMaps (2.1.1):
-    - GoogleMaps/Maps (= 2.1.1)
-  - GoogleMaps/Base (2.1.1)
-  - GoogleMaps/Maps (2.1.1):
+  - FSCalendar (2.7.4)
+  - GoogleMaps (2.2.0):
+    - GoogleMaps/Maps (= 2.2.0)
+  - GoogleMaps/Base (2.2.0)
+  - GoogleMaps/Maps (2.2.0):
     - GoogleMaps/Base
-  - GooglePlaces (2.1.1):
-    - GoogleMaps/Base (= 2.1.1)
+  - GooglePlaces (2.2.0):
+    - GoogleMaps/Base (= 2.2.0)
+  - SkyFloatingLabelTextField (2.0.1)
   - SwiftR (0.13.0)
   - SWRevealViewController (2.3.0)
 
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - FSCalendar
   - GoogleMaps
   - GooglePlaces
+  - SkyFloatingLabelTextField (~> 2.0.0)
   - SwiftR
   - SWRevealViewController
 
@@ -50,15 +52,16 @@ SPEC CHECKSUMS:
   FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
   FacebookShare: 8e9ee8ea06505e6a1d3d719b0cc63e840fb8aaeb
-  FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
-  FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
-  FBSDKShareKit: 5953758366278430dc322d5cdc906db361ed7f81
-  FSCalendar: cfc95384cb0d648ad7c1957649ea74d6c26bb0de
-  GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
-  GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
+  FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
+  FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
+  FBSDKShareKit: 21ab3c8d173f4fa20c47c1061f3a9fac5950b5fa
+  FSCalendar: e95995a746acae531c4a7dd636b8393233125ec5
+  GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
+  GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
+  SkyFloatingLabelTextField: 070e749632ffd608d6fd9db3fa488a822524997c
   SwiftR: 340a0c3c6d665e8f243e4b57c8121e0d81f3a345
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
 
-PODFILE CHECKSUM: ef129ced50e33f2ce77ddd9555d663b4d7f3b591
+PODFILE CHECKSUM: 036ed5740ffd43cd2a0f94dca5677c9d009b52d5
 
 COCOAPODS: 1.2.0

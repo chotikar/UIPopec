@@ -503,6 +503,26 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         facbookBut.readPermissions = ["public_profile","email"]
         hei = boxFacebook.frame.origin.y +  boxFacebook.frame.height + 5
         
+        //-----------------------------
+        let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name,email"])
+        
+        graphRequest.start(completionHandler: { (connection, result, error) -> Void in
+            
+            if ((error) != nil)
+            {
+                print("Error: \(error!)")
+            }
+            else
+            {
+                let data:[String:AnyObject] = result as! [String : AnyObject]
+                print(data)
+                
+            }
+        })
+        
+        //-----------------------
+        
+        
         let boxOr = UILabel(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxOr.font = fm.setFontSizeLight(fs: 16)
         boxOr.textAlignment = .center

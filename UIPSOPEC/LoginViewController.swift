@@ -354,7 +354,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         messageView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         messageView.backgroundColor = UIColor.clear
         self.bg.addSubview(messageView)
-        messageTableView = UITableView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        messageTableView = UITableView(frame: CGRect(x: 0, y: 64, width: scWid, height: scHei))
         self.messageView.addSubview(messageTableView)
         messageTableView.delegate = self
         messageTableView.dataSource = self

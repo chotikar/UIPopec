@@ -68,13 +68,13 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
         self.view.addSubview(cvView)
         self.view.addSubview(cvSc)
         cvView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
+        cvView.backgroundColor = UIColor.white
         cvSc.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         cvSc.frame = CGRect(x: 0, y: 64, width: scWid, height: scHei*0.8)
         cvSc.alwaysBounceVertical = true
-        cvSc.auto
         cvSc.keyboardDismissMode = .interactive
         cvSc.contentSize = CGSize(width: scWid, height: scHei)
-        
+//        cvSc.setContentOffset(CGPoint(x:0,y:cvSc.contentSize.height), animated: true)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
         connection = SignalR("http://www.supanattoy.com:89")
@@ -212,17 +212,16 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
        override func viewWillDisappear(_ animated: Bool) {
         connection.stop()
     }
-    
+    let blueColor = UIColor(red: 0/225, green: 137/225, blue: 249/225, alpha: 1)
     func logSeperate(logg : String,sb:Int){
         let k = fm.calculateHeiFromString(text: logg, fontsize: fm.setFontSizeLight(fs: 14), tbWid: 200)
         if sb == 0 {
-            drawLog(log: logg, profilHid: true, bubBg: UIColor.white,logHei : k,sendBy:sb)
+            drawLog(log: logg, profilHid: true, bubBg: blueColor,logHei : k,sendBy:sb)
         }else{
             drawLog(log: logg, profilHid: false, bubBg: UIColor.lightGray, logHei : k,sendBy:sb)
         }
     }
     
-    let blueColor = UIColor(red: 0/225, green: 137/225, blue: 249/225, alpha: 1)
     var textView: UITextView!
     var bubbleView: UIView!
     var profileImageView: UIImageView!
@@ -275,6 +274,9 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
         self.cvSc.contentSize = CGSize(width: scWid, height: self.contenthei)
         self.cvSc.addSubview(bubbleView)
         self.cvSc.addSubview(profileImageView)
+        self.cvSc.setNeedsDisplay()
+        //self.cvSc.setContentOffset(CGPoint(x:0,y:cvSc.contentSize.height*0.8), animated: true)
+
     }
     
     

@@ -8,7 +8,7 @@ class MessageTableViewController: UITableViewController {
     @IBOutlet weak var MenuButton: UIBarButtonItem!
 
     var profileDevice : UserLogInDetail!
-    var facList : [MessageModel]!
+    var facList = [MessageModel]()
     let tableCellCode = "cellId"
     
     let scHei = UIScreen.main.bounds.height

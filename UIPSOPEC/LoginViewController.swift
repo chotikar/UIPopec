@@ -210,15 +210,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
 
    
    // MARK: Message
-    func getMessageListWs(){
-//        ws.sentLoginInformationWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid, imageUrl:imageUrl ) { (responseData: UserLogInDetail, nil) in
-//            DispatchQueue.main.async( execute: {
-//                self.userLoginInfor = responseData
-//                if self.userLoginInfor.type != 0 {
-//                    //TODO: message list
-//                }
-//            })
-//        }
+    func getMessageListWs(uid:String){
+        ws.getRoomListWS(userid: uid) { (responseData: [MessageModel], nil) in
+            DispatchQueue.main.async( execute: {
+                self.messageList = responseData
+                self.messageTableView.reloadData()
+            })
+        }
 
     }
     
@@ -233,28 +231,33 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     
     @available(iOS 2.0, *)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return messageList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: messageCell, for: indexPath)
-        cell.textLabel?.text = "Dummy message"
-        cell.detailTextLabel?.text = "Detail dummy messagekllllksdkwkenxmewkdojwememopdkeopkdpwokeod"
-        cell.detailTextLabel?.textColor = UIColor.darkGray
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: messageCell)//tableView.dequeueReusableCell(withIdentifier: messageCell, for: indexPath)
+        let messageDe = messageList[indexPath.row]
+        cell.textLabel?.text = messageDe.programName
+        cell.detailTextLabel?.text = messageDe.facName
+        cell.imageView?.image = UIImage(named: "User_Shield")
+//        if let profileUrl = messageDe.
         //        cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
-        cell.imageView?.contentMode = .scaleAspectFill
+       //cell.imageView?.contentMode = .scaleAspectFill
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (scHei * 0.11)
+        return (scHei * 0.2)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        chatLogController.roomCode = "1234"
-        navigationController?.pushViewController(chatLogController, animated: true)
+        let chatLogController = ChatLogViewController()
+        chatLogController.facInfor = messageList[indexPath.row]
+            navigationController?.pushViewController(chatLogController, animated: true)
+//        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//        chatLogController.facInfor = messageList[indexPath.row]
+//        navigationController?.pushViewController(chatLogController, animated: true)
     }
     
    
@@ -277,7 +280,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         
         //--------This Part Print Picture, Email, Id, FirstName--------
         
-        let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name,email, picture.type(large)"])
+        let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name"])
         
         graphRequest.start(completionHandler: { (connection, result, error) -> Void in
             
@@ -286,6 +289,11 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
             }else{
                self.data = result as! [String : AnyObject]
                  print(self.data)
+                
+               // print("picture detail: \(self.data["picture"]?[data][url] as! String)")
+                print("picture email: \(self.data["email"] as! String)")
+                print("picture id: \(self.data["id"] as! String)")
+                print("picture firstname: \(self.data["first_name"] as! String)")
 //                print(self.udid)
                 //self.userLoginInfor = UserLogInDetail(dic: self.data as AnyObject , token: self.tokenn,UDID:self.udid)
               //  CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginDetail)
@@ -353,6 +361,8 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
         logoutBut = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutAction(sender:)))
        self.navigationItem.rightBarButtonItem = logoutBut
+        self.messageList = []
+        getMessageListWs(uid:String(self.userLoginInfor.userId))
     }
     
     func drawSignupPage(){
@@ -503,25 +513,28 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         facbookBut.readPermissions = ["public_profile","email"]
         hei = boxFacebook.frame.origin.y +  boxFacebook.frame.height + 5
         
-        //-----------------------------
-        let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name,email"])
-        
-        graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-            
-            if ((error) != nil)
-            {
-                print("Error: \(error!)")
-            }
-            else
-            {
-                let data:[String:AnyObject] = result as! [String : AnyObject]
-                print(data)
-                
-            }
-        })
-        
-        //-----------------------
-        
+//        //-----------------------------
+//        let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name,email"])
+//        
+//        graphRequest.start(completionHandler: { (connection, result, error) -> Void in
+//            
+//            if ((error) != nil)
+//            {
+//                print("Error: \(error!)")
+//            }
+//            else
+//            {
+//                let data:[String:AnyObject] = result as! [String : AnyObject]
+//////                print("picture detail: \(data["picture"] as! String)")
+////                print("picture email: \(data["email"] as! String)")
+////                print("picture id: \(data["id"] as! String)")
+////                print("picture firstname: \(data["first_name"] as! String)")
+//                
+//            }
+//        })
+//        
+//        //-----------------------
+//        
         
         let boxOr = UILabel(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxOr.font = fm.setFontSizeLight(fs: 16)
@@ -616,18 +629,18 @@ class UserCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         textLabel?.frame = CGRect(x:  56, y: (textLabel!.frame.origin.y - 2), width: (textLabel!.frame.width), height: (textLabel!.frame.height))
         detailTextLabel?.frame = CGRect(x: 56, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
     }
     
     let profileImageView : UIImageView = {
         let piv = UIImageView()
-        //        piv.image = (UIImage(named: "User_Shield"))
+        piv.image = UIImage(named: "User_Shield")
         piv.contentMode = .scaleAspectFill
         piv.translatesAutoresizingMaskIntoConstraints = false
         piv.layer.cornerRadius = 20
         piv.layer.masksToBounds = true
-        piv.backgroundColor = UIColor.brown
         return piv
     }()
     

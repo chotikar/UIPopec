@@ -7,16 +7,18 @@ import SwiftR
 
 private let reuseIdentifier = "Cell"
 
-class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDelegate ,UICollectionViewDelegateFlowLayout {
+class ChatLogCollectionViewController: UICollectionViewController ,UICollectionViewDelegateFlowLayout {
     
+    let ws = WebService.self
     let fm = FunctionMutual.self
-    var chatLog = [ChatLog]()
-    var ownerName = "Pop"
+    var facInfor : MessageModel!
+    var chatLog = [ChatLogModel]()
+    var ownerName = CRUDProfileDevice.GetUserProfile()
     lazy var inputTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter message..."
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
+        //textField.delegate = self
         return textField
     }()
     
@@ -82,9 +84,9 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         
         chatHub = Hub("simpleHub")
         chatHub.on("broadcastMessage") { [weak self] args in
-            if let namee = args?[0] as? String, let message = args?[1] as? String {
-                self?.chatLog.append(ChatLog(name: namee, text: message))
-            print(" \(self?.chatLog))")
+            if let log = args?[0] as? [String:AnyObject] {
+                self?.chatLog.append(ChatLogModel(dic: log as AnyObject))
+            //print(" \(self?.chatLog))")
                 self?.collectionView?.reloadData()
             }
         }
@@ -104,9 +106,9 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         }
         
         connection.connected = { [weak self] in
-            print("Connection ID: \(self!.connection.connectionID!)")
+            //print("Connection ID: \(self!.connection.connectionID!)")
 
-            self?.joinGroup(roomcode: (self?.roomCode)!)
+            self?.joinGroup(userid: (self?.ownerName.userId)!, facid: (self?.facInfor.facId)!, proId: (self?.facInfor.programId)!)
             self?.title  = "Connected"
             
         }
@@ -140,8 +142,20 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         
     }
     
+    func getChatLogWs(rc : String){
+        ws.getChatLogWS(roomcode: rc) { (responseData: [ChatLogModel], nil) in
+            DispatchQueue.main.async( execute: {
+                self.chatLog = responseData
+                self.collectionView?.reloadData()
+            })
+        }
+        
+    }
+
+    
     override var inputAccessoryView: UIView? {
         get {
+            getChatLogWs(rc: self.facInfor.roomCode)
             return inputContainerView
         }
     }
@@ -221,10 +235,10 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         seperateLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
-    func joinGroup(roomcode:String){
+    func joinGroup(userid:Int64, facid:Int64, proId :Int64){
         if let hub = chatHub {
             do {
-                try hub.invoke("joinRoom", arguments: [roomcode])
+                try hub.invoke("joinRoom", arguments: [userid,facid,proId])
             } catch {
                 print(error)
             }
@@ -235,7 +249,8 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     func sentMessage(){
         if let hub = chatHub, let message = inputTextField.text {
             do {
-                try hub.invoke("sent", arguments: [self.roomCode,ownerName,message])
+                try hub.invoke("sent", arguments: [self.facInfor.roomCode,"USER",ownerName.userId,message])
+                inputTextField.text = ""
             } catch {
                 print(error)
             }
@@ -253,35 +268,48 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
     }
     //
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatMessageCell
-        let message = chatLog[indexPath.item]
+        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatMessageCell
+        let log = chatLog[indexPath.item]
         
-        cell.textView.text = message.text
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 10
+        cell.textView.text = log.mess
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: log.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 10
         
-        setupCell(cell: cell, who: message.name)
+        if log.sendby == 0 {
+                        //outcome message blue
+                        cell.textView.textColor = UIColor.white
+                        cell.profileImageView.isHidden = true
+                    }else{
+                        //income message gray
+                        cell.profileImageView.isHidden = false
+                        cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
+                        cell.bubbleRightAnchor?.isActive = false
+                        cell.bubbleLeftAnchor?.isActive = true
+                    }
+
+        
+        //setupCell(cell: cell, who: log.sendby)
         
         return cell
         
     }
     
-    func setupCell(cell:ChatMessageCell,who:String){
-        
-        if who == self.ownerName {
-            //outcome message blue
-            //            cell.bubbleView.backgroundColor  = UIColor.orange
-            cell.textView.textColor = UIColor.white
-            cell.profileImageView.isHidden = true
-        }else{
-            //income message gray
-            cell.profileImageView.isHidden = false
-            cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
-            cell.bubbleRightAnchor?.isActive = false
-            cell.bubbleLeftAnchor?.isActive = true
-        }
-        
-    }
-    
+//    func setupCell(cell:ChatMessageCell,who:String){
+//        
+//        if who == "USER" {
+//            //outcome message blue
+//            //            cell.bubbleView.backgroundColor  = UIColor.orange
+//            cell.textView.textColor = UIColor.white
+//            cell.profileImageView.isHidden = true
+//        }else{
+//            //income message gray
+//            cell.profileImageView.isHidden = false
+//            cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
+//            cell.bubbleRightAnchor?.isActive = false
+//            cell.bubbleLeftAnchor?.isActive = true
+//        }
+//        
+//    }
+//    
     override func viewWillDisappear(_ animated: Bool) {
         connection.stop()
     }
@@ -290,21 +318,21 @@ class ChatLogCollectionViewController: UICollectionViewController,UITextFieldDel
         var heigh : CGFloat = 80
         
         let message = chatLog[indexPath.item]
-        heigh = fm.calculateHeiFromString(text: message.text, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid).height + 20
+        heigh = fm.calculateHeiFromString(text: message.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid).height + 20
         
         return CGSize(width: view.frame.width+20, height: heigh)
     }
     
-    func joinGroup(){
-        if let hub = chatHub {
-            do {
-                try hub.invoke("joinRoom", arguments: ["1234"])
-            } catch {
-                print(error)
-            }
-        }
-        
-    }
+//    func joinGroup(){
+//        if let hub = chatHub {
+//            do {
+//                try hub.invoke("joinRoom", arguments: ["1234"])
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        
+//    }
     
 }
 

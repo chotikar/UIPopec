@@ -39,6 +39,7 @@ class CRUDProfileDevice {
         
         let transc = NSManagedObject(entity: entity!, insertInto: context)
         print(loginInfor.userId)
+        transc.setValue(loginInfor.byFacebook, forKey: "byFacebook")
         transc.setValue(loginInfor.email, forKey: "email")
         transc.setValue(loginInfor.facebookId, forKey: "facebook_id")
         transc.setValue(loginInfor.facebookName, forKey: "facebook_name")

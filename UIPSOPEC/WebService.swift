@@ -170,7 +170,6 @@ class WebService {
     
     // MARK: CALENDAR
     static func GetCalendarWS (completion:@escaping (_ responseData:[CalendarModel],_ errorMessage:NSError?) -> Void) {
-        
         var CalendarEvent : [CalendarModel] = []
         let url = NSURL(string: "\(domainName)Calendar/GetCalendar?year=2017&language=E")
         print(url)
@@ -289,7 +288,7 @@ class WebService {
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? [String : AnyObject] {
-                   signUpInformation = UserLogInDetail(dic: validJson as AnyObject, udid: deviceId)
+                    signUpInformation = UserLogInDetail(dic: validJson as AnyObject, udid: deviceId , byfac: Int16(byfacebook))
                     
                     completion(signUpInformation, error as NSError?)
                 } else {
@@ -312,11 +311,8 @@ class WebService {
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? [String : AnyObject ]{
-                    if byfacebook == 0 {
-                        loginInformation = UserLogInDetail(dic: validJson as AnyObject, udid: deviceId)
-                    }else{
-                        loginInformation = UserLogInDetail(dic: validJson as AnyObject, udid: deviceId)
-                    }
+                    loginInformation = UserLogInDetail(dic: validJson as AnyObject, udid: deviceId , byfac: Int16(byfacebook))
+                  
                     
                     
                     completion(loginInformation, error as NSError?)
@@ -341,6 +337,84 @@ class WebService {
 
     // MARK: Chat
     // TODO: get message list
+    
+    static func getRoomListWS(userid : String ,completion:@escaping (_ responseData:[MessageModel],_ errorMessage:NSError?)->Void)
+    {
+        var messageList : [MessageModel]!
+        let url = NSURL(string: "\(domainName)Chat/GetUserRoomList?userID=\(userid)")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? [[String : AnyObject ]]{
+                    messageList = []
+                    for i in validJson {
+                        messageList.append(MessageModel(dic: i as! AnyObject))
+                    }
+                    
+                    completion(messageList, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
     // TODO: get chat befor list
+    static func getChatLogWS(roomcode : String ,completion:@escaping (_ responseData:[ChatLogModel],_ errorMessage:NSError?)->Void)
+    {
+        var chatLog : [ChatLogModel]!
+        let url = NSURL(string: "\(domainName)Chat/GetMessageList?roomName=\(roomcode)")
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? [[String : AnyObject ]]{
+                    chatLog = []
+                    for i in validJson {
+                        chatLog.append(ChatLogModel(dic: i as! AnyObject))
+                    }
+                    
+                    completion(chatLog, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+    
+//    // FIXME: get user
+//    //http://www.supanattoy.com:89/Chat/SetUserRoom?userID=10005&facultyID=5&programID=38
+//    static func setRoomUserWS(userid : Int,facid : Int ,proid :Int ,completion:@escaping (_ responseData:[MessageModel],_ errorMessage:NSError?)->Void)
+//    {
+//        var messageList : [MessageModel]!
+//        let url = NSURL(string: "\(domainName)Chat/SetUserRoom?userID=\(userid)&facultyID=\(facid)&programID=\(proid)")
+//        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+//            do {
+//                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+//                if let validJson = jsonResult as? [[String : AnyObject ]]{
+//                    messageList = []
+//                    for i in validJson {
+//                        messageList.append(MessageModel(dic: i as! AnyObject))
+//                    }
+//                    
+//                    completion(messageList, error as NSError?)
+//                } else {
+//                    print("Error")
+//                }
+//                
+//            } catch let myJSONError {
+//                print("Error : ", myJSONError)
+//            }
+//        }
+//        task.resume()
+//    }
+
+
     // FIXME: TEST
 }

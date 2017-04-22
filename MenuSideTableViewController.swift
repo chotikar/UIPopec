@@ -46,6 +46,7 @@ class MenuSideTableViewController: UITableViewController {
 //        Menutable.backgroundColor = UIColor.red
         self.navigationController?.navigationBar.isTranslucent = true
         
+        
     }
     
     @IBOutlet var image:UIImage!

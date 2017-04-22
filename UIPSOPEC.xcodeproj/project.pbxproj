@@ -44,6 +44,10 @@
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
 		7501D5B41E8BC1B9006FAAC8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */; };
 		7501D5B51E8BC1B9006FAAC8 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */; };
+		75386C2E1EAA4B9000A7A32A /* Bariol_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75386C2A1EAA4B6B00A7A32A /* Bariol_Bold.ttf */; };
+		75386C2F1EAA4B9000A7A32A /* Bariol_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75386C2B1EAA4B6B00A7A32A /* Bariol_Light.ttf */; };
+		75386C301EAA4B9000A7A32A /* Bariol_Regular_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75386C2C1EAA4B6B00A7A32A /* Bariol_Regular_Italic.ttf */; };
+		75386C311EAA4B9000A7A32A /* Bariol_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75386C2D1EAA4B6B00A7A32A /* Bariol_Regular.otf */; };
 		7545F33A1E8666AA00603222 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545F3391E8666AA00603222 /* ContactModel.swift */; };
 		755EA9131EA5173500C622CE /* SuggestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755EA9121EA5173500C622CE /* SuggestionController.swift */; };
 		756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */; };
@@ -93,6 +97,10 @@
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		7501D5B21E8BC178006FAAC8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		7501D5B31E8BC178006FAAC8 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		75386C2A1EAA4B6B00A7A32A /* Bariol_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Bold.ttf; sourceTree = "<group>"; };
+		75386C2B1EAA4B6B00A7A32A /* Bariol_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Light.ttf; sourceTree = "<group>"; };
+		75386C2C1EAA4B6B00A7A32A /* Bariol_Regular_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Regular_Italic.ttf; sourceTree = "<group>"; };
+		75386C2D1EAA4B6B00A7A32A /* Bariol_Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Regular.otf; sourceTree = "<group>"; };
 		7545F3391E8666AA00603222 /* ContactModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		755EA9121EA5173500C622CE /* SuggestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionController.swift; sourceTree = "<group>"; };
 		756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController_2.swift; sourceTree = "<group>"; };
@@ -136,6 +144,10 @@
 		4F4F8D451E517AE0004B4419 = {
 			isa = PBXGroup;
 			children = (
+				75386C2A1EAA4B6B00A7A32A /* Bariol_Bold.ttf */,
+				75386C2B1EAA4B6B00A7A32A /* Bariol_Light.ttf */,
+				75386C2C1EAA4B6B00A7A32A /* Bariol_Regular_Italic.ttf */,
+				75386C2D1EAA4B6B00A7A32A /* Bariol_Regular.otf */,
 				4FE09F2B1E59F80A0020A2C5 /* CoreData */,
 				4F8247861E77FE4E00F2341C /* Necessary */,
 				4F2511EC1E5D4E4D0055D312 /* Controller */,
@@ -329,6 +341,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75386C2E1EAA4B9000A7A32A /* Bariol_Bold.ttf in Resources */,
+				75386C2F1EAA4B9000A7A32A /* Bariol_Light.ttf in Resources */,
+				75386C301EAA4B9000A7A32A /* Bariol_Regular_Italic.ttf in Resources */,
+				75386C311EAA4B9000A7A32A /* Bariol_Regular.otf in Resources */,
 				7501D5B41E8BC1B9006FAAC8 /* Roboto-Bold.ttf in Resources */,
 				758DDFE91E9E0AEB00EAAFA8 /* Main.storyboard in Resources */,
 				7501D5B51E8BC1B9006FAAC8 /* Roboto-Light.ttf in Resources */,

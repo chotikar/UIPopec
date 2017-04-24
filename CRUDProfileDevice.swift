@@ -16,9 +16,13 @@ class CRUDProfileDevice {
             let result = try managedContext.fetch(fetchRequest)
             profileValue_DB = result
             if ( profileValue_DB as? [NSManagedObject]) != nil {
+                if profileValue_DB.first?.value(forKey: "byFacebook") as? Int16 != nil {
                 userProfile = UserLogInDetail(obj: profileValue_DB)
                 //userProfile = UserLogInDetail(dic) ( profileValue_DB.first? ?? UserLogInDetail())!
-                
+                }else{
+                    CRUDProfileDevice.SaveProfileDevice(loginInfor: UserLogInDetail())
+                    userProfile = UserLogInDetail()
+                }
             } else {
                 print("Error null")
             }

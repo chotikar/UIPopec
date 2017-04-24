@@ -7,14 +7,14 @@ import SystemConfiguration
 import SWRevealViewController
 import SkyFloatingLabelTextField
 
- // width and height of current Scrren
+// width and height of current Scrren
 let scWid = UIScreen.main.bounds.width
 let scHei = UIScreen.main.bounds.height
 let abacRed = UIColor(colorLiteralRed: 255/225, green: 0/225, blue: 0/225, alpha: 1)
 
 class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextFieldDelegate , UITableViewDelegate , UITableViewDataSource {
-
- 
+    
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     let fm = FunctionMutual.self
     let ws = WebService.self
     @IBOutlet weak var MenuButton: UIBarButtonItem!
@@ -22,13 +22,11 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     var userLoginInfor : UserLogInDetail!
     var text = ""
     var tokenn  = ""
-    
     var bg : UIView!
-   
+    
     var phoneBg : UIImageView = {
-       var pb = UIImageView()
+        var pb = UIImageView()
         pb.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-//        pb.backgroundColor = UIColor(patternImage: UIImage(named:"loginBG2")!)
         pb.contentMode = .scaleToFill
         pb.image = UIImage(named: "loginBG2")
         return pb
@@ -56,17 +54,19 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     var messageTableView : UITableView!
     var messageCell = "messageItemCell"
     var messageList = [MessageModel]()
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.userLoginInfor = CRUDProfileDevice.GetUserProfile()
-//        if self.userLoginInfor.userId == 0 {
-//            self.goToMessage(status: false)
-//        }else{
-//             self.goToMessage(status: true)
-//        }
-//    }
+    
+    
+    /// 1.signInPage 2.signUpPage
+    var signinPageStatus : Bool!
+    var toast : UIView!
     var url = UserLogInDetail()
-        
+    /////// From display 
+    var fromMajorProgram = false
+    var fromFacName : String!
+    var fromDepName : String!
+    var fromFacId : Int!
+    var fromDepId : Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Sidemenu()
@@ -75,71 +75,35 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         bg.backgroundColor = UIColor.red
         self.view.addSubview(bg)
         mangegeLayout()
-//        self.view.addSubview(bg)
-//        url.username = "Mook Test"
-//        url.type = 1
-//        CRUDProfileDevice.SaveProfileDevice(loginInfor: url)
         print(CRUDProfileDevice.GetUserProfile().username)
-//        let pfd = CRUDProfileDevice.GetUserProfile()
-        
-//        udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
-//            let loginButton = FBSDKLoginButton()
-//            view.addSubview(loginButton)
-//            loginButton.center = self.view.center
-//            facbookBut.readPermissions = ["public_profile","email"]
-//            facbookBut.delegate = self
-        
-        
-//        if getProfileDevice() == nil {
-//            let loginButton = FBSDKLoginButton()
-//            view.addSubview(loginButton)
-//            loginButton.center = self.view.center
-//            loginButton.readPermissions = ["public_profile","email"]
-//            loginButton.delegate = self
-//        }else{
-//            self.userLoginDetail  getProfileDevice()
-//            print (getProfileDevice())
-//            let vc = MessageTableViewController()
-//            vc.profileDevice = self.userLoginDetail
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-        
-//        if !isInternetAvailable() {
-//            toastNoInternet()
-//        }
         
     }
     
     // MARK : MUTAL
-    
     func mangegeLayout(){
         self.userLoginInfor = CRUDProfileDevice.GetUserProfile()
         print(self.userLoginInfor.userId)
         if self.userLoginInfor.userId == 0 {
             self.goToMessage(status: false)
         }else{
+            //self.getMessageListWs(uid: String(self.userLoginInfor.userId))
             self.goToMessage(status: true)
         }
     }
     
-    func sentSignupWS(byfb: Int16, userDe: String, imageUrl: String){
-        let udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
-        ws.sentSignUpWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid, imageUrl:imageUrl ) { (responseData: UserLogInDetail, nil) in
-            DispatchQueue.main.async( execute: {
-                self.userLoginInfor = responseData
-                if self.userLoginInfor.userId == 0 {
-                    //TODO: Noti that ever noti  
-                }else{
-                    print("Signup Success")
-                    CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginInfor)
-                    self.drawMessagePage()
-                }
-            })
-        }
+    func gotoChatPageByMessage(userId : Int64){
+        let mm = MessageModel(uid: userId, fn: fromFacName, fid: fromFacId, pn: fromDepName, pid: fromDepId)
+        let chatLogController = ChatLogTableViewController()
+        chatLogController.facInfor = mm
+        self.navigationController?.pushViewController(chatLogController, animated: true)
     }
+    
     
     func goToMessage(status : Bool){
         if status {
+            if fromMajorProgram {
+                gotoChatPageByMessage(userId: self.userLoginInfor.userId)
+            }
             self.drawMessagePage()
             
         }else{
@@ -147,42 +111,50 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         }
     }
     
-    // MARK: SignUp
-    func signupAction() {
-        //0 == incorect password
-        //1 == correct password
-        if password.text == repassword.text {
-            if username.text != "" && email.text != "" {
-                let ud = "\(username.text!);\(password.text!);\(email.text!)"
-                print(ud)
-            sentSignupWS(byfb: 0, userDe: ud, imageUrl: "N/A")
-            }else {
-                // FIXME: noti username email
-            }
-        }else{
-            // FIXME: noti password
-        }
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
     }
-
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
+    }
     
     // MARK: LogIn
     func signupPage(){
         self.drawSignupPage()
     }
     
-    func signIn(sender : AnyObject){
-        if password.text != "" {
-            if username.text != "" {
-                let ud = "N/A;\(password.text!);\(username.text!)"
-                sentLoginWS(byfb: 0, userDe: ud)
-                
-            }else {
-                //FIXME: noti that not input email
-            }
-        }else{
-            //FIXME: noti that do not input password
+    
+    // MARK: Webservice
+    func sentSignupWS(byfb: Int16, userDe: String, imageUrl: String){
+        let udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
+        ws.sentSignUpWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid, imageUrl:imageUrl ) { (responseData: UserLogInDetail, nil) in
+            DispatchQueue.main.async( execute: {
+                self.userLoginInfor = responseData
+                if self.userLoginInfor.userId == 0 {
+                    self.toastSignup(mess: self.userLoginInfor.result.message)
+                }else{
+                    print("Signup Success")
+                    CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginInfor)
+                    self.goToMessage(status: true)
+                }
+                self.stopIndicator()
+            })
         }
-        
+    }
+    
+   func getMessageListWs(uid:String){
+        ws.getRoomListWS(userid: uid) { (responseData: [MessageModel], nil) in
+            DispatchQueue.main.async( execute: {
+                self.messageList = responseData
+                self.stopIndicator()
+                self.messageTableView.reloadData()
+            })
+        }
     }
     
     func sentLoginWS(byfb: Int16, userDe: String){
@@ -191,7 +163,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
             DispatchQueue.main.async( execute: {
                 self.userLoginInfor = responseData
                 if self.userLoginInfor.userId == 0 {
-                    //TODO: Noti that ever noti
+                    self.toastLogin(mess: self.userLoginInfor.result.message)
                 }else{
                     CRUDProfileDevice.ClearProfileDevice()
                     CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginInfor)
@@ -199,68 +171,110 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
                     print("GetValueWhen Login :\(tr.userId)")
                     self.goToMessage(status: true)
                 }
+                self.stopIndicator()
             })
         }
     }
+    
+    // MARK: Toast
+    func toastSignup(mess:String){
+        toast = fm.toast(message: mess)
+        UIView.animate(withDuration: 1.8, delay: 0.0, options: [], animations: {
+            self.toast.backgroundColor = UIColor.darkGray
+        }, completion: { (finished: Bool) in
+            UIView.animate(withDuration: 2.5, delay: 0, options: [], animations: {
+                self.toast.backgroundColor = UIColor.clear
+                self.toast.isHidden = true
+            }, completion: nil)
+            
+        })
+    }
+    
+    func toastLogin(mess:String){
+        toast = fm.toast(message: mess)
+        self.signupView.addSubview(self.toast)
+        UIView.animate(withDuration: 1.8, delay: 0.0, options: [], animations: {
+            self.toast.backgroundColor = UIColor.darkGray
+        }, completion: { (finished: Bool) in
+            UIView.animate(withDuration: 2.5, delay: 0, options: [], animations: {
+                self.toast.backgroundColor = UIColor.clear
+                self.toast.isHidden = true
+            }, completion: nil)
+            
+        })
+        
+    }
+    
+    func toastNoInternet(){
+        let toastLabel = UILabel(frame: CGRect(x: (scWid/2)-150, y: scHei*0.85, width: 300, height: 30))
+        toastLabel.backgroundColor = UIColor.darkGray
+        toastLabel.textColor = UIColor.white
+        toastLabel.textAlignment = NSTextAlignment.center;
+        //self.view.addSubview(toastLabel)
+        toastLabel.text = "No Internet Connection"
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        })
+    }
+    
+    
+    // MARK: Button action
+    func signupAction() {
+        //0 == incorect password
+        //1 == correct password
+        if password.text == repassword.text {
+            if username.text != "" && email.text != "" {
+                let ud = "\(username.text!);\(password.text!);\(email.text!)"
+                print(ud)
+                startIndicator()
+                sentSignupWS(byfb: 0, userDe: ud, imageUrl: "N/A")
+            }else {
+                toastSignup(mess: "Invalid input")
+            }
+        }else{
+            toastSignup(mess: "Invalid input")
+        }
+    }
+    
+    func signIn(sender : AnyObject){
+        if password.text != "" {
+            if username.text != "" {
+                let ud = "N/A;\(password.text!);\(username.text!)"
+                startIndicator()
+                sentLoginWS(byfb: 0, userDe: ud)
+                
+            }else {
+                toastSignup(mess: "Invalid input")
+            }
+        }else{
+            toastSignup(mess: "Invalid input")
+        }
+        
+    }
+    
     
     func backAction(sender : AnyObject){
         drawLoginPage()
     }
     
-
-   
-   // MARK: Message
-    func getMessageListWs(uid:String){
-        ws.getRoomListWS(userid: uid) { (responseData: [MessageModel], nil) in
-            DispatchQueue.main.async( execute: {
-                self.messageList = responseData
-                self.messageTableView.reloadData()
-            })
-        }
-
-    }
-    
-    // FIXME: logout
     func logOutAction(sender : UIBarButtonItem){
+        if self.userLoginInfor.byFacebook == 1{
+            let manage = FBSDKLoginManager()
+            manage.logOut()
+            FBSDKAccessToken.setCurrent(nil)
+            FBSDKProfile.setCurrent(nil)
+        }
         CRUDProfileDevice.ClearProfileDevice()
         CRUDProfileDevice.SaveProfileDevice(loginInfor: UserLogInDetail())
+        
         drawLoginPage()
         self.navigationItem.rightBarButtonItem = nil
     }
     
     
-    @available(iOS 2.0, *)
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messageList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: messageCell)//tableView.dequeueReusableCell(withIdentifier: messageCell, for: indexPath)
-        let messageDe = messageList[indexPath.row]
-        cell.textLabel?.text = messageDe.programName
-        cell.detailTextLabel?.text = messageDe.facName
-        cell.imageView?.image = UIImage(named: "User_Shield")
-//        if let profileUrl = messageDe.
-        //        cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
-       //cell.imageView?.contentMode = .scaleAspectFill
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (scHei * 0.2)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let chatLogController = ChatLogViewController()
-        chatLogController.facInfor = messageList[indexPath.row]
-            navigationController?.pushViewController(chatLogController, animated: true)
-//        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        chatLogController.facInfor = messageList[indexPath.row]
-//        navigationController?.pushViewController(chatLogController, animated: true)
-    }
-    
-   
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result:
         FBSDKLoginManagerLoginResult!, error : Error!) {
         
@@ -274,8 +288,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         let accessToken = FBSDKAccessToken.current() // Print FBToken
         if(accessToken != nil)
         {
-            // print(accessToken?.tokenString ?? 00000000000) //000000000 is Default Value
-             tokenn = (accessToken?.tokenString)!
+            tokenn = (accessToken?.tokenString)!
         }
         
         //--------This Part Print Picture, Email, Id, FirstName--------
@@ -287,25 +300,17 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
             if ((error) != nil){
                 print("Error: \(error as! String)")
             }else{
-               self.data = result as! [String : AnyObject]
-                 print(self.data)
+                self.data = result as! [String : AnyObject]
+                print(self.data)
+                //1304007822985652
+                //http://graph.facebook.com/1304007822985652/picture?type=large&redirect=true&width=500&height=500
                 
-               // print("picture detail: \(self.data["picture"]?[data][url] as! String)")
-                print("picture email: \(self.data["email"] as! String)")
-                print("picture id: \(self.data["id"] as! String)")
-                print("picture firstname: \(self.data["first_name"] as! String)")
-//                print(self.udid)
-                //self.userLoginInfor = UserLogInDetail(dic: self.data as AnyObject , token: self.tokenn,UDID:self.udid)
-              //  CRUDProfileDevice.SaveProfileDevice(loginInfor: self.userLoginDetail)
-//                let pfd = CRUDProfileDevice.GetUserProfile()
-//                
-//                print("start profile device")
-//                print (pfd.email)
-//                print (pfd.facebookAccessToken)
-//                print (pfd.facebookId)
-//                print (pfd.facebookName)
-//                print (pfd.udid)
-//                print("*********************************************")
+                if self.signinPageStatus {
+                    self.sentLoginWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);\(self.tokenn)")
+                }else{
+                    self.sentSignupWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);\(self.tokenn)", imageUrl: ("http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"))
+                }
+                
             }
         })
     }
@@ -314,58 +319,61 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         print("Logout Successful")
     }
     
-    func isInternetAvailable() -> Bool
-    {
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-        
-        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
-                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
-            }
-        }
-        
-        var flags = SCNetworkReachabilityFlags()
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
-            return false
-        }
-        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
-        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
-        return (isReachable && !needsConnection)
+    // MARK: Draw 3 layout
+    // MARK: Message
+    @available(iOS 2.0, *)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messageList.count
     }
-
-    func toastNoInternet(){
-        let toastLabel = UILabel(frame: CGRect(x: (scWid/2)-150, y: scHei*0.85, width: 300, height: 30))
-        toastLabel.backgroundColor = UIColor.darkGray
-        toastLabel.textColor = UIColor.white
-        toastLabel.textAlignment = NSTextAlignment.center;
-        self.view.addSubview(toastLabel)
-        toastLabel.text = "No Internet Connection"
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 10;
-        toastLabel.clipsToBounds  =  true
-        UIView.animate(withDuration: 4.0, delay: 0.1, options: UIViewAnimationOptions.curveEaseOut, animations: {
-            toastLabel.alpha = 0.0
-        })
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: messageCell)
+        let messageDe = messageList[indexPath.row]
+        cell.textLabel?.text = messageDe.programName
+        cell.detailTextLabel?.text = messageDe.facName
+        cell.imageView?.image = UIImage(named: "User_Shield")
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return (scHei * 0.15)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+//        let chatLogController = ChatLogViewController()
+//        chatLogController.facInfor = messageList[indexPath.row]
+//        navigationController?.pushViewController(chatLogController, animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
+        
+//        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//        chatLogController.facInfor = messageList[indexPath.row]
+//        navigationController?.pushViewController(chatLogController, animated: true)
+        
+        let chatLogController = ChatLogTableViewController()
+        chatLogController.facInfor = messageList[indexPath.row]
+        navigationController?.pushViewController(chatLogController, animated: true)
     }
     
     func drawMessagePage(){
+        self.signinPageStatus = false
         messageView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         messageView.backgroundColor = UIColor.clear
         self.bg.addSubview(messageView)
-        messageTableView = UITableView(frame: CGRect(x: 0, y: 64, width: scWid, height: scHei))
+        messageTableView = UITableView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         self.messageView.addSubview(messageTableView)
         messageTableView.delegate = self
         messageTableView.dataSource = self
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
         logoutBut = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutAction(sender:)))
-       self.navigationItem.rightBarButtonItem = logoutBut
+        self.navigationItem.rightBarButtonItem = logoutBut
         self.messageList = []
+        self.startIndicator()
         getMessageListWs(uid:String(self.userLoginInfor.userId))
     }
     
     func drawSignupPage(){
+        self.signinPageStatus = false
         loginView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         loginView.backgroundColor = UIColor.clear
         self.bg.addSubview(phoneBg)
@@ -393,7 +401,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxOr.text = "or"
         hei = boxOr.frame.origin.y +  boxOr.frame.height + 5
         
-        
         let boxUsername = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxUsername.layer.cornerRadius = 5
         boxUsername.backgroundColor = UIColor.white
@@ -417,7 +424,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         email.font = fm.setFontSizeLight(fs: 14)
         email.keyboardType = .emailAddress
         hei = boxEmail.frame.origin.y +  boxEmail.frame.height + 10
-
+        
         let boxPassword = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxPassword.layer.cornerRadius = 5
         boxPassword.backgroundColor = UIColor.white
@@ -425,6 +432,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         password = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         password.textColor = UIColor.black
         password.textAlignment = .center
+        password.isSecureTextEntry = true
         password.delegate = self
         password.font = fm.setFontSizeLight(fs: 14)
         hei = password.frame.origin.y +  password.frame.height + 2
@@ -435,11 +443,12 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxRepassword.alpha = 0.8
         repassword = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         repassword.textColor = UIColor.black
+        repassword.isSecureTextEntry = true
         repassword.textAlignment = .center
         repassword.delegate = self
         repassword.font = fm.setFontSizeLight(fs: 14)
         hei = boxRepassword.frame.origin.y +  boxRepassword.frame.height + 15
- 
+        
         let boxSingupBut = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxSingupBut.layer.cornerRadius = 5
         boxSingupBut.backgroundColor = UIColor.darkGray
@@ -456,23 +465,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         backButton.setTitleColor(UIColor.white, for: .normal)
         
-//        if CRUDSettingValue.GetUserSetting() == "T" {
-//            username.placeholder = "Username"
-//            email.placeholder = "Email"
-//            password.placeholder = "Password"
-//            repassword.placeholder = " Re-password"
-//            signupButton.setTitle("Sign Up", for: .normal)
-//            backButton.setTitle("Back", for: .normal)
-//        }else{
-            username.placeholder = "Username"
-            email.placeholder = "Email"
-            password.placeholder = "Password"
-            repassword.placeholder = " Re-password"
-            signupButton.setTitle("Sign Up", for: .normal)
-            backButton.setTitle("Back", for: .normal)
-//        }
-
-//        loginView.addSubview(boxBack)
+        username.placeholder = "Username"
+        email.placeholder = "Email"
+        password.placeholder = "Password"
+        repassword.placeholder = " Re-password"
+        signupButton.setTitle("Sign Up", for: .normal)
+        backButton.setTitle("Back", for: .normal)
+        
         loginView.addSubview(backButton)
         loginView.addSubview(logoAbac)
         loginView.addSubview(boxFacebook)
@@ -491,9 +490,9 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func drawLoginPage(){
+        self.signinPageStatus = true
         signupView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         signupView.backgroundColor = UIColor.clear
-        self.view.addSubview(bg)
         self.bg.addSubview(phoneBg)
         self.bg.addSubview(signupView)
         logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.15, width: scHei*0.25, height: scHei*0.25))
@@ -513,34 +512,10 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         facbookBut.readPermissions = ["public_profile","email"]
         hei = boxFacebook.frame.origin.y +  boxFacebook.frame.height + 5
         
-//        //-----------------------------
-//        let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name,email"])
-//        
-//        graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-//            
-//            if ((error) != nil)
-//            {
-//                print("Error: \(error!)")
-//            }
-//            else
-//            {
-//                let data:[String:AnyObject] = result as! [String : AnyObject]
-//////                print("picture detail: \(data["picture"] as! String)")
-////                print("picture email: \(data["email"] as! String)")
-////                print("picture id: \(data["id"] as! String)")
-////                print("picture firstname: \(data["first_name"] as! String)")
-//                
-//            }
-//        })
-//        
-//        //-----------------------
-//        
-        
         let boxOr = UILabel(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxOr.font = fm.setFontSizeLight(fs: 16)
         boxOr.textAlignment = .center
         boxOr.text = "or"
-        
         
         hei = boxOr.frame.origin.y +  boxOr.frame.height + 5
         let boxUsername = UIView()
@@ -566,13 +541,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         password = SkyFloatingLabelTextField()
         password.frame = CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height)
         password.textColor = UIColor.black
+        password.isSecureTextEntry = true
         password.textAlignment = .center
         password.delegate = self
         password.font = fm.setFontSizeLight(fs: 14)
         password.text = ""
         password.placeholder = "Password"
         hei = password.frame.origin.y +  password.frame.height + 15
-        
         
         let boxLogin = UIView(frame: CGRect(x: scWid*0.15, y: hei, width: scWid*0.7, height: boxHei.height))
         boxLogin.layer.cornerRadius = 5
@@ -594,7 +569,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         signupButton.setTitle("SignUp", for: .normal)
         hei = boxSignup.frame.origin.y +  boxSignup.frame.height + 10
         
-
         signupView.addSubview(logoAbac)
         signupView.addSubview(boxFacebook)
         signupView.addSubview(boxOr)
@@ -621,6 +595,28 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         navigationController?.navigationBar.barTintColor = UIColor.red
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
+    
+    func isInternetAvailable() -> Bool
+    {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
+    }
+    
     
 }
 

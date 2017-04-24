@@ -26,7 +26,7 @@ class FacultyMajorModel {
         faculyId = 99999
         facultyName = "N/A"
         facultyAbb = "N/A"
-        imageURL = "N/A"
+        imageURL = ""
         description = "N/A"
         facebook = "N/A"
         webpage = "N/A"
@@ -38,7 +38,7 @@ class FacultyMajorModel {
         faculyId = dic["facultyID"] as! Int
         facultyName = dic["facultyName"] as! String
         facultyAbb = dic["facultyAbb"] as! String
-        imageURL = (dic["imageURL"] as? String ?? "N/A")
+        imageURL = (dic["imageURL"] as? String ?? "")
         description = (dic["description"] as? String ?? "N/A")
         facebook = (dic["facebook"] as? String ?? "N/A")
         webpage = (dic["webpage"] as? String ?? "N/A")
@@ -69,7 +69,7 @@ class MajorModel {
         degree = 99999
         degreeName = "N/A"
         departmentAbb = "N/A"
-        imageURL = "N/A"
+        imageURL = ""
         description = "N/A"
     }
     
@@ -79,7 +79,7 @@ class MajorModel {
         degree = dic["degree"] as! Int
         degreeName = (dic["degreeName"] as? String ?? "N/A")
         departmentAbb = (dic["departmentAbb"] as? String ?? "N/A")
-        imageURL = (dic["imageURL"] as? String ?? "N/A")
+        imageURL = (dic["imageURL"] as? String ?? "")
         description = (dic["description"] as? String ?? "N/A")
     }
     

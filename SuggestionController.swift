@@ -21,17 +21,17 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     var doneBut = UIButton()
     var navWid : CGFloat!
     var navIcon = UIImageView()
-    
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         navWid = self.navigationItem.titleView?.frame.width
         titleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         drawSuggestionFac()
         setTableview()
         Sidemenu()
         CustomNavbar()
+        stopIndicator()
         loadFacultyWS(sc:"0",lang:CRUDSettingValue.GetUserSetting())
         loadKeywordWS(lang:CRUDSettingValue.GetUserSetting())
         
@@ -61,7 +61,6 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         doneBut.backgroundColor = UIColor.red
         doneBut.addTarget(self, action: #selector(getChoose), for: .touchUpInside)
         FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-//        SuggestTableView.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
         SuggestTableView.backgroundColor = UIColor.white
         SuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid*0.8, height: scHei*0.71)
         SuggestTableView.separatorStyle = .none
@@ -73,6 +72,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             DispatchQueue.main.async( execute: {
                 self.facSugWs = responseData
                 self.FacSuggestTableView.reloadData()
+                self.stopIndicator()
             })
         }
     }
@@ -82,6 +82,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             DispatchQueue.main.async( execute: {
                 self.keywordWs = responseData
                 self.SuggestTableView.reloadData()
+                self.stopIndicator()
             })
         }
         
@@ -94,6 +95,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
                 code = code + String(i.keywordID) + ";"
             }
         }
+        self.startIndicator()
         loadFacultyWS(sc: "\(code)0", lang: CRUDSettingValue.GetUserSetting())
         buttonPressed(sender: UIButton())
     }
@@ -141,13 +143,20 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             vc.facCode = programe.facultyID
             vc.majorCode = programe.programID
             self.navigationController?.pushViewController(vc, animated: true)
-            //            let facController = MajorViewController()
-            //            facController.facCode = programe.facultyID
-            //            facController.majorCode = programe.programID
-            //            facController.facultyFullName = programe.facultyName
-            //            navigationController?.pushViewController(facController, animated: true)
         }
         
+    }
+    
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -181,19 +190,16 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         filterview.frame  = CGRect(x: scWid*0.1, y: 70, width: scWid * 0.8, height: scHei * 0.79)
         filterview.backgroundColor = UIColor.white
         
-//        filterview.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
         filterview.clipsToBounds = true
         filterview.layer.cornerRadius = 5
         self.view.addSubview(filterview)
         
         if filterview.isHidden{
             setView(view: filterview, hidden: false)
-//            filterview.isHidden = false
             FacSuggestTableView.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 0.5)
 
         }else {
             setView(view: filterview, hidden: true)
-//            filterview.isHidden = true
              FacSuggestTableView.backgroundColor = UIColor.clear
         }
         

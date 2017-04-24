@@ -12,14 +12,14 @@ class FacultyModel {
         faculyId = 99999
         facultyName = "N/A"
         facultyAbb = "N/A"
-        imageURL = "N/A"
+        imageURL = ""
     }
     
     init(dic : AnyObject) {
         faculyId = dic["facultyID"] as! Int
         facultyName = dic["facultyName"] as! String
         facultyAbb = dic["facultyAbb"] as! String
-        imageURL = (dic["imageURL"] as? String ?? "N/A")
+        imageURL = (dic["imageURL"] as? String ?? "")
     }
     
 }

@@ -82,14 +82,15 @@ class NewsTableViewController: UITableViewController {
 //        fnl.append(allNewsList[indexPath.row])
 //        let firstFac = allNewsList[indexPath.row]
 //        for c in allNewsList {
-//            if c.source == firstFac.source {
+//            if c == firstFac.source {
 //                fnl.append(c)
 //            }
 //        }
         
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "NewsInformationLayout") as! NewsInforViewController
-//        vc.facNewsList = fnl
-//        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = storyboard?.instantiateViewController(withIdentifier: "NewsInformationLayout") as! NewsInforViewController
+        vc.facNewsList = self.newsList
+        
+        self.navigationController?.pushViewController(vc, animated: true)
    }
     
     func reloadTableViewInNews(lang:String){
@@ -97,11 +98,9 @@ class NewsTableViewController: UITableViewController {
             DispatchQueue.main.async( execute: {
                 self.newsList = responseData
                 self.tableView.reloadData()
-//                print(self.faclist)
             })
         }
     }
-    
     
     func Sidemenu() {
         if revealViewController() != nil {
@@ -110,13 +109,11 @@ class NewsTableViewController: UITableViewController {
             revealViewController().rearViewRevealWidth = 275
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-//        SWRevealViewControllerDelegate.revealControllerPanGestureShouldBegin(<#T##SWRevealViewControllerDelegate#>)
     }
     
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
     }
 
     

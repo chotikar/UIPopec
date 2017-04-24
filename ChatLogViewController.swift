@@ -7,6 +7,7 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
     let ws = WebService.self
     let fm = FunctionMutual.self
     var facInfor : MessageModel!
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     var chatLog = [ChatLogModel]()
     var ownerName = CRUDProfileDevice.GetUserProfile()
     lazy var inputTextField : UITextField = {
@@ -67,6 +68,8 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
         self.view.addSubview(cvView)
         self.view.addSubview(cvSc)
+        startIndicator()
+        self.title = self.facInfor.programName
         cvView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
         cvView.backgroundColor = UIColor.white
         cvSc.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -95,26 +98,26 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
         // SignalR events
         
         connection.starting = { [weak self] in
-            self?.title = "Starting..."
+            print("Starting...")
         }
         
         connection.reconnecting = { [weak self] in
-            self?.title  = "Reconnecting..."
+             print("Reconnecting...")
         }
         
         connection.connected = { [weak self] in
             //print("Connection ID: \(self!.connection.connectionID!)")
-            
+            self?.stopIndicator()
             self?.joinGroup(userid: (self?.ownerName.userId)!, facid: (self?.facInfor.facId)!, proId: (self?.facInfor.programId)!)
-            self?.title  = "Connected"
+             print("Connected")
         }
         
         connection.reconnected = { [weak self] in
-            self?.title  = "Reconnected. Connection ID: \(self!.connection.connectionID!)"
+             print("Reconnected. Connection ID: \(self!.connection.connectionID!)")
         }
         
         connection.disconnected = { [weak self] in
-            self?.title  = "Disconnected"
+            print("Disconnected")
         }
         
         connection.connectionSlow = { print("Connection slow...") }
@@ -144,6 +147,18 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
     
     override var canBecomeFirstResponder: Bool {
         return true
+    }
+    
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
     }
     
     func  setupKeyboardObserver() {
@@ -254,7 +269,7 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
 
 
         
-        textView = UITextView(frame:  CGRect(x: 5, y: 0, width: logHei.width+10, height: logHei.height+10))
+        textView = UITextView(frame:  CGRect(x: 5, y: 0, width: logHei.width+10, height: logHei.height+20))
         textView.font = fm.setFontSizeLight(fs: 14)
         textView.text = log
         textView.translatesAutoresizingMaskIntoConstraints = false

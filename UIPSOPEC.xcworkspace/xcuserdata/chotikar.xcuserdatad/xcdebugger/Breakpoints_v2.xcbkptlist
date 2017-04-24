@@ -23,13 +23,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MajorViewController.swift"
-            timestampString = "514183018.537196"
+            filePath = "NewsInforViewController.swift"
+            timestampString = "514723502.933178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "drawMajorInformation()"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -40,12 +40,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UIPSOPEC/LoginViewController.swift"
-            timestampString = "514548473.75977"
+            timestampString = "514739861.000553"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "loginButton(_:didCompleteWith:error:)"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "getMessageListWs(uid:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

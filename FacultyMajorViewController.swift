@@ -20,9 +20,11 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     var location : UIView!
     var descrip : UITextView!
     var logo : UIImageView!
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startIndicator()
         reloadTableViewInFacMajor(facId: self.facultyCode,lang: CRUDSettingValue.GetUserSetting())
         self.majorTableView.delegate = self
         self.majorTableView.dataSource = self
@@ -30,7 +32,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         self.scoll.addSubview(majorTableView)
         self.navigationController?.navigationBar.tintColor = UIColor.white
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -43,6 +45,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
                 self.majorTableView.reloadData()
                 self.reloadInputViews()
                 self.setTableViewSize(majorNum: self.facultyMajorInformation.marjorList.count, content: self.drawNewsInformation())
+                self.stopIndicator()
             })
         }
     }
@@ -50,38 +53,42 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     func drawNewsInformation() -> CGFloat {
         var hei : CGFloat
         mainImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
-        mainImage.image = UIImage(named: "abacImg")
+        if self.facultyMajorInformation.imageURL == "" {
+            mainImage.image = UIImage(named:"abacImg")
+        }else{
+            mainImage.loadImageUsingCacheWithUrlString(urlStr: self.facultyMajorInformation.imageURL)
+        }
         self.scoll.addSubview(mainImage)
-         var texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: fm.setFontSizeBold(fs: 18), tbWid :scWid * 0.9 ).height + 5
+        var texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: fm.setFontSizeBold(fs: 18), tbWid :200)//.height + 5
         hei = mainImage.frame.origin.y + mainImage.frame.height + 10
         
-        facTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.9, height: texthei))
+        facTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.9, height: texthei.height))
         facTitle.text = self.facultyMajorInformation.facultyAbb
         facTitle.font = fm.setFontSizeBold(fs: 20)
         self.scoll.addSubview(facTitle)
         hei = facTitle.frame.origin.y + facTitle.frame.height
-
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyName,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.86).height
-        facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei))
+        
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyName,fontsize: fm.setFontSizeLight(fs: 15), tbWid : 200)
+        facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei.height))
         facSubtitle.text = self.facultyMajorInformation.facultyName
         facSubtitle.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facSubtitle)
-        hei = facSubtitle.frame.height + facSubtitle.frame.origin.y + 10
+        hei = facSubtitle.frame.height + facSubtitle.frame.origin.y
         
-//        texthei = fm.calculateHeiFromString(text:  "N/A",fontsize: fm.setFontSizeLight(fs: 12), tbWid: scWid*0.54).height+10
-//        location = UIView(frame: CGRect(x: scWid * 0.37, y: hei, width: scWid*0.54, height: texthei))
-//        self.scoll.addSubview(location)
-//        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 0, width: texthei, height: texthei))
-//        loIcon.image = UIImage(named: "locationnoGray")
-//        self.location.addSubview(loIcon)
-//        let loDef =  UILabel(frame: CGRect(x: texthei + 10, y: 0, width: location.bounds.width - (texthei+10), height: texthei))
-//        loDef.font = fm.setFontSizeLight(fs: 13)
-//        loDef.text = "Faculty's building"
-//        self.location.addSubview(loDef)
-//        hei = location.frame.height + location.frame.origin.y
+        //        texthei = fm.calculateHeiFromString(text:  "N/A",fontsize: fm.setFontSizeLight(fs: 12), tbWid: scWid*0.54).height+10
+        //        location = UIView(frame: CGRect(x: scWid * 0.37, y: hei, width: scWid*0.54, height: texthei))
+        //        self.scoll.addSubview(location)
+        //        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 0, width: texthei, height: texthei))
+        //        loIcon.image = UIImage(named: "locationnoGray")
+        //        self.location.addSubview(loIcon)
+        //        let loDef =  UILabel(frame: CGRect(x: texthei + 10, y: 0, width: location.bounds.width - (texthei+10), height: texthei))
+        //        loDef.font = fm.setFontSizeLight(fs: 13)
+        //        loDef.text = "Faculty's building"
+        //        self.location.addSubview(loDef)
+        //        hei = location.frame.height + location.frame.origin.y
         
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 12.5), tbWid : scWid * 0.86).height + 20
-        descrip  = UITextView(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid*0.86, height: texthei))
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 12.5), tbWid : 200)
+        descrip  = UITextView(frame: CGRect(x: scWid*0.07 , y: hei, width: scWid * 0.86, height: texthei.height+50))
         descrip.font = fm.setFontSizeLight(fs: 14)
         descrip.textAlignment = .justified
         descrip.isUserInteractionEnabled = false
@@ -90,15 +97,27 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         hei = descrip.frame.height + descrip.frame.origin.y
         
         logo = UIImageView(frame: CGRect(x: scWid*0.07, y: hei, width: scWid*0.3, height: scWid*0.3))
-        logo.image = UIImage(named: "vme_logo")
+        logo.image = UIImage(named: "\(self.facultyMajorInformation.facultyAbb)_logo")
         self.scoll.addSubview(logo)
         
-        return hei + scWid*0.15
+        return hei //+ scWid*0.15
     }
-
+    
     func setTableViewSize(majorNum : Int, content : CGFloat){
         self.majorTableView.frame = CGRect(x: 0, y: content, width: scWid, height: (scWid*0.7) * CGFloat(majorNum))
         self.scoll.contentSize = CGSize(width: scWid, height: content + self.majorTableView.frame.height)
+    }
+    
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
     }
     
     // Major Tableview
@@ -109,13 +128,17 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     var imageCache = [String]()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: majorCellItemId, for: indexPath) as! MajorCell
+        let majorIn = self.facultyMajorInformation.marjorList[indexPath.row]
         cell.selectionStyle = .none
-        if indexPath.row%2 == 0 {
-            cell.cgframe = CGRect(x: scWid*0.2, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
+        if majorIn.imageURL == ""{
+            cell.bgMajor.image = UIImage(named: "abacImg")
         }else{
-            cell.cgframe = CGRect(x: 0, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
+            cell.bgMajor.loadImageUsingCacheWithUrlString(urlStr: majorIn.imageURL)
+            
         }
-        cell.name.text = self.facultyMajorInformation.marjorList[indexPath.row].departmentName
+        cell.cgframe = CGRect(x: scWid*0.2, y: cell.frame.height*0.7, width: scWid*0.8, height: cell.frame.height*0.2)
+        
+        cell.name.text = majorIn.departmentName
         
         return cell
     }

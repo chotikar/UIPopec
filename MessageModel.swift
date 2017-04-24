@@ -34,5 +34,15 @@ class MessageModel {
         self.roomCode = dic["RoomName"] as? String
     }
 
+    init(uid : Int64 ,fn : String ,fid : Int ,pn : String , pid : Int){
+        self.facName = fn
+        self.facId = Int64(fid)
+        self.programId = Int64(pid)
+        self.programName = pn
+        self.date = "00:00:00"
+        self.time = "00:00:00"
+        self.mess = ""
+        self.roomCode = "\(uid)\(fid)\(pid)"
+    }
     
 }

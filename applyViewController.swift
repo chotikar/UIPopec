@@ -80,13 +80,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         satmath.text = "0"
         satwriting.text = "0"
         reloadTableViewInFac(lang: CRUDSettingValue.GetUserSetting())
-        
-        
-        
-        
-        //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        //
-        //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        changeLanguage(lang: CRUDSettingValue.GetUserSetting())
         
     }
     
@@ -357,6 +351,31 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
+    }
+    
+    func changeLanguage(lang: String) {
+        
+        if lang == "T" {
+            genderTextField.placeholder = "เพศ"
+            citizenNumber.placeholder = "หมายเลขประจำตัวประขาชน"
+            passportNumber.placeholder = "หมายเลขหนังสือเดินทาง"
+            Fname.placeholder = "ชื่อจริง"
+            Lname.placeholder = "นามสกุล"
+            nationality.placeholder = "สัญชาติ"
+            highschool.placeholder = "โรงเรียนมัธยมปลาย"
+            mobile.placeholder = "หมายเลขโทรศัพท์"
+            email.placeholder = "อีเมล์"
+            ielts.placeholder = "IELTS"
+            toefl.placeholder = "TOEFL"
+            appltBtn.titleLabel?.text = "สมัคร"
+            satwriting.placeholder = "SAT WRITING"
+            satmath.placeholder = "SAT MATH"
+            faculty.placeholder = "คณะ"
+            program.placeholder = "สาขา"
+            toefl_p.placeholder = "TOEFL P"
+            titleName.placeholder = "คำนำหน้า"
+            Birthdate.placeholder = "วันเกิด"
+        }
     }
 }
 

@@ -163,6 +163,11 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
             DispatchQueue.main.async( execute: {
                 self.userLoginInfor = responseData
                 if self.userLoginInfor.userId == 0 {
+                    
+                    let manage = FBSDKLoginManager()
+                    manage.logOut()
+                    FBSDKAccessToken.setCurrent(nil)
+                    FBSDKProfile.setCurrent(nil)
                     self.toastLogin(mess: self.userLoginInfor.result.message)
                 }else{
                     CRUDProfileDevice.ClearProfileDevice()

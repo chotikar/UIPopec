@@ -11,22 +11,38 @@ import UIKit
 class testViewController: UIViewController {
     
     var testUser = UserLogInDetail()
-
+    var toast : UIView!
+    let fm = FunctionMutual.self
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        CRUDProfileDevice.ClearProfileDevice()
-        testUser.userId = 99998
-        testUser.email = "MooktestEmail.com"
-        testUser.facebookId = "MookFacebookId"
-        testUser.facebookName = "MookFacebookName"
-        testUser.facebookAccessToken = "MookFacebookAccessToken"
-        testUser.udid = "MookUDID"
-        testUser.username = "MookUsername"
-        testUser.password = "MookPassword"
-        testUser.result = ResultModle()
-        CRUDProfileDevice.SaveProfileDevice(loginInfor: testUser)
-        let k = CRUDProfileDevice.GetUserProfile()
-        print(k.userId)
+//        testUser.userId = 99998
+//        testUser.email = "MooktestEmail.com"
+//        testUser.facebookId = "MookFacebookId"
+//        testUser.facebookName = "MookFacebookName"
+//        testUser.facebookAccessToken = "MookFacebookAccessToken"
+//        testUser.udid = "MookUDID"
+//        testUser.username = "MookUsername"
+//        testUser.password = "MookPassword"
+//        testUser.result = ResultModle()
+//        CRUDProfileDevice.SaveProfileDevice(loginInfor: testUser)
+//        let k = CRUDProfileDevice.GetUserProfile()
+//        print(k.userId)
+
+            toast = fm.toast(message: "HELLO WORLD NAKAAA")
+          self.view.addSubview(self.toast)
+                    UIView.animate(withDuration: 1.8, delay: 0.0, options: [], animations: {
+                        self.toast.backgroundColor = UIColor.darkGray
+                    }, completion: { (finished: Bool) in
+                        UIView.animate(withDuration: 2.5, delay: 0, options: [], animations: {
+                            self.toast.backgroundColor = UIColor.clear
+                           self.toast.isHidden = true
+                        }, completion: nil)
+
+                    })
+    
+
         
     }
 

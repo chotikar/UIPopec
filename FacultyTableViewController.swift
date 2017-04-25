@@ -64,7 +64,6 @@ class FacultyTableViewController: UITableViewController {
                 print("start faculty")
                 self.faclist = responseData
                 self.tableView.reloadData()
-                print(self.faclist)
                 self.stopIndicator()
             })
         }
@@ -82,10 +81,11 @@ class FacultyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: facCellItemId, for: indexPath) as! FacultyCell
         cell.selectionStyle = .none
         let facultyDetail = self.faclist[indexPath.row]
-////        cell.logo.image = UIImage(named: "vme_logo")
+        cell.facView.loadImageUsingCacheWithUrlString(urlStr: facultyDetail.imageURL)
+
+//        cell.logo.image = UIImage(named: "vme_logo")
 //        cell.facView.image = UIImage(named: "abaccl")
         cell.name.text = facultyDetail.facultyName
-//        cell.abb.text = facultyDetail.facultyAbb
         return cell
     }
     
@@ -100,31 +100,6 @@ class FacultyTableViewController: UITableViewController {
     }
 }
 
-//let imageCache = NSCache()
-//
-//extension UIImageView{
-//    func loadImageUsingUrl(urlString : String) {
-//        let url = NSURL(string: urlString)
-//        image = nil
-//        if let imgFromCache = imageCache.objectForKey(forKey: urlString as AnyObject) as? UIImage{
-//            self.image = imageCache
-//            return
-//        }
-//        
-//        URLSession.shared.dataTask(with: url, completionHandler:
-//            {(data, respones , Error) in
-//                if Error != nil {
-//                    print (Error)
-//                    return
-//                }
-//                dispatch_async(dispatch_get_main_queue(),{
-//                    let imageToCache = UIImage(data: data!)
-//                    imageCache.setObject(imageToCache!, forKey: urlString)
-//                    self.image = imageCache
-//                })
-//        }).resume()
-//    }
-//}
 
 class FacultyCell : UITableViewCell {
     
@@ -150,7 +125,7 @@ class FacultyCell : UITableViewCell {
         super.layoutSubviews()
         facView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.3)
         facView.alpha = 0.8
-        facView.image = UIImage(named: "abaccl")
+//        facView.image = UIImage(named: "abaccl")
         
         name.frame = CGRect(x: scWid * 0.05, y: scHei*0.1, width: scWid*0.9, height: scHei*0.3)
         name.textAlignment = NSTextAlignment.left

@@ -15,7 +15,7 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
     var newsSubtitle : UILabel!
     var location : UIView!
     var news : UITextView!
-
+    
     var testBox :UIView = {
         var vb = UIView()
         vb.frame = CGRect(x: 0, y: 0, width: scHei*0.05, height: scHei*0.07)
@@ -33,6 +33,7 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
     var newssugestiontitle : String = ""
     
     var facNewsList : [NewsModel]!
+    var showNewsModel : NewsModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,13 +41,16 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         self.SuggestionNewsCollection.dataSource = self
         self.view.addSubview(scoll)
         self.view.addSubview(SuggestionNewsCollection)
-//        self.scoll.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-        scoll.backgroundColor = UIColor.blue
+        //        if facNewsList.count == 0 || facNewsList == nil {
+        //            SuggestionNewsCollection.isHidden = true
+        //        }
+        //        self.scoll.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
+        showNewsModel = facNewsList[0]
         setcv(contentSize: drawNewsInformation())
         
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -54,70 +58,69 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
     
     func setcv(contentSize : CGFloat){
         self.SuggestionNewsCollection.frame = CGRect(x: scWid*0.05, y: contentSize, width: scWid*0.95, height: scHei*0.2)
-        self.SuggestionNewsCollection.backgroundColor = UIColor.red
         self.scoll.addSubview(self.SuggestionNewsCollection)
         self.scoll.contentSize = CGSize(width: scWid, height: contentSize+scHei*0.2)
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         self.SuggestionNewsCollection.collectionViewLayout = layout
-
+        
     }
     
     
-    var containHei : CGFloat = 0
+    //var containHei : CGFloat = 0
     
     // draw News Infromation layout
     func drawNewsInformation() -> CGFloat {
-        var heiCon : CGFloat = 0
-        mainImage = UIImageView(frame: CGRect(x: 0, y: scWid * 0.05, width: scWid, height: scWid*0.7))
-        mainImage.backgroundColor = UIColor.yellow
+        var heiCon = self.view.frame.origin.y
+        mainImage = UIImageView(frame: CGRect(x: 0, y: heiCon, width: scWid, height: scWid*0.8))
+        mainImage.loadImageUsingCacheWithUrlString(urlStr: showNewsModel.imageURL)
+        mainImage.image = UIImage(named:"abacImg")
         self.scoll.addSubview(mainImage)
-        newsTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: scWid * 0.8, width: scWid * 0.9, height: scWid * 0.1))
-        newsTitle.backgroundColor = UIColor.brown
+        heiCon = heiCon + mainImage.frame.height + 20
+        
+        var containHei = fm.calculateHeiFromString(text: showNewsModel.topic, fontsize: fm.setFontSizeBold(fs: 16), tbWid: scWid * 0.9)
+        newsTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: heiCon, width: scWid * 0.9, height: containHei.height))
+        newsTitle.text = showNewsModel.topic
         self.scoll.addSubview(newsTitle)
+        heiCon = heiCon + newsTitle.frame.height
         
-        newsSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y: scWid*0.92, width: scWid*0.86, height: scWid*0.1))
-        newsSubtitle.backgroundColor = UIColor.purple
+        containHei = fm.calculateHeiFromString(text: showNewsModel.typeName, fontsize: fm.setFontSizeBold(fs: 16), tbWid: scWid * 0.9)
+        newsSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y: heiCon, width: scWid*0.86, height: scWid*0.1))
+        newsSubtitle.text = showNewsModel.typeName
         self.scoll.addSubview(newsSubtitle)
+        heiCon = heiCon + newsSubtitle.frame.height
         
-        location = UIView(frame: CGRect(x: scWid * 0.37, y: scWid*1.04, width: scWid*0.54, height: scWid*0.1))
-        self.scoll.addSubview(location)
-        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 0, width: scWid*0.1, height: scWid*0.1))
-        loIcon.backgroundColor = UIColor.yellow
-        loIcon.image = UIImage(named: "locationnoGray")
-        self.location.addSubview(loIcon)
-        let loDef =  UIView(frame: CGRect(x: scWid*0.12, y: 0, width: location.bounds.width - (scWid*0.1), height: scWid*0.1))
-        loDef.backgroundColor = UIColor.gray
-        self.location.addSubview(loDef)
-        
-        news = UITextView(frame: CGRect(x: scWid * 0.07, y: scWid*1.16, width: scWid*0.86, height: scWid*0.1))
+        containHei = fm.calculateHeiFromString(text: showNewsModel.description, fontsize: fm.setFontSizeLight(fs: 12), tbWid: scWid * 0.9)
+        news = UITextView(frame: CGRect(x: scWid * 0.07, y: heiCon, width: scWid*0.86, height: containHei.height+20))
         news.font = UIFont.systemFont(ofSize: 13)
-        news.backgroundColor = UIColor.green
+        news.text = showNewsModel.description
         self.scoll.addSubview(news)
-         return (self.news.frame.origin.y + self.news.frame.height + scWid*0.1)
-//         (self.news.frame.origin.y + self.news.frame.height + scWid*0.1 + (self.navigationController?.navigationBar.frame.height)!) 
+        heiCon = heiCon + news.frame.height
         
+        
+        return heiCon + 50
     }
-    
     
     ////** Collection view setting
     
     //number of row
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10//facNewsList.count-1
+        if facNewsList.count < 5 {
+            return 0
+        }
+        return facNewsList.count-1
     }
     
     //action each cell in collection view
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "suggestionNewsItem", for: indexPath) as! SuggestionNewsCell
         cell.sugNewsImg.frame = CGRect(x: scHei*0.005, y: scHei*0.01, width: scHei*0.19, height: scHei*0.1)
-        cell.sugNewsImg.backgroundColor = UIColor.brown
+        cell.sugNewsImg.image = UIImage(named:"abacImg")
         cell.sugNewsTitle.frame = CGRect(x: scHei*0.005, y: scHei*0.115, width: scHei*0.19, height: scHei*0.08)
-        cell.sugNewsTitle.textColor = UIColor.white
-        cell.sugNewsTitle.text = ""
+        cell.sugNewsTitle.textColor = UIColor.darkText
+        cell.sugNewsTitle.text = facNewsList[indexPath.row+1].topic
         cell.sugNewsTitle.contentMode = UIViewContentMode.top
         cell.sugNewsTitle.font = UIFont.boldSystemFont(ofSize: 10)
-        cell.sugNewsTitle.backgroundColor = UIColor.blue
         return cell
     }
     
@@ -140,16 +143,6 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)], context: nil)
     }
- 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

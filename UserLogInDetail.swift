@@ -28,15 +28,16 @@ class UserLogInDetail {
     }
     
     init(obj : [NSManagedObject]) {
-        self.byFacebook = (obj.first?.value(forKey: "byFacebook") as? Int16)! ?? 0
-        self.userId = obj.first?.value(forKey: "userId") as? Int64 ?? 0
-        self.email = obj.first?.value(forKey: "email") as? String ?? "N/A"
-        self.facebookId = obj.first?.value(forKey: "facebook_id") as? String ?? "N/A"
-        self.facebookName = obj.first?.value(forKey: "facebook_name") as? String  ?? "N/A"
-        self.facebookAccessToken = obj.first?.value(forKey: "facebook_access_token") as? String ?? "N/A"
-        self.udid = obj.first?.value(forKey: "udid_device") as? String ?? "N/A"
-        self.username = obj.first?.value(forKey: "username") as? String ?? "N/A"
-        self.password = obj.first?.value(forKey: "password") as? String ?? "N/A"
+//        print(obj.first?.value(forKey: "byFacebook") as? Int16)
+        self.byFacebook = (obj.first?.value(forKey: "byFacebook") as? Int16)! 
+        self.userId = obj.first?.value(forKey: "userId") as? Int64
+        self.email = obj.first?.value(forKey: "email") as? String
+        self.facebookId = obj.first?.value(forKey: "facebook_id") as? String
+        self.facebookName = obj.first?.value(forKey: "facebook_name") as? String
+        self.facebookAccessToken = obj.first?.value(forKey: "facebook_access_token") as? String
+        self.udid = obj.first?.value(forKey: "udid_device") as? String
+        self.username = obj.first?.value(forKey: "username") as? String
+        self.password = obj.first?.value(forKey: "password") as? String
         self.result = ResultModle()
     }
     

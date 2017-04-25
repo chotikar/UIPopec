@@ -155,7 +155,7 @@ class ChatLogCollectionViewController: UICollectionViewController ,UICollectionV
     
     override var inputAccessoryView: UIView? {
         get {
-            getChatLogWs(rc: self.facInfor.roomCode)
+            //getChatLogWs(rc: self.facInfor.roomCode)
             return inputContainerView
         }
     }
@@ -269,6 +269,7 @@ class ChatLogCollectionViewController: UICollectionViewController ,UICollectionV
     //
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatMessageCell
+        
         let log = chatLog[indexPath.item]
         
         cell.textView.text = log.mess

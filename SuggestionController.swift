@@ -24,17 +24,17 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     var doneBut = UIButton()
     var navWid : CGFloat!
     var navIcon = UIImageView()
-    
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navWid = self.navigationItem.titleView?.frame.width
         titleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         drawSuggestionFac()
         setTableview()
         Sidemenu()
         CustomNavbar()
+        stopIndicator()
         loadFacultyWS(sc:"0",lang:CRUDSettingValue.GetUserSetting())
         loadKeywordWS(lang:CRUDSettingValue.GetUserSetting())
     }
@@ -80,6 +80,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             DispatchQueue.main.async( execute: {
                 self.facSugWs = responseData
                 self.FacSuggestTableView.reloadData()
+                self.stopIndicator()
             })
         }
     }
@@ -89,6 +90,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             DispatchQueue.main.async( execute: {
                 self.keywordWs = responseData
                 self.SuggestTableView.reloadData()
+                self.stopIndicator()
             })
         }
         
@@ -102,6 +104,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
                 word.append(String(i.keyword))
             }
         }
+        self.startIndicator()
         loadFacultyWS(sc: "\(code)0", lang: CRUDSettingValue.GetUserSetting())
         
         if word.isEmpty {
@@ -163,13 +166,20 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             vc.facCode = programe.facultyID
             vc.majorCode = programe.programID
             self.navigationController?.pushViewController(vc, animated: true)
-            //            let facController = MajorViewController()
-            //            facController.facCode = programe.facultyID
-            //            facController.majorCode = programe.programID
-            //            facController.facultyFullName = programe.facultyName
-            //            navigationController?.pushViewController(facController, animated: true)
         }
         
+    }
+    
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -226,23 +236,17 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         
         filterview.frame  = CGRect(x: scWid*0.1, y: 70, width: scWid * 0.8, height: scHei * 0.79)
         filterview.backgroundColor = UIColor.white
-        
-        //        filterview.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
         filterview.clipsToBounds = true
         filterview.layer.cornerRadius = 5
         self.view.addSubview(filterview)
         
         if filterview.isHidden{
             setView(view: filterview, hidden: false)
-            //            filterview.isHidden = false
             FacSuggestTableView.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 0.5)
-            
-        }else {
+        } else {
             setView(view: filterview, hidden: true)
-            //            filterview.isHidden = true
             FacSuggestTableView.backgroundColor = UIColor.clear
         }
-        
     }
     
     func setView(view: UIView, hidden: Bool) {
@@ -279,40 +283,38 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         self.navigationItem.titleView = myView
     }
     
-}
-
-class SuggestCell : UITableViewCell {
     
-    @IBOutlet var checkBut : UIButton!
-    @IBOutlet var keyword : UILabel!
-    let fm = FunctionMutual.self
-    var choose = false
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(checkBut)
-        self.contentView.addSubview(keyword)
+    class SuggestCell : UITableViewCell {
         
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        checkBut.frame = CGRect(x: scWid*0.05, y: scWid*0.01, width: scWid*0.08, height: scWid*0.08)
-        checkBut.addTarget(self, action: #selector(checkAction), for: .touchUpInside)
-        keyword.frame = CGRect(x: scWid*0.13, y: scWid*0.01, width: 0.23, height: scWid*0.08)    }
-    
-    
-    func checkAction(ui :AnyObject){
-        if choose {
-            checkBut.setImage(UIImage(named:"choose"), for: .normal)
-        }else{
-            checkBut.setImage(UIImage(named:"not choose"), for: .normal)
+        @IBOutlet var checkBut : UIButton!
+        @IBOutlet var keyword : UILabel!
+        let fm = FunctionMutual.self
+        var choose = false
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            self.contentView.addSubview(checkBut)
+            self.contentView.addSubview(keyword)
             
         }
+        
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
+        
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            checkBut.frame = CGRect(x: scWid*0.05, y: scWid*0.01, width: scWid*0.08, height: scWid*0.08)
+            checkBut.addTarget(self, action: #selector(checkAction), for: .touchUpInside)
+            keyword.frame = CGRect(x: scWid*0.13, y: scWid*0.01, width: 0.23, height: scWid*0.08)
+        }
+        
+        func checkAction(ui :AnyObject){
+            if choose {
+                checkBut.setImage(UIImage(named:"choose"), for: .normal)
+            }else{
+                checkBut.setImage(UIImage(named:"not choose"), for: .normal)
+                
+            }
+        }
     }
-    
 }
-

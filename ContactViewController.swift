@@ -21,12 +21,14 @@ class ContactViewController: UIViewController {
     }()
     
     var contactList :  [ContactModel] = []
-    
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         drawHeaderIn()
         Sidemenu()
         CustomNavbar()
+        startIndicator()
         reloadTableViewContact(language: CRUDSettingValue.GetUserSetting())
         
     }
@@ -36,10 +38,24 @@ class ContactViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
+    }
+
+    
     func reloadTableViewContact(language:String) {
         ws.GetContactRequireWS(lang: language) { (responseData : [ContactModel], nil) in DispatchQueue.main.async ( execute: {
             self.contactList = responseData
             self.scrollView.contentSize = CGSize(width:scWid,height:self.drawList(contactList: self.contactList))
+            self.stopIndicator()
         })
         }
     }

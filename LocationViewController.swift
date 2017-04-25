@@ -43,12 +43,13 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     let ws = WebService.self
     var placeList : [PlaceModel] = []
     let regionRadius: CLLocationDistance = 200
-    
+     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     override func viewDidLoad() {
         super.viewDidLoad()
         CustomNavbar()
         Sidemenu()
         self.title = "Map"
+        startIndicator()
         navigationBarHeight = (self.navigationController?.navigationBar.bounds.size.height)!
         setscreen(nav: navigationBarHeight)
         reloadTableViewInLocation(language: CRUDSettingValue.GetUserSetting())
@@ -58,6 +59,19 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func startIndicator(){
+        self.activityiIndicator.center = self.view.center
+        self.activityiIndicator.hidesWhenStopped = true
+        self.activityiIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityiIndicator)
+        activityiIndicator.startAnimating()
+    }
+    
+    func stopIndicator(){
+        self.activityiIndicator.stopAnimating()
+    }
+
     
     func setscreen(nav:CGFloat){
         self.view.addSubview(uiv)
@@ -85,6 +99,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
             DispatchQueue.main.async( execute: {
                 self.placeList = responseData
                 self.PlaceTableView.reloadData()
+                self.stopIndicator()
             })
         }
     }

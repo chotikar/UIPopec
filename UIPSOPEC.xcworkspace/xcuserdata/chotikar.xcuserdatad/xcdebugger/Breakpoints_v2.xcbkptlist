@@ -49,5 +49,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "UIPSOPEC/LoginViewController.swift"
+            timestampString = "514804980.51426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "sentSignupWS(byfb:userDe:imageUrl:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UIPSOPEC.LoginViewController.sentSignupWS (byfb : Swift.Int16, userDe : Swift.String, imageUrl : Swift.String) -&gt; ()"
+                  moduleName = "UIPSOPEC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chotikar/UIPopec/UIPSOPEC/LoginViewController.swift"
+                  timestampString = "514805519.719788"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "63">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UIPSOPEC.LoginViewController.sentSignupWS (byfb : Swift.Int16, userDe : Swift.String, imageUrl : Swift.String) -&gt; ()"
+                  moduleName = "UIPSOPEC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chotikar/UIPopec/UIPSOPEC/LoginViewController.swift"
+                  timestampString = "514805519.722286"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "1384">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

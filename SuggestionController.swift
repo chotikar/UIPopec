@@ -271,7 +271,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         titleButton.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
         titleButton.setTitle("Recommendation", for: .normal)
         titleButton.tintColor = UIColor.white
-        titleButton.titleLabel?.font = UIFont(name: "Gidole-Regular", size: 20)
+        titleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         
         let image: UIImage = UIImage(named: "arrow-down")!
         let myImageView: UIImageView = UIImageView(image: image)

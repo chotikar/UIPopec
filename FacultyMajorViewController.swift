@@ -52,7 +52,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     
     func drawNewsInformation() -> CGFloat {
         var hei : CGFloat
-        mainImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
+        mainImage = UIImageView(frame: CGRect(x: 0, y: 64, width: scWid, height: scWid*0.7))
         if self.facultyMajorInformation.imageURL == "" {
             mainImage.image = UIImage(named:"abacImg")
         }else{

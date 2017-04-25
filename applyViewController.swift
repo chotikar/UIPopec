@@ -121,7 +121,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
-    //check invalid text not complete *****************
+    //check invalid text
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == citizenNumber {
@@ -136,30 +136,32 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
                 passportNumber.isEnabled = true
             }
             if let text = textField.text {
-                //                passportNumber.isEnabled = false
                 if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
-                    if(text.characters.count != 12) {
-                        print(text.characters.count)
+                    if(text.characters.count == 1) {
                         floatingLabelTextField.errorMessage = ""
-                        
+                    }else if (text.characters.count != 12){
+                        floatingLabelTextField.errorMessage = "Invalid Thai Citizen Number"
                     }
                     else {
                         // The error message will only disappear when we reset it to nil or empty string
-                        floatingLabelTextField.errorMessage = "TestCheck"
+                        floatingLabelTextField.errorMessage = ""
                         
                     }
                 }
             }
-        } else if textField == email {   //reverse not complete!!!!1
+        } else if textField == email {
             if let text = textField.text {
                 if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
                     if (!text.contains("@")) {
                         print (text.characters.count)
-                        floatingLabelTextField.errorMessage = ""
+                        floatingLabelTextField.errorMessage = "Invalid Email Format"
                     }
+                        //                    else if (text.characters.count == 1){
+                        //                        // The error message will only disappear when we reset it to nil or empty string
+                        //                        floatingLabelTextField.errorMessage = ""
+                        //                    }
                     else {
-                        // The error message will only disappear when we reset it to nil or empty string
-                        floatingLabelTextField.errorMessage = "TestCheck"
+                        floatingLabelTextField.errorMessage = ""
                     }
                 }
             }
@@ -174,7 +176,6 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
                 check = true
                 citizenNumber.isEnabled = true
             }
-            
         }
         return true
     }
@@ -331,58 +332,27 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     //------------ Move keyboard up when input textfield (out of screen)
+    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
+        let moveDuration = 0.1
+        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+        
+        UIView.beginAnimations("animateTextField", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(moveDuration)
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
+    }
     
-    //        func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
-    //            let moveDuration = 0.1
-    //            let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-    //
-    //            UIView.beginAnimations("animateTextField", context: nil)
-    //            UIView.setAnimationBeginsFromCurrentState(true)
-    //            UIView.setAnimationDuration(moveDuration)
-    //            self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-    //            UIView.commitAnimations()
-    //        }
-    //
-    //        func textFieldDidBeginEditing(_ textField: UITextField) {
-    //            if (textField == self.email || textField == self.ielts || textField == self.toefl) {
-    //                moveTextField(textField, moveDistance: -210, up: true)
-    //            }
-    //        }
-    //
-    //        func textFieldDidEndEditing(_ textField: UITextField) {
-    //            if (textField == self.email || textField == self.ielts || textField == self.toefl) {
-    //                moveTextField(textField, moveDistance: -210, up: false)
-    //            }
-    //        }
-    
-    //
-    //    override func viewWillDisappear(_ animated: Bool) {
-    //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    //    }
-    //
-    //    func adjustingHeight(show:Bool, notification:NSNotification) {
-    //        // 1
-    //        var userInfo = notification.userInfo!
-    //        // 2
-    //        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-    //        // 3
-    //        let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
-    //        // 4
-    //        let changeInHeight = (keyboardFrame.height + 40) * (show ? 1 : -1)
-    //        //5
-    //        UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
-    //            self.bottomConstraint.constant += changeInHeight
-    //        })
-    //    }
-    
-    //    func handleKeyboardWillShow(notification: NSNotification) {
-    //        adjustingHeight(show: true, notification: notification)    }
-    //
-    //    func handleKeyboardWillHide(notification: NSNotification){
-    //         adjustingHeight(show: false, notification: notification)    }
-    //
-    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if (textField == self.email || textField == self.ielts || textField == self.toefl || textField == self.toefl_p || textField == self.satmath || textField == self.satwriting) {
+            moveTextField(textField, moveDistance: -210, up: true)
+        }
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if (textField == self.email || textField == self.ielts || textField == self.toefl || textField == self.toefl_p || textField == self.satmath || textField == self.satwriting) {
+            moveTextField(textField, moveDistance: -210, up: false)
+        }
+    }
     // hide keyboard with return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)

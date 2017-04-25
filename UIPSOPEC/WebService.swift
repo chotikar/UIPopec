@@ -17,7 +17,7 @@ class WebService {
     {
         var facultyList : [FacultyModel] = []
         let url = NSURL(string: "\(domainName)Faculty/GetFacultyList?language=\(language)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -43,7 +43,7 @@ class WebService {
     {
         var facultyMajor = FacultyMajorModel()
         let url = NSURL(string: "\(domainName)Faculty/GetFacultyDetail?facultyID=\(facultyId)&language=\(language)")
-        print(url)
+//        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -67,7 +67,7 @@ class WebService {
     {
         var major = MajorModel()
         let url = NSURL(string: "\(domainName)Faculty/GetDepartmentDetail?facultyID=\(facultyId)&departmentID=\(departmentId)&language=\(language)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -92,7 +92,7 @@ class WebService {
     {
         var NewsList : [NewsModel] = []
         let url = NSURL(string: "\(domainName)News/GetNews?lastNewsId=\(lastNewsId)&numberOfNews=\(numberOfNews)&language=\(lang)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -119,7 +119,7 @@ class WebService {
         
         var ContactList : [ContactModel] = []
         let url = NSURL(string: "\(domainName)Contact/GetAllContact?language=\(lang)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -146,7 +146,7 @@ class WebService {
         
         var PlaceList : [PlaceModel] = []
         let url = NSURL(string: "\(domainName)Location/GetAllLocation?language=\(lang)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -172,7 +172,7 @@ class WebService {
     static func GetCalendarWS (completion:@escaping (_ responseData:[CalendarModel],_ errorMessage:NSError?) -> Void) {
         var CalendarEvent : [CalendarModel] = []
         let url = NSURL(string: "\(domainName)Calendar/GetCalendar?year=2017&language=E")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -227,7 +227,7 @@ class WebService {
     {
         var KeyWordList : [KeyWordModel] = []
         let url = NSURL(string: "\(domainName)Suggestion/GetKeywordList?language=\(lang)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -283,7 +283,7 @@ class WebService {
         var signUpInformation : UserLogInDetail!
         let url = NSURL(string:"\(domainName)Chat/SignUp?byFacebook=\(byfacebook)&userDetail=\(userDetail)&deviceID=\(deviceId)&imageURL=\(imageUrl)")
         
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -306,7 +306,7 @@ class WebService {
     {
         var loginInformation : UserLogInDetail!
         let url = NSURL(string: "\(domainName)Chat/SignIn?byFacebook=\(byfacebook)&userDetail=\(userDetail)&deviceID=\(deviceId)")
-        print(url)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)

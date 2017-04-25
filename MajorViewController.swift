@@ -24,6 +24,7 @@ class MajorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
          self.view.addSubview(scoll)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         reloadMajor(facId: facCode, majorId: majorCode,lang: CRUDSettingValue.GetUserSetting())
        
         

@@ -9,14 +9,17 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     @IBOutlet weak var FacSuggestTableView: UITableView!
     @IBOutlet weak var SuggestTableView:UITableView!
     @IBOutlet weak var MenuButton: UIBarButtonItem!
+    var word = [String]()
+    var result: UIView!
+    var resultword: UILabel!
     var facSugWs = [FacSuggestionModel]()
     var keywordWs = [KeyWordModel]()
     let filterview = UIView()
-    let grayview = UIView()
     let ws = WebService.self
+    let fm = FunctionMutual.self
     let facSuggestId = "facSugCellID"
     let suggestId = "sugCellID"
-    
+    var count:Int = 0
     var titleButton = UIButton()
     var doneBut = UIButton()
     var navWid : CGFloat!
@@ -25,7 +28,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         navWid = self.navigationItem.titleView?.frame.width
         titleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         drawSuggestionFac()
@@ -34,9 +37,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         CustomNavbar()
         loadFacultyWS(sc:"0",lang:CRUDSettingValue.GetUserSetting())
         loadKeywordWS(lang:CRUDSettingValue.GetUserSetting())
-        
     }
-
     
     func setTableview(){
         SuggestTableView.delegate = self
@@ -49,9 +50,13 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     }
     
     func drawSuggestionFac(){
+        
+        result = UIView(frame: CGRect(x: 0, y: 65, width: scWid, height: 10))
         self.view.addSubview(FacSuggestTableView)
         self.filterview.addSubview(SuggestTableView)
         self.filterview.addSubview(doneBut)
+        self.view.addSubview(result)
+        
         
         doneBut.setTitle("Done", for: .normal)
         doneBut.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
@@ -60,11 +65,13 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         doneBut.frame = CGRect(x: scWid * 0.15, y: scHei*0.725, width: scWid*0.5, height: scHei*0.05 )
         doneBut.backgroundColor = UIColor.red
         doneBut.addTarget(self, action: #selector(getChoose), for: .touchUpInside)
-        FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-//        SuggestTableView.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
+        
+        FacSuggestTableView.frame = CGRect(x: 0, y: 65, width: scWid, height: scHei - 65)
+        
         SuggestTableView.backgroundColor = UIColor.white
         SuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid*0.8, height: scHei*0.71)
         SuggestTableView.separatorStyle = .none
+        
         
     }
     
@@ -92,11 +99,26 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         for i in self.keywordWs {
             if i.choose{
                 code = code + String(i.keywordID) + ";"
+                word.append(String(i.keyword))
             }
         }
         loadFacultyWS(sc: "\(code)0", lang: CRUDSettingValue.GetUserSetting())
+        
+        if word.isEmpty {
+            result.isHidden = true
+            FacSuggestTableView.frame = CGRect(x: 0, y: 65, width: scWid, height: scHei - 65)
+            
+        }else {
+            FacSuggestTableView.frame = CGRect(x: 0, y: result.frame.height + result.frame.origin.y + 15, width: scWid, height: scHei - (result.frame.height + result.frame.origin.y + 15))
+            showresult()
+            self.result.setNeedsLayout()
+            self.resultword.setNeedsLayout()
+        }
+        print ("word: \(word)")
+        word.removeAll()
         buttonPressed(sender: UIButton())
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.SuggestTableView {
@@ -175,28 +197,58 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         
     }
     
+    func showresult() {
+        var xPos:CGFloat = 10
+        result.isHidden  = false
+        result = UIView(frame: CGRect(x: 0, y: 65, width: scWid, height: 19.5))
+        result.backgroundColor = UIColor.white
+        self.view.addSubview(result)
+        for i in word {
+            resultword = UILabel(frame: CGRect(x: xPos, y: 2.5, width: scWid, height: scHei))
+            resultword.text = " \(i) "
+            resultword.backgroundColor = UIColor.red
+            resultword.layer.cornerRadius = 3
+            resultword.font = UIFont.boldSystemFont(ofSize: 14)
+            resultword.numberOfLines = 1
+            resultword.textColor = UIColor.white
+            resultword.textAlignment = .center
+            resultword.sizeToFit()
+            resultword.clipsToBounds = true
+            self.result.addSubview(resultword)
+            xPos = xPos + resultword.frame.size.width + 10
+            print ("i : \(i)")
+            self.resultword.setNeedsLayout()
+        }
+        
+    }
     
     func buttonPressed(sender: AnyObject) {
-       
+        
         filterview.frame  = CGRect(x: scWid*0.1, y: 70, width: scWid * 0.8, height: scHei * 0.79)
         filterview.backgroundColor = UIColor.white
         
-//        filterview.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
+        //        filterview.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
         filterview.clipsToBounds = true
         filterview.layer.cornerRadius = 5
         self.view.addSubview(filterview)
         
         if filterview.isHidden{
             setView(view: filterview, hidden: false)
-//            filterview.isHidden = false
+            //            filterview.isHidden = false
             FacSuggestTableView.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 0.5)
-
+            
         }else {
             setView(view: filterview, hidden: true)
-//            filterview.isHidden = true
-             FacSuggestTableView.backgroundColor = UIColor.clear
+            //            filterview.isHidden = true
+            FacSuggestTableView.backgroundColor = UIColor.clear
         }
         
+    }
+    
+    func setView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 0.2, options: .transitionCrossDissolve, animations: { _ in
+            view.isHidden = hidden
+        }, completion: nil)
     }
     
     func Sidemenu() {
@@ -215,7 +267,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         titleButton.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
         titleButton.setTitle("Recommendation", for: .normal)
         titleButton.tintColor = UIColor.white
-        titleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        titleButton.titleLabel?.font = UIFont(name: "Gidole-Regular", size: 20)
         
         let image: UIImage = UIImage(named: "arrow-down")!
         let myImageView: UIImageView = UIImageView(image: image)
@@ -225,14 +277,6 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         myView.backgroundColor = UIColor.clear
         myView.addSubview(myImageView)
         self.navigationItem.titleView = myView
-        
-        
-    }
-    
-    func setView(view: UIView, hidden: Bool) {
-        UIView.transition(with: view, duration: 0.2, options: .transitionCrossDissolve, animations: { _ in
-            view.isHidden = hidden
-        }, completion: nil)
     }
     
 }

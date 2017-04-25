@@ -48,12 +48,7 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Bariol_Bold.ttf</string>
-		<string>Bariol_Light.ttf</string>
-		<string>Bariol_Regular_Italic.ttf</string>
-		<string>Bariol_Regular.otf</string>
-		<string>Roboto-Bold.ttf</string>
-		<string>Roboto-Light.ttf</string>
+		<string>Gidole_Regular.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

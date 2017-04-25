@@ -116,7 +116,7 @@ class NewsTableViewController: UITableViewController {
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
+       
     }
 
     

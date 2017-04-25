@@ -11,11 +11,11 @@ class FunctionMutual {
     }
     
     static func setFontSizeLight(fs : CGFloat) -> UIFont {
-        return UIFont(name: "Roboto-Light", size: fs)!
+        return UIFont(name: "Gidole-Regular", size: fs)!
     }
     
     static func setFontSizeBold(fs : CGFloat) -> UIFont {
-        return UIFont(name: "Roboto-Bold", size: fs)!
+        return UIFont(name: "Gidole-Regular", size: fs)!
     }
     
     static func getColorrgb(r:CGFloat , g : CGFloat, b: CGFloat,al : CGFloat) -> UIColor{

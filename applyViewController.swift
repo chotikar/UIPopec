@@ -30,20 +30,27 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var appltBtn: UIButton!
     @IBOutlet weak var satwriting: SkyFloatingLabelTextField!
     @IBOutlet weak var satmath: SkyFloatingLabelTextField!
+    @IBOutlet weak var faculty: SkyFloatingLabelTextField!
+    @IBOutlet weak var program: SkyFloatingLabelTextField!
+    @IBOutlet weak var toefl_p: SkyFloatingLabelTextField!
     
     let datePicker = UIDatePicker()
     let picker1 = UIPickerView()
     let picker2 = UIPickerView()
+    let picker3 = UIPickerView()
+    let picker4 = UIPickerView()
     var Title_Name  = ["MR.", "MS.", "MRS."]
     var Gender = ["Male" , "Female"]
+    var faclist : [FacultyModel] = []
+    var factCode: Int!
+    var programCode: Int!
+    var facultyMajorInformation = FacultyMajorModel()
     let ws = WebService.self
     var check = true
     
     //    var textFields: [SkyFloatingLabelTextField]
     //    var isSubmitButtonPressed = false
     //    var showingTitleInProgress = false
-    //
-    @IBOutlet weak var Scroll: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +61,28 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         picker1.dataSource = self
         picker2.delegate = self
         picker2.dataSource = self
+        picker3.delegate = self
+        picker3.dataSource = self
+        picker4.delegate = self
+        picker4.dataSource = self
         titleName.inputView = picker1
         genderTextField.inputView = picker2
+        faculty.inputView = picker3
+        program.inputView = picker4
         createDatePicker()
         customlayout()
+        genderTextField.text = "Male"
+        titleName.text = "MR."
+        Birthdate.text = "01/01/1997"
+        ielts.text = "0"
+        toefl.text = "0"
+        toefl_p.text = "0"
+        satmath.text = "0"
+        satwriting.text = "0"
+        reloadTableViewInFac(lang: CRUDSettingValue.GetUserSetting())
+        
+        
+        
         
         //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //
@@ -78,6 +103,22 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         navigationController?.navigationBar.barTintColor = UIColor.red
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
+    }
+    
+    func reloadTableViewInFac(lang:String){
+        ws.GetFacultyWS(language: lang) { (responseData: [FacultyModel], nil) in
+            DispatchQueue.main.async( execute: {
+                self.faclist = responseData
+            })
+        }
+    }
+    
+    func reloadTableViewInFacMajor(facId : Int,lang:String) {
+        WebService.GetMajorWS(facultyId: facId,language: lang){ (responseData: FacultyMajorModel, nil) in
+            DispatchQueue.main.async( execute: {
+                self.facultyMajorInformation = responseData
+            })
+        }
     }
     
     //check invalid text not complete *****************
@@ -147,45 +188,59 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
             cutwordGender = "F"
         }
         
+        var numberInput = ""
+        if check == true {
+            numberInput = citizenNumber.text!
+            print("----\(numberInput)")
+        }else if check == false {
+            numberInput = passportNumber.text!
+            print("----\(numberInput)")
+        }
+        
         //        if citizenNumber.text! == "" {
-        //            iosToast(noti: "Please Input Citizen Number")
-        //        }else if Fname.text! == "" {
-        //            iosToast(noti: "Please Input First Name")
-        //        }else if Lname.text! == "" {
-        //            iosToast(noti: "Please Input Last Name")
-        //        }else if nationality.text! == "" {
-        //            iosToast(noti: "Please Input Nationality")
-        //        }else if Birthdate.text! == "" {
-        //            iosToast(noti: "Please Select Birthdate")
-        //        }else if mobile.text! == "" {
-        //            iosToast(noti: "Please Input Mobile Number")
-        //        }else if email.text! == "" {
-        //            iosToast(noti: "Please Input Email")
-        //        }else if highschool.text! == "" {
-        //            iosToast(noti: "Please Input HighSchool")
-        //        }else {
-        let alert = UIAlertController(title: "Do you want to apply?", message: "", preferredStyle: UIAlertControllerStyle.alert)
-        let cofirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
-            
-            self.ws.ApplyWS(Semester: 2, Year: 2017, isThai: self.check, Citizen: self.citizenNumber.text!, titlename: self.titleName.text!, fname: self.Fname.text!, lname: self.Lname.text!, gender: cutwordGender, national: self.nationality.text!, birthdate: self.Birthdate.text!, mobile: self.mobile.text!, email: self.email.text!, highsch: self.highschool.text!, degree: 3, facultyID: 11, programID: 2, ielts: Int(self.ielts.text!)!, toefl_ibt: Int(self.toefl.text!)!, toefl_p: 30, sat_math: Int(self.satmath.text!)!, sat_writing: Int(self.satwriting.text!)!)
-            
-            
-            let alertt = UIAlertController(title: "Application success", message: "", preferredStyle: UIAlertControllerStyle.alert)
-            let cofirmAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+        //            iosToast(noti: "Please Input Citizen or Passport Number")
+        //        }else
+        
+        if faculty.text! == ""{
+            iosToast(noti: "Please Select Faculty")
+        }else if program.text! == "" {
+             iosToast(noti: "Please Select Program")
+        }else if Fname.text! == "" {
+            iosToast(noti: "Please Input First Name")
+        }else if Lname.text! == "" {
+            iosToast(noti: "Please Input Last Name")
+        }else if nationality.text! == "" {
+            iosToast(noti: "Please Input Nationality")
+        }else if Birthdate.text! == "" {
+            iosToast(noti: "Please Select Birthdate")
+        }else if highschool.text! == "" {
+            iosToast(noti: "Please Input HighSchool")
+        }else if mobile.text! == "" {
+            iosToast(noti: "Please Input Mobile Number")
+        }else if email.text! == "" {
+            iosToast(noti: "Please Input Email")
+        }else {
+            let alert = UIAlertController(title: "Do you want to apply?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+            let cofirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+                
+                self.ws.ApplyWS(Semester: 2, Year: 2017, isThai: self.check, Citizen: numberInput, titlename: self.titleName.text!, fname: self.Fname.text!, lname: self.Lname.text!, gender: cutwordGender, national: self.nationality.text!, birthdate: self.Birthdate.text!, mobile: self.mobile.text!, email: self.email.text!, highsch: self.highschool.text!, degree: 3, facultyID: self.factCode, programID: self.programCode, ielts: Int(self.ielts.text!)!, toefl_ibt: Int(self.toefl.text!)!, toefl_p: Int(self.toefl_p.text!)!, sat_math: Int(self.satmath.text!)!, sat_writing: Int(self.satwriting.text!)!)
+                
+                
+                let alertt = UIAlertController(title: "Application success", message: "", preferredStyle: UIAlertControllerStyle.alert)
+                let cofirmAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+                }
+                
+                alertt.addAction(cofirmAction)
+                self.present(alertt, animated: true, completion: nil)
+                
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             }
             
-            alertt.addAction(cofirmAction)
-            self.present(alertt, animated: true, completion: nil)
-            
+            alert.addAction(cofirmAction)
+            alert.addAction(cancelAction )
+            self.present(alert, animated: true, completion: nil)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
-        }
-        
-        alert.addAction(cofirmAction)
-        alert.addAction(cancelAction )
-        self.present(alert, animated: true, completion: nil)
-        //        }
-        
     }
     
     func iosToast(noti:String){
@@ -195,8 +250,6 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
     
-  
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -205,9 +258,12 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         var count: Int = Title_Name.count
         if pickerView == picker2 {
             count = self.Gender.count
+        }else if pickerView == picker3 {
+            count = faclist.count
+        }else if pickerView == picker4 {
+            count = facultyMajorInformation.marjorList.count
         }
         return count
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -217,24 +273,38 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         }else if pickerView == picker2 {
             let title = Gender[row]
             return title
+        }else if pickerView == picker3 {
+            let title = faclist[row].facultyName
+            return title
+        }else if pickerView == picker4 {
+            let title = facultyMajorInformation.marjorList[row].departmentName
+            return title
         }
         return ""
     }
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == picker1 {
             self.titleName.text = self.Title_Name[row]
-            //            self.picker1.isHidden = true
-            
         }else if pickerView == picker2 {
             self.genderTextField.text = self.Gender[row]
-            //            self.picker2.isHidden = true
+        }else if pickerView == picker3 {
+            self.faculty.text = self.faclist[row].facultyName
+            factCode = self.faclist[row].faculyId
+            reloadTableViewInFacMajor(facId: factCode, lang: CRUDSettingValue.GetUserSetting())
+        }else if pickerView == picker4 {
+            self.program.text = self.facultyMajorInformation.marjorList[row].departmentName
+            programCode = self.facultyMajorInformation.marjorList[row].departmentId
         }
         self.view.endEditing(false)
     }
     
+    let dateFormatter = DateFormatter()
     func createDatePicker() {
+        
+        dateFormatter.dateFormat = "dd/MM/yyyy"
         datePicker.datePickerMode = .date
+        datePicker.date = dateFormatter.date(from: "01/01/1997")!
+        
         let toolbar  = UIToolbar()
         toolbar.sizeToFit()
         
@@ -246,9 +316,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func donePress () {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyy"
-        
+        dateFormatter.dateFormat = "dd/MM/yyyy"
         Birthdate.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
         
@@ -315,14 +383,11 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     //         adjustingHeight(show: false, notification: notification)    }
     //
     
-    
     // hide keyboard with return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
     }
-    
-    
 }
 
 

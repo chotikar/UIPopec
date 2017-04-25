@@ -24,6 +24,8 @@ class MenuSideTableViewController: UITableViewController {
             recommend.text = "Program Recommendation"
             chat.text = "Chat"
             contact.text = "Contact Us"
+            abactitle.text = "Assumption University"
+            
             print ("eng")
         }else {
             CRUDSettingValue.UpdateSetting(lang: "T")
@@ -36,6 +38,7 @@ class MenuSideTableViewController: UITableViewController {
             recommend.text = "แนะนำหลักสูตร"
             chat.text = "คุยกับเจ้าหน้าที่"
             contact.text = "ติดต่อ"
+            abactitle.text = "มหาวิทยาลัย  อัสสัมชัญ"
              print ("Thai")
         }
     }
@@ -45,7 +48,6 @@ class MenuSideTableViewController: UITableViewController {
         Menutable.separatorStyle = .none
 //        Menutable.backgroundColor = UIColor.red
         self.navigationController?.navigationBar.isTranslucent = true
-        
         
     }
     
@@ -59,5 +61,6 @@ class MenuSideTableViewController: UITableViewController {
     @IBOutlet var recommend:UILabel!
     @IBOutlet var chat:UILabel!
     @IBOutlet var contact:UILabel!
+    @IBOutlet var abactitle:UILabel!
     
 }

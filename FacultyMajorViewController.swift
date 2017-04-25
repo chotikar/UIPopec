@@ -52,7 +52,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     
     func drawNewsInformation() -> CGFloat {
         var hei : CGFloat
-        mainImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
+        mainImage = UIImageView(frame: CGRect(x: 0, y: 64, width: scWid, height: scWid*0.7))
         if self.facultyMajorInformation.imageURL == "" {
             mainImage.image = UIImage(named:"abacImg")
         }else{
@@ -62,14 +62,14 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         var texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: fm.setFontSizeBold(fs: 18), tbWid :200)//.height + 5
         hei = mainImage.frame.origin.y + mainImage.frame.height + 10
         
-        facTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.9, height: texthei.height))
+        facTitle = UILabel(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid * 0.6, height: texthei.height))
         facTitle.text = self.facultyMajorInformation.facultyAbb
         facTitle.font = fm.setFontSizeBold(fs: 20)
         self.scoll.addSubview(facTitle)
         hei = facTitle.frame.origin.y + facTitle.frame.height
         
         texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyName,fontsize: fm.setFontSizeLight(fs: 15), tbWid : 200)
-        facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei.height))
+        facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei.height ))
         facSubtitle.text = self.facultyMajorInformation.facultyName
         facSubtitle.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facSubtitle)
@@ -88,11 +88,11 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         //        hei = location.frame.height + location.frame.origin.y
         
         texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 12.5), tbWid : 200)
-        descrip  = UITextView(frame: CGRect(x: scWid*0.07 , y: hei, width: scWid * 0.86, height: texthei.height+50))
+        descrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei, width: scWid * 0.86, height: texthei.height ))
         descrip.font = fm.setFontSizeLight(fs: 14)
         descrip.textAlignment = .justified
         descrip.isUserInteractionEnabled = false
-        descrip.text = "\(self.facultyMajorInformation.description as! String)"
+        descrip.text = "   \(self.facultyMajorInformation.description!)"
         self.scoll.addSubview(descrip)
         hei = descrip.frame.height + descrip.frame.origin.y
         

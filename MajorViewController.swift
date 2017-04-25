@@ -88,7 +88,7 @@ class MajorViewController: UIViewController {
     
     func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
-        majorImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
+        majorImage = UIImageView(frame: CGRect(x: 0, y: 64, width: scWid, height: scWid*0.7))
         if self.majorInformation.imageURL == "" {
             majorImage.image = UIImage(named: "abacImg")
         }else{
@@ -99,37 +99,38 @@ class MajorViewController: UIViewController {
         
         hei = majorImage.frame.origin.y + majorImage.frame.height+20
         var texthei = fm.calculateHeiFromString(text: self.majorInformation.departmentName,fontsize: fm.setFontSizeBold(fs: 15), tbWid :scWid * 0.9 )//.height
-        majorTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.9, height: texthei.height))
+        majorTitle = UILabel(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid * 0.9, height: texthei.height + 5))
         majorTitle.text = self.majorInformation.departmentName
-        majorTitle.font = fm.setFontSizeBold(fs: 16)
+        majorTitle.font = fm.setFontSizeBold(fs: 20)
         self.scoll.addSubview(majorTitle)
         
-        hei = majorTitle.frame.origin.y + majorTitle.frame.height
+        hei = majorTitle.frame.origin.y + majorTitle.frame.height + 10
         texthei = fm.calculateHeiFromString(text: self.facultyFullName,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.9)
-        facName = UILabel(frame: CGRect(x: scWid * 0.05, y:  hei, width: scWid*0.9, height: texthei.height))
+        facName = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.9, height: texthei.height))
         facName.text = self.facultyFullName
         facName.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facName)
         
         hei = facName.frame.height + facName.frame.origin.y
         texthei = fm.calculateHeiFromString(text: self.majorInformation.description,fontsize:fm.setFontSizeLight(fs: 12.5), tbWid : 200)//.height
-        majorDescrip  = UITextView(frame: CGRect(x: scWid*0.07 , y: hei + 10, width: scWid * 0.86, height: texthei.height+15))
+        majorDescrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei + 10, width: scWid * 0.86, height: texthei.height+15))
         majorDescrip.font = fm.setFontSizeLight(fs: 14)
         majorDescrip.textAlignment = .left
         majorDescrip.isUserInteractionEnabled = false
-        majorDescrip.text = "\(self.majorInformation.description!)"
+        majorDescrip.text = "    \(self.majorInformation.description!)"
         self.scoll.addSubview(majorDescrip)
         
-        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y
+        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y - 20
         // FIXME: CURRICULUM
         let boxCurri = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxCurri.backgroundColor = UIColor.clear
-        let curriIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.1, height:  scWid * 0.1))
+        let curriIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
         curriIcon.image = UIImage(named: "curriculum")
-        let curriLabel = UILabel(frame: CGRect(x: (scWid*0.15)+10, y: hei, width: (scWid*0.8)-10, height:  scWid * 0.1))
+        let curriLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
         curriLabel.text = "Curriculum"
         curriLabel.textColor = UIColor.gray
         curriLabel.textAlignment = .left
+        curriLabel.font = UIFont(name: "Gidole-Regular", size: 15)
         self.scoll.addSubview(curriLabel)
         self.scoll.addSubview(curriIcon)
         self.scoll.addSubview(boxCurri)
@@ -137,12 +138,13 @@ class MajorViewController: UIViewController {
         hei = curriIcon.frame.height + curriIcon.frame.origin.y + 5
         let boxMap = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxMap.backgroundColor = UIColor.clear
-        let mapIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.1, height:  scWid * 0.1))
+        let mapIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
         mapIcon.image = UIImage(named: "mapLocation")
-        let mapLabel = UILabel(frame: CGRect(x: (scWid*0.15)+10, y: hei, width: (scWid*0.8)-10, height:  scWid * 0.1))
+        let mapLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
         mapLabel.text = "Location"
         mapLabel.textColor = UIColor.gray
         mapLabel.textAlignment = .left
+        mapLabel.font = UIFont(name: "Gidole-Regular", size: 15)
         self.scoll.addSubview(mapIcon)
         self.scoll.addSubview(mapLabel)
         self.scoll.addSubview(boxMap)
@@ -152,12 +154,13 @@ class MajorViewController: UIViewController {
         let boxChat = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxChat.addTarget(self, action: #selector(gotoChatRoom), for: .touchUpInside)
         boxChat.backgroundColor = UIColor.clear
-        let chatIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.1, height:  scWid * 0.1))
+        let chatIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
         chatIcon.image = UIImage(named: "chatGray")
-        let chatLabel = UILabel(frame: CGRect(x: (scWid*0.15)+10, y: hei, width: (scWid*0.8)-10, height:  scWid * 0.1))
+        let chatLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
         chatLabel.text = "Ask with staff"
         chatLabel.textColor = UIColor.gray
         chatLabel.textAlignment = .left
+        chatLabel.font = UIFont(name: "Gidole-Regular", size: 15)
         self.scoll.addSubview(chatLabel)
         self.scoll.addSubview(chatIcon)
         self.scoll.addSubview(boxChat)

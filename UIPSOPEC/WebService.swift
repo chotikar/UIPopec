@@ -12,7 +12,7 @@ class WebService {
  
     
     // MARK: FACULTY
-    //tskyonline.com:89/Faculty/getFacultyList
+    //http://www.supanattoy.com:89/Faculty/GetFacultyList?language=E
     static func GetFacultyWS(language : String ,completion:@escaping (_ responseData:[FacultyModel],_ errorMessage:NSError?)->Void)
     {
         var facultyList : [FacultyModel] = []

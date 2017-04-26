@@ -54,6 +54,7 @@ class FacultyTableViewController: UITableViewController {
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.navigationBar.isTranslucent = true
         
     }
 
@@ -90,7 +91,7 @@ class FacultyTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return scHei*0.3
+        return scHei*0.31
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -137,9 +138,6 @@ class FacultyCell : UITableViewCell {
         
     }
 }
-
-
-
 //class FacultyCell : UITableViewCell {
 //    
 //    @IBOutlet var facView : UIImageView!

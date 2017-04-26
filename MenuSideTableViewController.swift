@@ -26,6 +26,7 @@ class MenuSideTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Menutable.separatorStyle = .none
+
         self.navigationController?.navigationBar.isTranslucent = true
         let lang = CRUDSettingValue.GetUserSetting()
         if lang == "E" {
@@ -48,7 +49,7 @@ class MenuSideTableViewController: UITableViewController {
         recommend.text = "Program Recommendation"
         chat.text = "Chat"
         contact.text = "Contact Us"
-        abactitle.text = "Assumption University"
+        abactitle.text = "ASSUMPTION UNIVERSITY"
     }
     
     func menuNameThai() {

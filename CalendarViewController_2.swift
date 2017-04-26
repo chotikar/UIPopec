@@ -5,14 +5,13 @@ import UIKit
 import SWRevealViewController
 import FSCalendar
 
-class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance,UITableViewDelegate,UITableViewDataSource {
+class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance {
     
     @IBOutlet weak var Menubutton: UIBarButtonItem!
     @IBOutlet weak var calendar: FSCalendar!
-    @IBOutlet weak var eventTable: UITableView!
-    
-    @IBOutlet weak var dateTopic: UITextView!
-    @IBOutlet weak var Topic: UITextView!
+//    @IBOutlet weak var eventTable: UITableView!
+//    @IBOutlet weak var dateTopic: UITextView!
+//    @IBOutlet weak var Topic: UITextView!
    
     
     private var dateFormatter: DateFormatter = {
@@ -32,21 +31,19 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
         Sidemenu()
         CustomNavbar()
         customCalendar()
-        customTable()
-        reloadWS()
+//        customTable()
+//        reloadWS()
     }
     
-    func reloadWS() {
-        ws.GetCalendarWS() { (responseData : [CalendarModel], nil) in DispatchQueue.main.async ( execute: {
-            self.eventList = responseData
-            self.eventTable.reloadData()
-            self.calendar.reloadData()
-
-        })
-            
-        }
-    }
-    
+//    func reloadWS() {
+//        ws.GetCalendarWS() { (responseData : [CalendarModel], nil) in DispatchQueue.main.async ( execute: {
+//            self.eventList = responseData
+//            self.eventTable.reloadData()
+//            self.calendar.reloadData()
+//
+//        })
+//        }
+//    }
 
     // SideMenu
     func Sidemenu() {
@@ -59,7 +56,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     }
     // SideMenu
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     
@@ -77,24 +74,23 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
         self.calendar.frame.size.height = bounds.height
     }
     
+    var selectedDates = [String]()
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         if monthPosition == .previous || monthPosition == .next {
             calendar.setCurrentPage(date, animated: true)
         }
         
-        let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
-        
+        selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
         print("selected dates is \(selectedDates)")
         
-        if eventTable.isHidden {
-            eventTable.isHidden = false
-            self.calendar.frame.size = CGSize(width: self.calendar.frame.size.width, height: self.calendar.frame.size.height * 0.55)
-        } else {
-            eventTable.isHidden = true
-            self.calendar.frame.size = CGSize(width: scWid - 20, height: scHei * 0.87)
-        }
-        
-        
+//        if eventTable.isHidden {
+//            eventTable.isHidden = false
+//            self.calendar.frame.size = CGSize(width: self.calendar.frame.size.width, height: self.calendar.frame.size.height * 0.55)
+//        } else {
+//            eventTable.isHidden = true
+//            self.calendar.frame.size = CGSize(width: scWid - 20, height: scHei * 0.87)
+//        }
     }
     
     
@@ -138,7 +134,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     }
     
     //------------TableView----------------------
-    
+    /*
     
     func customTable(){
         eventTable.frame = CGRect(x: 10, y: self.view.frame.size.height * 0.61, width: self.view.frame.size.width - 20, height: self.view.frame.size.height * 0.375)
@@ -165,6 +161,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
+ */
     
 }
 

@@ -140,7 +140,7 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         return true
     }
     
-    func  setupKeyboardObserver() {
+    func setupKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -201,6 +201,8 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
             //outcome message blue
             cell.textView.textColor = UIColor.white
             cell.profileImageView.isHidden = true
+            cell.bubbleRightAnchor?.isActive = true
+            cell.bubbleLeftAnchor?.isActive = false
         }else{
             //income message gray
             cell.profileImageView.isHidden = false

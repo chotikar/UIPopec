@@ -415,6 +415,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxUsername.alpha = 0.7
         username = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         username.textColor = UIColor.black
+        username.autocapitalizationType = .none
         username.textAlignment = .center
         username.delegate = self
         username.font = fm.setFontSizeLight(fs: 14)

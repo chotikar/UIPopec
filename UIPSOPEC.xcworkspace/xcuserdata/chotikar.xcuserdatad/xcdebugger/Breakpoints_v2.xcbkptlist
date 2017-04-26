@@ -40,22 +40,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "UIPSOPEC/LoginViewController.swift"
-            timestampString = "514739861.000553"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "getMessageListWs(uid:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "UIPSOPEC/LoginViewController.swift"
             timestampString = "514804980.51426"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

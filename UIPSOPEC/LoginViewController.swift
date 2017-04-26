@@ -322,6 +322,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         if(accessToken != nil)
         {
             tokenn = (accessToken?.tokenString)!
+            print(tokenn)
         }
         
         //--------This Part Print Picture, Email, Id, FirstName--------
@@ -337,11 +338,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
                 print(self.data)
                 //1304007822985652
                 //http://graph.facebook.com/1304007822985652/picture?type=large&redirect=true&width=500&height=500
-                
+               var facPic = "http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"
+            
                 if self.signinPageStatus {
                     self.sentLoginWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);\(self.tokenn)")
                 }else{
-                    self.sentSignupWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);\(self.tokenn)", imageUrl: ("http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"))
+                    self.sentSignupWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);0", imageUrl:facPic )
+                    //(self.tokenn)
                 }
                 
             }
@@ -440,6 +443,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         boxUsername.alpha = 0.7
         username = SkyFloatingLabelTextField(frame: CGRect(x: scWid*0.17, y: hei, width: scWid*0.66, height: boxHei.height))
         username.textColor = UIColor.black
+        username.autocapitalizationType = .none
         username.textAlignment = .center
         username.delegate = self
         username.font = fm.setFontSizeLight(fs: 14)

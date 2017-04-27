@@ -47,12 +47,10 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
 
     // SideMenu
     func Sidemenu() {
-        if revealViewController() != nil {
+        
             Menubutton.target = SWRevealViewController()
             Menubutton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
+        
     }
     // SideMenu
     func CustomNavbar() {

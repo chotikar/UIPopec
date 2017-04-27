@@ -62,7 +62,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         doneBut.clipsToBounds = true
         doneBut.frame = CGRect(x: filterview.frame.width / 2, y: scHei*0.85, width: scWid*0.5, height: scHei*0.05 )
         doneBut.center = CGPoint(x: scWid / 2, y: scHei * 0.85)
-        doneBut.backgroundColor = UIColor.red
+        doneBut.backgroundColor = abacRed
         doneBut.addTarget(self, action: #selector(getChoose), for: .touchUpInside)
         
         FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
@@ -136,7 +136,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             cell.textLabel?.text = fac.programName
             cell.detailTextLabel?.text = fac.facultyName
             cell.imageView?.image = UIImage(named: "User_Shield")
-            // cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
+//             cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
             cell.imageView?.contentMode = .scaleAspectFill
         }
         
@@ -264,12 +264,11 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     }
     
     func Sidemenu() {
-        if revealViewController() != nil {
+
             MenuButton.target = SWRevealViewController()
             MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
+           
+       
     }
     
     func CustomNavbar() {

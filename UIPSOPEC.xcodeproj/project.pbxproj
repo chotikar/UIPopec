@@ -49,6 +49,7 @@
 		755EA9131EA5173500C622CE /* SuggestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755EA9121EA5173500C622CE /* SuggestionController.swift */; };
 		756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */; };
 		756C02C01EA1EEC500D25B2D /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */; };
+		757B88111EB10AFC00098414 /* RevealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B88101EB10AFC00098414 /* RevealViewController.swift */; };
 		758DDFE91E9E0AEB00EAAFA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 758DDFE71E9E0AEB00EAAFA8 /* Main.storyboard */; };
 		759497C01EA8C9FE0058006D /* applyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756E17A21E8960B40071EFD6 /* applyViewController.swift */; };
 		759497C61EA8D1940058006D /* MenuSideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759497C51EA8D1940058006D /* MenuSideTableViewController.swift */; };
@@ -101,6 +102,7 @@
 		756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController_2.swift; sourceTree = "<group>"; };
 		756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		756E17A21E8960B40071EFD6 /* applyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = applyViewController.swift; sourceTree = "<group>"; };
+		757B88101EB10AFC00098414 /* RevealViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealViewController.swift; sourceTree = "<group>"; };
 		758DDFE81E9E0AEB00EAAFA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		759497C51EA8D1940058006D /* MenuSideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSideTableViewController.swift; sourceTree = "<group>"; };
 		75E634CE1EAE214700321105 /* Gidole-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gidole-Regular.ttf"; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */,
 				759497C51EA8D1940058006D /* MenuSideTableViewController.swift */,
 				4F8DA5B91EAA14EA0002E015 /* testViewController.swift */,
+				757B88101EB10AFC00098414 /* RevealViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				4FDDFA091EA78F9600B708E8 /* MessageModel.swift in Sources */,
 				4F2511EE1E5D4E7F0055D312 /* NewsTableViewController.swift in Sources */,
 				4FBD05091EA53E57008D5EB2 /* KeywordModel.swift in Sources */,
+				757B88111EB10AFC00098414 /* RevealViewController.swift in Sources */,
 				4F50FE491E83C1590028B299 /* PlaceModel.swift in Sources */,
 				4FE09F2F1E5A04BF0020A2C5 /* ToastMessage.swift in Sources */,
 				4F2511F61E5D8D9E0055D312 /* NewsInforViewController.swift in Sources */,

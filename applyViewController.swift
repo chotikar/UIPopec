@@ -85,16 +85,14 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func Sidemenu() {
-        if revealViewController() != nil {
+
             MenuButton.target = SWRevealViewController()
             MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
+          
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     }
@@ -319,9 +317,9 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     func customlayout() {
         appltBtn.layer.cornerRadius = 5
-        appltBtn.layer.borderWidth = 1
-        appltBtn.layer.borderColor = UIColor.red.cgColor
-        appltBtn.layer.backgroundColor = UIColor.red.cgColor
+//        appltBtn.layer.borderWidth = 1
+//        appltBtn.layer.borderColor = UIColor.red.cgColor
+        appltBtn.layer.backgroundColor = abacRed.cgColor
         
     }
     

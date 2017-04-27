@@ -10,7 +10,7 @@ import SkyFloatingLabelTextField
 // width and height of current Scrren
 let scWid = UIScreen.main.bounds.width
 let scHei = UIScreen.main.bounds.height
-let abacRed = UIColor(colorLiteralRed: 255/225, green: 0/225, blue: 0/225, alpha: 1)
+let abacRed = UIColor(colorLiteralRed: 22/225, green: 72/225, blue: 148/225, alpha: 1)
 
 class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextFieldDelegate , UITableViewDelegate , UITableViewDataSource {
     
@@ -60,7 +60,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     var signinPageStatus : Bool!
     var toast : UIView!
     var url = UserLogInDetail()
-    /////// From display 
+    /////// From display
     var fromMajorProgram = false
     var fromFacName : String!
     var fromDepName : String!
@@ -77,6 +77,37 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         mangegeLayout()
         print(CRUDProfileDevice.GetUserProfile().username)
         
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
+        let moveDuration = 0.1
+        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+        
+        UIView.beginAnimations("animateTextField", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(moveDuration)
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if (textField == self.username || textField == self.password) {
+            moveTextField(textField, moveDistance: -90, up: true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if (textField == self.username || textField == self.password) {
+            moveTextField(textField, moveDistance: -90, up: false)
+        }
     }
     
     // MARK : MUTAL
@@ -97,7 +128,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         chatLogController.facInfor = mm
         self.navigationController?.pushViewController(chatLogController, animated: true)
     }
-    
     
     func goToMessage(status : Bool){
         if status {
@@ -147,7 +177,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         }
     }
     
-   func getMessageListWs(uid:String){
+    func getMessageListWs(uid:String){
         ws.getRoomListWS(userid: uid) { (responseData: [MessageModel], nil) in
             DispatchQueue.main.async( execute: {
                 self.messageList = responseData
@@ -310,8 +340,8 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
                 print(self.data)
                 //1304007822985652
                 //http://graph.facebook.com/1304007822985652/picture?type=large&redirect=true&width=500&height=500
-               var facPic = "http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"
-            
+                var facPic = "http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"
+                
                 if self.signinPageStatus {
                     self.sentLoginWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);\(self.tokenn)")
                 }else{
@@ -349,14 +379,14 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        let chatLogController = ChatLogViewController()
-//        chatLogController.facInfor = messageList[indexPath.row]
-//        navigationController?.pushViewController(chatLogController, animated: true)
-//        tableView.deselectRow(at: indexPath, animated: true)
+        //        let chatLogController = ChatLogViewController()
+        //        chatLogController.facInfor = messageList[indexPath.row]
+        //        navigationController?.pushViewController(chatLogController, animated: true)
+        //        tableView.deselectRow(at: indexPath, animated: true)
         
-//        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        chatLogController.facInfor = messageList[indexPath.row]
-//        navigationController?.pushViewController(chatLogController, animated: true)
+        //        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        //        chatLogController.facInfor = messageList[indexPath.row]
+        //        navigationController?.pushViewController(chatLogController, animated: true)
         
         let chatLogController = ChatLogTableViewController()
         chatLogController.facInfor = messageList[indexPath.row]
@@ -375,6 +405,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
         logoutBut = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutAction(sender:)))
         self.navigationItem.rightBarButtonItem = logoutBut
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
         self.messageList = []
         self.startIndicator()
         getMessageListWs(uid:String(self.userLoginInfor.userId))
@@ -592,16 +623,12 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func Sidemenu() {
-        if revealViewController() != nil {
             MenuButton.target = SWRevealViewController()
             MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     

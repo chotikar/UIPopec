@@ -2,19 +2,20 @@
 import UIKit
 import SWRevealViewController
 
-class NewsTableViewController: UITableViewController {
+class NewsTableViewController: UITableViewController,SWRevealViewControllerDelegate {
     
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     var allNewsList : [NewsModel]!
     let ws = WebService.self
     var newsList : [NewsModel] = []
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadTableViewInNews(lang: CRUDSettingValue.GetUserSetting())
-        Sidemenu()
-        CustomNavbar()  
+        MenuButton.target = self.revealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        CustomNavbar()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -22,11 +23,6 @@ class NewsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     //number of section in each row
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -99,15 +95,6 @@ class NewsTableViewController: UITableViewController {
                 self.newsList = responseData
                 self.tableView.reloadData()
             })
-        }
-    }
-    
-    func Sidemenu() {
-        if revealViewController() != nil {
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
     

@@ -43,17 +43,14 @@ class FacultyTableViewController: UITableViewController {
     }
     
     func Sidemenu() {
-        if revealViewController() != nil {
             MenuButton.target = SWRevealViewController()
             MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 275
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
     }
     
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
         
     }
 
@@ -90,7 +87,7 @@ class FacultyTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return scHei*0.3
+        return scHei*0.31
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -137,9 +134,6 @@ class FacultyCell : UITableViewCell {
         
     }
 }
-
-
-
 //class FacultyCell : UITableViewCell {
 //    
 //    @IBOutlet var facView : UIImageView!

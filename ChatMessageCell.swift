@@ -21,7 +21,7 @@ class ChatMessageCell: UICollectionViewCell{
         //        view.backgroundColor = UIColor(red: 25, green: 152, blue: 246, alpha: 1)
         view.backgroundColor = blueColor
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 16
+        view.layer.cornerRadius = 13
         view.layer.masksToBounds = true
         return view
     }()
@@ -36,36 +36,49 @@ class ChatMessageCell: UICollectionViewCell{
         return img
     }()
     
+    let chatTime : UILabel = {
+       let ct = UILabel()
+        ct.textColor = UIColor.lightGray
+        ct.font = FunctionMutual.setFontSizeLight(fs: 10)
+        return ct
+    }()
+    
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleRightAnchor: NSLayoutConstraint?
     var bubbleLeftAnchor: NSLayoutConstraint?
+    var timeRight : NSLayoutConstraint?
+    var timeLeft : NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(bubbleView)
         addSubview(textView)
         addSubview(profileImageView)
-        
+        addSubview(chatTime)
         
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor,constant:8).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
-        bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor,constant:-8)
+        bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor,constant:-16)
         bubbleRightAnchor?.isActive = true
-        bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:1)
+        bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:5)
         
-        bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        bubbleView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
         bubbleWidthAnchor =  bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
-        bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor,constant:-4).isActive = true
         
-        textView.leftAnchor.constraint(equalTo:bubbleView.leftAnchor).isActive = true
-        textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        textView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        textView.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor).isActive = true
+        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor,constant:8).isActive = true
+        textView.topAnchor.constraint(equalTo: bubbleView.topAnchor,constant:8).isActive = true
+        textView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor,constant:-16).isActive = true
+        textView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
+        
+        timeRight = chatTime.rightAnchor.constraint(equalTo: bubbleView.leftAnchor,constant : 3)
+        timeLeft = chatTime.leftAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: 3)
+        chatTime.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        timeLeft?.isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -107,40 +120,57 @@ class ChatLogTableViewCell : UITableViewCell {
         return img
     }()
     
+    let chatTime : UILabel = {
+        let ct = UILabel()
+        ct.textColor = UIColor.lightGray
+        ct.font = FunctionMutual.setFontSizeLight(fs: 10)
+        ct.translatesAutoresizingMaskIntoConstraints = false
+        return ct
+    }()
+
+    
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleRightAnchor: NSLayoutConstraint?
     var bubbleLeftAnchor: NSLayoutConstraint?
-    
+    var timeRight : NSLayoutConstraint?
+    var timeLeft : NSLayoutConstraint?
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         addSubview(bubbleView)
         addSubview(textView)
         addSubview(profileImageView)
+        addSubview(chatTime)
         
         
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor,constant:8).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
         bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor,constant:-16)
         bubbleRightAnchor?.isActive = true
-        bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:1)
+        bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:4)
         
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
-            //.constraint(equalTo: self.topAnchor).isActive = true
         bubbleWidthAnchor =  bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
-        bubbleView.heightAnchor.constraint(equalToConstant: self.frame.height - 4).isActive = true
-            //.constraint(equalTo: self.heightAnchor, constant: <#T##CGFloat#>).constraint(equalTo: self.heightAnchor).isActive = true
+        bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor,constant:-4).isActive = true
         
-        textView.leftAnchor.constraint(equalTo:bubbleView.leftAnchor).isActive = true
+        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor,constant:8).isActive = true
         textView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
-        textView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        textView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor,constant:-16).isActive = true
         textView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
+        
+        timeRight = chatTime.rightAnchor.constraint(equalTo: bubbleView.leftAnchor,constant : -3)
+        timeLeft = chatTime.leftAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: 3)
+        chatTime.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor).isActive = true
+        chatTime.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        timeLeft?.isActive = true
     }
 
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

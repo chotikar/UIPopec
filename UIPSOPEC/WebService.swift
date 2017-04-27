@@ -342,6 +342,7 @@ class WebService {
     {
         var messageList : [MessageModel]!
         let url = NSURL(string: "\(domainName)Chat/GetUserRoomList?userID=\(userid)")
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)

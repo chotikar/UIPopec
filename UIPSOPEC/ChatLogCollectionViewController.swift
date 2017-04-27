@@ -274,43 +274,35 @@ class ChatLogCollectionViewController: UICollectionViewController ,UICollectionV
         
         cell.textView.text = log.mess
         cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: log.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 10
-        
-        if log.sendby == 0 {
-                        //outcome message blue
-                        cell.textView.textColor = UIColor.white
-                        cell.profileImageView.isHidden = true
-                    }else{
-                        //income message gray
-                        cell.profileImageView.isHidden = false
-                        cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
-                        cell.bubbleRightAnchor?.isActive = false
-                        cell.bubbleLeftAnchor?.isActive = true
-                    }
 
         
-        //setupCell(cell: cell, who: log.sendby)
+        setupCell(cell: cell, who: log.sendby)
         
         return cell
         
     }
     
-//    func setupCell(cell:ChatMessageCell,who:String){
-//        
-//        if who == "USER" {
-//            //outcome message blue
-//            //            cell.bubbleView.backgroundColor  = UIColor.orange
-//            cell.textView.textColor = UIColor.white
-//            cell.profileImageView.isHidden = true
-//        }else{
-//            //income message gray
-//            cell.profileImageView.isHidden = false
-//            cell.bubbleView.backgroundColor = UIColor.lightGray//UIColor(red: 240, green: 240, blue: 240, alpha: 1)
-//            cell.bubbleRightAnchor?.isActive = false
-//            cell.bubbleLeftAnchor?.isActive = true
-//        }
-//        
-//    }
-//    
+       func setupCell(cell:ChatMessageCell,who:Int){
+        
+        if who == 0 {
+            //outcome message blue
+            cell.textView.textColor = UIColor.white
+            //            cell.textView.backgroundColor = UIColor.black
+            cell.bubbleView.backgroundColor = UIColor(red: 0/225, green: 137/225, blue: 249/225, alpha: 1)
+            cell.profileImageView.isHidden = true
+            cell.bubbleRightAnchor?.isActive = true
+            cell.bubbleLeftAnchor?.isActive = false
+        }else{
+            //income message gray
+            cell.profileImageView.isHidden = false
+            cell.textView.textColor = UIColor.darkText
+            cell.bubbleView.backgroundColor = UIColor(red: 200/225, green: 200/225, blue: 200/225, alpha: 1)
+            cell.bubbleRightAnchor?.isActive = false
+            cell.bubbleLeftAnchor?.isActive = true
+        }
+        
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         connection.stop()
     }

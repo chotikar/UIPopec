@@ -45,7 +45,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
             endingLineNumber = "134"
-            landmarkName = "sentSignupWS(byfb:userDe:imageUrl:)"
+            landmarkName = "goToMessage(status:)"
             landmarkType = "7">
             <Locations>
                <Location

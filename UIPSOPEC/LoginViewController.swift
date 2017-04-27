@@ -10,7 +10,7 @@ import SkyFloatingLabelTextField
 // width and height of current Scrren
 let scWid = UIScreen.main.bounds.width
 let scHei = UIScreen.main.bounds.height
-let abacRed = UIColor(colorLiteralRed: 22/225, green: 72/225, blue: 148/225, alpha: 1)
+let abacRed = UIColor(red: 22/225, green: 72/225, blue: 148/225, alpha: 1)
 
 class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextFieldDelegate , UITableViewDelegate , UITableViewDataSource {
     
@@ -365,11 +365,19 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: messageCell)
+        let cell = UserCell()//tableView.dequeueReusableCell(withIdentifier: messageCell)
         let messageDe = messageList[indexPath.row]
-        cell.textLabel?.text = messageDe.programName
-        cell.detailTextLabel?.text = messageDe.facName
-        cell.imageView?.image = UIImage(named: "User_Shield")
+        cell.title.text = messageDe.programName
+        cell.message.text = messageDe.mess
+        cell.timeLable.text = messageDe.time
+        if UIImage(named:messageDe.programAbb) == nil {
+            cell.profileImageView.image = UIImage(named:"User_Shield")
+
+        }else{
+            cell.profileImageView.image = UIImage(named:messageDe.programAbb)
+
+        }
+        
         return cell
     }
     
@@ -379,14 +387,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        //        let chatLogController = ChatLogViewController()
-        //        chatLogController.facInfor = messageList[indexPath.row]
-        //        navigationController?.pushViewController(chatLogController, animated: true)
-        //        tableView.deselectRow(at: indexPath, animated: true)
-        
-        //        let chatLogController = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        //        chatLogController.facInfor = messageList[indexPath.row]
-        //        navigationController?.pushViewController(chatLogController, animated: true)
         
         let chatLogController = ChatLogTableViewController()
         chatLogController.facInfor = messageList[indexPath.row]
@@ -657,7 +657,12 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
 }
 
 
+
 class UserCell : UITableViewCell {
+    
+    //    var message: Message? {
+    //        did
+    //    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -666,8 +671,8 @@ class UserCell : UITableViewCell {
         detailTextLabel?.frame = CGRect(x: 56, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
     }
     
-    let profileImageView : UIImageView = {
-        let piv = UIImageView()
+    var profileImageView : UIImageView = {
+        var piv = UIImageView()
         piv.image = UIImage(named: "User_Shield")
         piv.contentMode = .scaleAspectFill
         piv.translatesAutoresizingMaskIntoConstraints = false
@@ -676,17 +681,65 @@ class UserCell : UITableViewCell {
         return piv
     }()
     
+    var timeLable: UILabel = {
+        var label = UILabel()
+        label.text = "HH:MM:SS"
+        label.textAlignment = .right
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = UIColor.lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var title: UILabel = {
+        var ti = UILabel()
+        ti.text = "Department name"
+        ti.font = UIFont.systemFont(ofSize: 15)
+        ti.textColor = UIColor.darkText
+        ti.translatesAutoresizingMaskIntoConstraints = false
+        return ti
+    }()
+    
+    var message : UILabel = {
+        var mess = UILabel()
+        mess.text = "Message"
+        mess.font = UIFont.systemFont(ofSize: 13)
+        mess.textColor = UIColor.gray
+        mess.translatesAutoresizingMaskIntoConstraints = false
+        return mess
+    }()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier:String?){
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         addSubview(profileImageView)
+        addSubview(timeLable)
+        addSubview(title)
+        addSubview(message)
+        
         profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
         profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        timeLable.rightAnchor.constraint(equalTo: self.rightAnchor,constant: -8).isActive = true
+        timeLable.topAnchor.constraint(equalTo: self.profileImageView.topAnchor).isActive = true
+        timeLable.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        timeLable.heightAnchor.constraint(equalTo: (textLabel?.heightAnchor)!).isActive = true
+        
+        title.topAnchor.constraint(equalTo: self.timeLable.bottomAnchor).isActive = true
+        title.leftAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: 8).isActive = true
+        title.widthAnchor.constraint(equalToConstant: scWid-74).isActive = true
+        title.heightAnchor.constraint(equalTo: title.heightAnchor).isActive = true
+        
+        message.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 3).isActive = true
+        message.leftAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: 8).isActive = true
+        message.widthAnchor.constraint(equalToConstant: scWid-74).isActive = true
+        message.heightAnchor.constraint(equalTo: message.heightAnchor).isActive = true
+        
+        
     }
     
     required init?(coder aDecorder : NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-

@@ -61,7 +61,8 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        chatLogDisplay = UITableView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei-50))
+        self.view.backgroundColor = UIColor.white
+        chatLogDisplay = UITableView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei-70))
         chatLogDisplay.delegate = self
         chatLogDisplay.dataSource = self
         chatLogDisplay.separatorColor = UIColor.clear
@@ -85,6 +86,7 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
             if let log = args?[0] as? [String:AnyObject] {
                 self?.chatLog.append(ChatLogModel(dic: log as AnyObject))
                 self?.chatLogDisplay.reloadData()
+                self?.scrollDisplaylog(animated: true)
             }
         }
         
@@ -172,6 +174,13 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         }
     }
     
+    func scrollDisplaylog(animated : Bool){
+        
+        let indexPath = NSIndexPath(row: self.chatLog.count-1, section: 0)//(self.chatLog.count,0)
+        
+        self.chatLogDisplay.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.bottom, animated: animated)
+    }
+    
     var containierViewBottomAnchor : NSLayoutConstraint?
     
     func joinGroup(userid:Int64, facid:Int64, proId :Int64) {
@@ -204,19 +213,29 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         if who == 0 {
             //outcome message blue
             cell.textView.textColor = UIColor.white
-            cell.textView.backgroundColor = UIColor.red
+            cell.bubbleView.backgroundColor = UIColor(red: 0/225, green: 137/225, blue: 249/225, alpha: 1)
             cell.profileImageView.isHidden = true
             cell.bubbleRightAnchor?.isActive = true
             cell.bubbleLeftAnchor?.isActive = false
+            cell.chatTime.textAlignment = .right
+            cell.timeRight?.isActive = true
+            cell.timeLeft?.isActive = false
         }else{
             //income message gray
             cell.profileImageView.isHidden = false
-            cell.bubbleView.backgroundColor = UIColor.lightGray
+            cell.textView.textColor = UIColor.darkText
+            cell.bubbleView.backgroundColor = UIColor(red: 200/225, green: 200/225, blue: 200/225, alpha: 1)
             cell.bubbleRightAnchor?.isActive = false
             cell.bubbleLeftAnchor?.isActive = true
+            cell.chatTime.textAlignment = .left
+            cell.timeRight?.isActive = false
+            cell.timeLeft?.isActive = true
+
         }
         
     }
+    
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chatLog.count
@@ -227,20 +246,21 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         cell.selectionStyle = .none
         let log = chatLog[indexPath.row]
         
+        cell.chatTime.text = log.time
         cell.textView.text = log.mess
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: log.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 20
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: log.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: 200).width + 28
         setupCell(cell: cell, who: log.sendby)
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var heigh : CGFloat = 80
-        let message = chatLog[indexPath.row]
-        heigh = fm.calculateHeiFromString(text: message.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid).height + 20
-        return  heigh
+                let message = chatLog[indexPath.row]
+                heigh = fm.calculateHeiFromString(text: message.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: 200).height + 20
+                return  heigh
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         connection.stop()
     }

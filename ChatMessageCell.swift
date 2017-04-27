@@ -52,7 +52,7 @@ class ChatMessageCell: UICollectionViewCell{
         profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
-        bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor,constant:-16)
+        bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor,constant:-8)
         bubbleRightAnchor?.isActive = true
         bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:1)
         
@@ -61,10 +61,11 @@ class ChatMessageCell: UICollectionViewCell{
         bubbleWidthAnchor?.isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
-        textView.leftAnchor.constraint(equalTo:bubbleView.leftAnchor ).isActive = true
+        textView.leftAnchor.constraint(equalTo:bubbleView.leftAnchor).isActive = true
         textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        textView.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

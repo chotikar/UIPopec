@@ -73,6 +73,9 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
+        self.chatLogDisplay.rowHeight =  UITableViewAutomaticDimension
+//        self.chatLogDisplay.scrollToRow(at: inde, at: <#T##UITableViewScrollPosition#>, animated: <#T##Bool#>)
+        
         connection = SignalR("http://www.supanattoy.com:89")
         connection.useWKWebView = true
         connection.signalRVersion = .v2_2_0
@@ -162,6 +165,7 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
     
     func handleKeyboardWillHide(notification: NSNotification){
         let  keyboardDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey]) as! Double
+        
         containierViewBottomAnchor?.constant = 0
         UIView.animate(withDuration: keyboardDuration){
             self.view.layoutIfNeeded()
@@ -200,6 +204,7 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         if who == 0 {
             //outcome message blue
             cell.textView.textColor = UIColor.white
+            cell.textView.backgroundColor = UIColor.red
             cell.profileImageView.isHidden = true
             cell.bubbleRightAnchor?.isActive = true
             cell.bubbleLeftAnchor?.isActive = false
@@ -223,7 +228,7 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
         let log = chatLog[indexPath.row]
         
         cell.textView.text = log.mess
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: log.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 10
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: log.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid*0.3).width + 20
         setupCell(cell: cell, who: log.sendby)
         
         return cell
@@ -232,7 +237,7 @@ class ChatLogTableViewController: UIViewController , UITableViewDelegate , UITab
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         var heigh : CGFloat = 80
         let message = chatLog[indexPath.row]
-        heigh = fm.calculateHeiFromString(text: message.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid).height + 34
+        heigh = fm.calculateHeiFromString(text: message.mess, fontsize: fm.setFontSizeLight(fs: 14), tbWid: scWid).height + 20
         return  heigh
     }
     

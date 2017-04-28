@@ -394,6 +394,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func drawMessagePage(){
+        self.view.reloadInputViews()
         self.signinPageStatus = false
         messageView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         messageView.backgroundColor = UIColor.clear

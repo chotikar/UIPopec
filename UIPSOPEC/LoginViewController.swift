@@ -72,7 +72,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         Sidemenu()
         CustomNavbar()
         bg = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
-        bg.backgroundColor = UIColor.red
         self.view.addSubview(bg)
         mangegeLayout()
         print(CRUDProfileDevice.GetUserProfile().username)
@@ -340,7 +339,7 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
                 print(self.data)
                 //1304007822985652
                 //http://graph.facebook.com/1304007822985652/picture?type=large&redirect=true&width=500&height=500
-                var facPic = "http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"
+                let facPic = "http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"
                 
                 if self.signinPageStatus {
                     self.sentLoginWS(byfb: 1, userDe: "\(self.data["first_name"] as! String);\(self.data["id"] as! String);\(self.tokenn)")
@@ -370,13 +369,8 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         cell.title.text = messageDe.programName
         cell.message.text = messageDe.mess
         cell.timeLable.text = messageDe.time
-        if UIImage(named:messageDe.programAbb) == nil {
-            cell.profileImageView.image = UIImage(named:"User_Shield")
-
-        }else{
-            cell.profileImageView.image = UIImage(named:messageDe.programAbb)
-
-        }
+        cell.profileImageView.image = UIImage(named:messageDe.programAbb)
+        
         
         return cell
     }
@@ -394,8 +388,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func drawMessagePage(){
-        self.view.reloadInputViews()
         self.signinPageStatus = false
+        if bg != nil {
+            bg.removeFromSuperview()
+            bg = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+            bg.backgroundColor = UIColor.red
+            self.view.addSubview(bg)
+        }
         messageView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
         messageView.backgroundColor = UIColor.clear
         self.bg.addSubview(messageView)
@@ -414,11 +413,18 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     
     func drawSignupPage(){
         self.signinPageStatus = false
-        loginView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        loginView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei-64))
         loginView.backgroundColor = UIColor.clear
         self.bg.addSubview(phoneBg)
         self.bg.addSubview(loginView)
-        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.15, width: scHei*0.25, height: scHei*0.25))
+        let boxBack = UIView(frame: CGRect(x: 20, y: 0, width: scWid*0.3, height: scHei*0.04))
+        boxBack.layer.cornerRadius = 5
+        boxBack.backgroundColor = UIColor.darkGray
+        boxBack.alpha = 0.8
+        let backButton = UIButton(frame: CGRect(x: 0, y: 80, width: scWid*0.3, height: scHei*0.03))
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        backButton.setTitleColor(UIColor.white, for: .normal)
+        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.05, width: scHei*0.25, height: scHei*0.25))
         logoAbac.image = UIImage(named: "abaclogo")
         var hei = logoAbac.frame.origin.y + logoAbac.frame.height + 20
         
@@ -498,14 +504,6 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
         signupButton.addTarget(self, action: #selector(signupAction), for: .touchUpInside)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         
-        let boxBack = UIView(frame: CGRect(x: 20, y: 70, width: scWid*0.3, height: scHei*0.04))
-        boxBack.layer.cornerRadius = 5
-        boxBack.backgroundColor = UIColor.darkGray
-        boxBack.alpha = 0.8
-        let backButton = UIButton(frame: CGRect(x: 0, y: 80, width: scWid*0.3, height: scHei*0.03))
-        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-        backButton.setTitleColor(UIColor.white, for: .normal)
-        
         username.placeholder = "Username"
         email.placeholder = "Email"
         password.placeholder = "Password"
@@ -532,11 +530,11 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     
     func drawLoginPage(){
         self.signinPageStatus = true
-        signupView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        signupView = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei-64))
         signupView.backgroundColor = UIColor.clear
         self.bg.addSubview(phoneBg)
         self.bg.addSubview(signupView)
-        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.15, width: scHei*0.25, height: scHei*0.25))
+        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.05, width: scHei*0.25, height: scHei*0.25))
         logoAbac.image = UIImage(named: "abaclogo")
         var hei = logoAbac.frame.origin.y + logoAbac.frame.height + 40
         
@@ -624,12 +622,13 @@ class LoginViewController: UIViewController , FBSDKLoginButtonDelegate , UITextF
     }
     
     func Sidemenu() {
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        MenuButton.target = SWRevealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
     }
     
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     

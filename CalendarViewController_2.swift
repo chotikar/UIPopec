@@ -55,6 +55,7 @@ class CalenderViewController_2 : UIViewController,FSCalendarDelegate,FSCalendarD
     // SideMenu
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
     

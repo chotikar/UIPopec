@@ -88,7 +88,7 @@ class MajorViewController: UIViewController {
     
     func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
-        majorImage = UIImageView(frame: CGRect(x: 0, y: 64, width: scWid, height: scWid*0.7))
+        majorImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
         if self.majorInformation.imageURL == "" {
             majorImage.image = UIImage(named: "abacImg")
         }else{

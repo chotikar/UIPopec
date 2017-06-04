@@ -22,6 +22,7 @@ class ChatLogCollectionViewController: UICollectionViewController ,UICollectionV
         return textField
     }()
     
+    
     lazy var inputContainerView:UIView = {
         let containerView = UIView()
         containerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)

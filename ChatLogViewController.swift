@@ -251,8 +251,7 @@ class ChatLogViewController: UIViewController,UITextFieldDelegate {
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.layer.cornerRadius = 16
         profileImageView.layer.masksToBounds = true
-        profileImageView.contentMode = .scaleAspectFill
-
+        profileImageView.contentMode = .scaleAspectFill 
         
         if sendBy == 0 {
             bubbleView = UIView(frame: CGRect(x:scWid - (logHei.width+20) - 8, y: self.contenthei, width: logHei.width+20, height: logHei.height+20))

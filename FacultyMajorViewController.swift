@@ -52,7 +52,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     
     func drawNewsInformation() -> CGFloat {
         var hei : CGFloat
-        mainImage = UIImageView(frame: CGRect(x: 0, y: 64, width: scWid, height: scWid*0.7))
+        mainImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
         if self.facultyMajorInformation.imageURL == "" {
             mainImage.image = UIImage(named:"abacImg")
         }else{
@@ -104,8 +104,8 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     }
     
     func setTableViewSize(majorNum : Int, content : CGFloat){
-        self.majorTableView.frame = CGRect(x: 0, y: content, width: scWid, height: (scWid*0.7) * CGFloat(majorNum))
-        self.scoll.contentSize = CGSize(width: scWid, height: content + self.majorTableView.frame.height)
+        self.majorTableView.frame = CGRect(x: 0, y: content, width: scWid, height: scHei)
+        self.scoll.contentSize = CGSize(width: scWid, height: content + scHei + 64)
     }
     
     func startIndicator(){

@@ -1,7 +1,7 @@
 
-
 import UIKit
 import SWRevealViewController
+import CoreData
 
 class MajorViewController: UIViewController {
     
@@ -11,6 +11,7 @@ class MajorViewController: UIViewController {
     var facultyFullName : String!
     let fm = FunctionMutual.self
     let ws = WebService.self
+    let dc = CRUDDepartmentMessage.self
     
     var scoll : UIScrollView = {
         var sc = UIScrollView()
@@ -22,15 +23,14 @@ class MajorViewController: UIViewController {
     var facName : UILabel!
     var majorDescrip : UITextView!
     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+    var lang = CRUDSettingValue.GetUserSetting()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = UIColor.white
         startIndicator()
         self.view.addSubview(scoll)
-        reloadMajor(facId: facCode, majorId: majorCode,lang: CRUDSettingValue.GetUserSetting())
-        
-        
+        reloadMajor(facId: facCode, majorId: majorCode,lang: lang) 
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,14 +42,12 @@ class MajorViewController: UIViewController {
         ws.GetMajorDetailWS(facultyId: facId, departmentId: majorId,language:lang){ (responseData: MajorModel, nil) in
             DispatchQueue.main.async( execute: {
                 self.majorInformation = responseData
-                print(self.majorInformation.degreeName)
                 self.reloadInputViews()
                 self.scoll.contentSize = CGSize(width: scWid, height: self.drawMajorInformation())
                 self.stopIndicator()
             })
         }
     }
-    
     
     func startIndicator(){
         self.activityiIndicator.center = self.view.center
@@ -72,55 +70,54 @@ class MajorViewController: UIViewController {
     }
     
     func gotoChatRoom(sender : AnyObject){
-        
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "LoginLayout") as! LoginViewController
-        let nvc = UINavigationController(rootViewController: vc)
-        vc.fromMajorProgram = true
+        let vc = storyboard.instantiateViewController(withIdentifier: "messageLayout") as! MessageViewController
+        vc.goToChatController = true
         vc.fromFacName = self.facultyFullName
-        vc.fromDepName = self.majorInformation.departmentName
-        vc.fromFacId = self.facCode
-        vc.fromDepId = self.majorInformation.departmentId
-        self.revealViewController().setFront(nvc, animated: true)
+        vc.fromDepEnName = self.majorInformation.departmentEnName
+        vc.fromDepThName = self.majorInformation.departmentThName
+        vc.fromDepAbb = self.majorInformation.departmentAbb
+        vc.fromFacId = String(self.facCode)
+        vc.fromDepId = String(self.majorInformation.departmentId)
+        let messageController = UINavigationController(rootViewController: vc)
+        self.revealViewController().setFront(messageController, animated: true)
     }
     
     
     func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
         majorImage = UIImageView(frame: CGRect(x: 0, y: 0, width: scWid, height: scWid*0.7))
+        
         if self.majorInformation.imageURL == "" {
             majorImage.image = UIImage(named: "abacImg")
         }else{
             majorImage.loadImageUsingCacheWithUrlString(urlStr: self.majorInformation.imageURL)
         }
-        
         self.scoll.addSubview(majorImage)
-        
         hei = majorImage.frame.origin.y + majorImage.frame.height+20
-        var texthei = fm.calculateHeiFromString(text: self.majorInformation.departmentName,fontsize: fm.setFontSizeBold(fs: 15), tbWid :scWid * 0.9 )//.height
+        var texthei = fm.calculateHeiFromString(text: lang == "E" ? self.majorInformation.departmentEnName : self.majorInformation.departmentThName,fontsize: 17, tbWid :scWid * 0.8)
         majorTitle = UILabel(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid * 0.9, height: texthei.height + 5))
-        majorTitle.text = self.majorInformation.departmentName
+        majorTitle.text = lang == "E" ? self.majorInformation.departmentEnName : self.majorInformation.departmentThName
         majorTitle.font = fm.setFontSizeBold(fs: 20)
         self.scoll.addSubview(majorTitle)
         
         hei = majorTitle.frame.origin.y + majorTitle.frame.height + 10
-        texthei = fm.calculateHeiFromString(text: self.facultyFullName,fontsize: fm.setFontSizeLight(fs: 14), tbWid : scWid*0.9)
+        texthei = fm.calculateHeiFromString(text: self.facultyFullName,fontsize: 15, tbWid : scWid * 0.8)
         facName = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.9, height: texthei.height))
         facName.text = self.facultyFullName
         facName.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(facName)
         
         hei = facName.frame.height + facName.frame.origin.y
-        texthei = fm.calculateHeiFromString(text: self.majorInformation.description,fontsize:fm.setFontSizeLight(fs: 12.5), tbWid : 200)//.height
-        majorDescrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei + 10, width: scWid * 0.86, height: texthei.height+15))
+        texthei = fm.calculateHeiFromString(text: self.majorInformation.description,fontsize: 14, tbWid : scWid * 0.8)
+        majorDescrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei + 10, width: scWid * 0.86, height: texthei.height + 28))
         majorDescrip.font = fm.setFontSizeLight(fs: 14)
         majorDescrip.textAlignment = .left
         majorDescrip.isUserInteractionEnabled = false
         majorDescrip.text = "    \(self.majorInformation.description!)"
         self.scoll.addSubview(majorDescrip)
         
-        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y - 20
+        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y + 10
         // FIXME: CURRICULUM
         let boxCurri = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxCurri.backgroundColor = UIColor.clear
@@ -165,8 +162,7 @@ class MajorViewController: UIViewController {
         self.scoll.addSubview(chatIcon)
         self.scoll.addSubview(boxChat)
         
-        hei = chatIcon.frame.height + chatIcon.frame.origin.y + 20
+        hei = boxChat.frame.height + boxChat.frame.origin.y + 15
         return hei
     }
-    
 }

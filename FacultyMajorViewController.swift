@@ -21,7 +21,8 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     var descrip : UITextView!
     var logo : UIImageView!
     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
-    
+    var fontName =  "Gidole-Regular"
+
     override func viewDidLoad() {
         super.viewDidLoad()
         startIndicator()
@@ -39,7 +40,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     }
     
     func reloadTableViewInFacMajor(facId : Int,lang:String) {
-        WebService.GetMajorWS(facultyId: facId,language: lang){ (responseData: FacultyMajorModel, nil) in
+        WebService.GetFacultyDetailWS(facultyId: facId,language: lang){ (responseData: FacultyMajorModel, nil) in
             DispatchQueue.main.async( execute: {
                 self.facultyMajorInformation = responseData
                 self.majorTableView.reloadData()
@@ -59,7 +60,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
             mainImage.loadImageUsingCacheWithUrlString(urlStr: self.facultyMajorInformation.imageURL)
         }
         self.scoll.addSubview(mainImage)
-        var texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: fm.setFontSizeBold(fs: 18), tbWid :200)//.height + 5
+        var texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.facultyAbb,fontsize: 18, tbWid :scWid * 0.6)//.height + 5
         hei = mainImage.frame.origin.y + mainImage.frame.height + 10
         
         facTitle = UILabel(frame: CGRect(x: scWid * 0.07, y: hei, width: scWid * 0.6, height: texthei.height))
@@ -68,7 +69,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         self.scoll.addSubview(facTitle)
         hei = facTitle.frame.origin.y + facTitle.frame.height
         
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyName,fontsize: fm.setFontSizeLight(fs: 15), tbWid : 200)
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.facultyName,fontsize: 15, tbWid : scWid*0.86)
         facSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y:  hei, width: scWid*0.86, height: texthei.height ))
         facSubtitle.text = self.facultyMajorInformation.facultyName
         facSubtitle.font = fm.setFontSizeLight(fs: 15)
@@ -87,20 +88,19 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         //        self.location.addSubview(loDef)
         //        hei = location.frame.height + location.frame.origin.y
         
-        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: fm.setFontSizeLight(fs: 12.5), tbWid : 200)
-        descrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei, width: scWid * 0.86, height: texthei.height ))
+        texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: 14, tbWid : scWid * 0.8)
+        descrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei, width: scWid * 0.86, height: texthei.height + 28))
         descrip.font = fm.setFontSizeLight(fs: 14)
         descrip.textAlignment = .justified
         descrip.isUserInteractionEnabled = false
         descrip.text = "   \(self.facultyMajorInformation.description!)"
         self.scoll.addSubview(descrip)
-        hei = descrip.frame.height + descrip.frame.origin.y
+        hei = descrip.frame.height + descrip.frame.origin.y + 10
         
         logo = UIImageView(frame: CGRect(x: scWid*0.07, y: hei, width: scWid*0.3, height: scWid*0.3))
         logo.image = UIImage(named: "\(self.facultyMajorInformation.facultyAbb)_logo")
         self.scoll.addSubview(logo)
-        
-        return hei //+ scWid*0.15
+        return hei
     }
     
     func setTableViewSize(majorNum : Int, content : CGFloat){

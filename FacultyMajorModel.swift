@@ -1,15 +1,7 @@
-//
-//  FacultyMajorModel.swift
-//  UIPSOPEC
-//
-//  Created by Chotikar on 3/15/2560 BE.
-//  Copyright © 2560 Senior Project. All rights reserved.
-//
 
 import Foundation
 
 class FacultyMajorModel {
-    
     var faculyId : Int!
     var facultyName : String!
     var facultyAbb : String!
@@ -21,7 +13,6 @@ class FacultyMajorModel {
     var phone: String!
     var marjorList = [MajorModel]()
   //  var location:
-    
     init() {
         faculyId = 99999
         facultyName = "N/A"
@@ -50,37 +41,40 @@ class FacultyMajorModel {
             marjorList.append(MajorModel(dic:i as AnyObject))
         }
     }
-
 }
 
 class MajorModel {
-    
     var departmentId : Int!
-    var departmentName: String!
+    var departmentEnName: String!
+    var departmentThName: String!
     var degree: Int!
     var degreeName : String!
     var departmentAbb: String!
     var imageURL: String!
     var description: String!
+    var departmentName: String!
     
     init(){
         departmentId = 99999
-        departmentName = "N/A"
+        departmentEnName = "N/A"
+        departmentThName = "N/A"
         degree = 99999
         degreeName = "N/A"
         departmentAbb = "N/A"
         imageURL = ""
         description = "N/A"
+        departmentName = ""
     }
     
     init(dic :AnyObject) {
         departmentId = dic["departmentID"]  as! Int
-        departmentName = dic["departmentName"] as! String
+        departmentEnName = dic["departmentNameEn"]  as? String ?? ""
+        departmentThName = dic["departmentNameTh"]  as? String ?? ""
         degree = dic["degree"] as! Int
         degreeName = (dic["degreeName"] as? String ?? "N/A")
         departmentAbb = (dic["departmentAbb"] as? String ?? "N/A")
         imageURL = (dic["imageURL"] as? String ?? "")
         description = (dic["description"] as? String ?? "N/A")
+        departmentName = dic["departmentName"]   as? String ?? ""
     }
-    
 }

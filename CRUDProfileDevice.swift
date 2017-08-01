@@ -8,7 +8,7 @@ class CRUDProfileDevice {
     static func GetUserProfile() -> UserLogInDetail {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInfor")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInforEntity")
         
         var userProfile = UserLogInDetail()
         var profileValue_DB =  [NSManagedObject]()
@@ -34,15 +34,11 @@ class CRUDProfileDevice {
     }
     
     ///Save Profile device to mobile database
-    static func SaveProfileDevice(loginInfor:UserLogInDetail){
+    static func SaveProfileDevice(loginInfor: UserLogInDetail){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
         let context =  appDelegate.persistentContainer.viewContext
-        //retrieve the entity that we just created
-        let entity =  NSEntityDescription.entity(forEntityName: "ProfileInfor", in: context)
-        
+        let entity =  NSEntityDescription.entity(forEntityName: "ProfileInforEntity", in: context)
         let transc = NSManagedObject(entity: entity!, insertInto: context)
-        print(loginInfor.userId)
         transc.setValue(loginInfor.byFacebook, forKey: "byFacebook")
         transc.setValue(loginInfor.email, forKey: "email")
         transc.setValue(loginInfor.facebookId, forKey: "facebook_id")
@@ -58,31 +54,7 @@ class CRUDProfileDevice {
             print("saved!")
         } catch let error as NSError  {
             print("Could not save \(error), \(error.userInfo)")
-        } catch {
-            
         }
-        
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                let managedContext = appDelegate.persistentContainer.viewContext
-//                let entity = NSEntityDescription.entity(forEntityName: "ProfileInfor", in: managedContext)!
-//        
-//                let managedObject = NSManagedObject(entity: entity, insertInto: managedContext)
-//                managedObject.setValue(loginInfor.email, forKey: "email")
-//                managedObject.setValue(loginInfor.facebookId, forKey: "facebook_id")
-//                managedObject.setValue(loginInfor.facebookName, forKey: "facebook_name")
-//                managedObject.setValue(loginInfor.facebookAccessToken, forKey: "facebook_access_token")
-//                managedObject.setValue(loginInfor.udid, forKey: "udid_device")
-//                managedObject.setValue(loginInfor.username, forKey: "username")
-//                managedObject.setValue(loginInfor.password, forKey: "password")
-//                managedObject.setValue(loginInfor.userId, forKey: "userId")
-//        
-//        
-//                do {
-//                    try managedContext.save()
-//                    print("save the new profile device record sucessfully")
-//                } catch let error as NSError {
-//                    print("Could not insert the new record. \(error)")
-//                }
     }
     
     /// Clear device information
@@ -91,11 +63,12 @@ class CRUDProfileDevice {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
         
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ProfileInfor")
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ProfileInforEntity")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
         
         do {
             try context.execute(deleteRequest)
+            SaveProfileDevice(loginInfor: UserLogInDetail())
             try context.save()
         } catch {
             print ("There was an error")

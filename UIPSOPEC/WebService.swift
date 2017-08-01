@@ -2,14 +2,10 @@
 import Foundation
 
 class WebService {
-    
-    static let domainName:String = "http://www.supanattoy.com:89/"
-    
+    static let domainName:String = "http://supanattoy.com:92/"
     //Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set."
-    //error: unexpectedly found nil while unwrapping an Optional value
+    //error: unexpectedly found nil while unwrapping n Optional value
     // WRONG URL OR
-    
- 
     
     // MARK: FACULTY
     //http://www.supanattoy.com:89/Faculty/GetFacultyList?language=E
@@ -39,11 +35,11 @@ class WebService {
     }
     
     //tskyonline.com:89/Faculty/getFacultyDetail?facultyID=5
-    static func GetMajorWS(facultyId : Int, language : String,completion:@escaping (_ responseData:FacultyMajorModel,_ errorMessage:NSError?)->Void)
+    static func GetFacultyDetailWS(facultyId : Int, language : String,completion:@escaping (_ responseData:FacultyMajorModel,_ errorMessage:NSError?)->Void)
     {
         var facultyMajor = FacultyMajorModel()
         let url = NSURL(string: "\(domainName)Faculty/GetFacultyDetail?facultyID=\(facultyId)&language=\(language)")
-//        print(url!)
+        print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
@@ -338,21 +334,25 @@ class WebService {
     // MARK: Chat
     // TODO: get message list
     
-    static func getRoomListWS(userid : String ,completion:@escaping (_ responseData:[MessageModel],_ errorMessage:NSError?)->Void)
+    static func getRoomListWS(userid : String ,completion:@escaping (_ responseData:[MessageModel],_ errorMessage:NSError?) ->Void)
     {
-        var messageList : [MessageModel]!
+        var departmentList : [DepartmentEntity]!
         let url = NSURL(string: "\(domainName)Chat/GetUserRoomList?userID=\(userid)")
-        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? [[String : AnyObject ]]{
-                    messageList = []
+                    var departmentObj = DepartmentEntity()
                     for i in validJson {
-                        messageList.append(MessageModel(dic: i as! AnyObject))
+                        departmentObj.facultyId = i["FacultyID"] as? String
+                        departmentObj.facultyName = i["FacultyName"] as? String
+                        departmentObj.programAbb = i["ProgramAbb"] as? String
+                        departmentObj.programNameEn = i["ProgramNameEn"] as? String
+                        departmentObj.programeNameTh = i["ProgramNameTh"] as? String
+                        departmentObj.programId = i["ProgramID"] as? String
+                        departmentObj.roomCode = i["RoomName"] as? String
+                        CRUDDepartmentMessage.SaveDepartment(department: departmentObj)
                     }
-                    
-                    completion(messageList, error as NSError?)
                 } else {
                     print("Error")
                 }

@@ -78,19 +78,19 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         self.scoll.addSubview(mainImage)
         heiCon = heiCon + mainImage.frame.height + 20
         
-        var containHei = fm.calculateHeiFromString(text: showNewsModel.topic, fontsize: fm.setFontSizeBold(fs: 16), tbWid: scWid * 0.9)
+        var containHei = fm.calculateHeiFromString(text: showNewsModel.topic, fontsize: 16, tbWid: scWid * 0.9)
         newsTitle = UILabel(frame: CGRect(x: scWid * 0.05, y: heiCon, width: scWid * 0.9, height: containHei.height))
         newsTitle.text = showNewsModel.topic
         self.scoll.addSubview(newsTitle)
         heiCon = heiCon + newsTitle.frame.height
         
-        containHei = fm.calculateHeiFromString(text: showNewsModel.typeName, fontsize: fm.setFontSizeBold(fs: 16), tbWid: scWid * 0.9)
+        containHei = fm.calculateHeiFromString(text: showNewsModel.typeName, fontsize: 16, tbWid: scWid * 0.9)
         newsSubtitle = UILabel(frame: CGRect(x: scWid * 0.07, y: heiCon, width: scWid*0.86, height: scWid*0.1))
         newsSubtitle.text = showNewsModel.typeName
         self.scoll.addSubview(newsSubtitle)
         heiCon = heiCon + newsSubtitle.frame.height
         
-        containHei = fm.calculateHeiFromString(text: showNewsModel.description, fontsize: fm.setFontSizeLight(fs: 12), tbWid: scWid * 0.9)
+        containHei = fm.calculateHeiFromString(text: showNewsModel.description, fontsize: 12, tbWid: scWid * 0.9)
         news = UITextView(frame: CGRect(x: scWid * 0.07, y: heiCon, width: scWid*0.86, height: containHei.height+20))
         news.font = UIFont.systemFont(ofSize: 13)
         news.text = showNewsModel.description

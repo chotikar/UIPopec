@@ -4,6 +4,7 @@ import CoreData
 import FBSDKCoreKit
 import GoogleMaps
 import GooglePlaces
+import CoreFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -57,7 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
-
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -101,6 +101,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
 }
 

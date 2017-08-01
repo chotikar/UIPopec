@@ -82,7 +82,7 @@ class ContactViewController: UIViewController {
         var hei = CGFloat(scHei*0.27)
         var boxSize = CGRect()
         for con in contactList {
-            boxSize = fm.calculateHeiFromString(text: con.Campusname, fontsize: fm.setFontSizeBold(fs: 19), tbWid: scWid)
+            boxSize = fm.calculateHeiFromString(text: con.Campusname, fontsize: 19, tbWid: scWid)
             var campusName = UILabel()
             campusName = UILabel(frame: CGRect(x: scWid*0.05, y: hei, width: scWid*0.9, height: boxSize.height))
             campusName.font = fm.setFontSizeBold(fs: 19)
@@ -90,7 +90,7 @@ class ContactViewController: UIViewController {
             campusName.text = con.Campusname
             hei = hei + boxSize.height
             
-            boxSize = fm.calculateHeiFromString(text: con.Addr, fontsize: fm.setFontSizeLight(fs: 13.5), tbWid: scWid)
+            boxSize = fm.calculateHeiFromString(text: con.Addr, fontsize: 13.5, tbWid: scWid)
             //            var addrlogo = UIImageView()
             //            addrlogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei+5
             //                , width: scWid*0.05, height: scWid*0.05))
@@ -106,7 +106,7 @@ class ContactViewController: UIViewController {
             address.textAlignment = .left
             hei = hei + boxSize.height
             
-            boxSize = fm.calculateHeiFromString(text: con.Telephone, fontsize: fm.setFontSizeLight(fs: 13), tbWid: scWid)
+            boxSize = fm.calculateHeiFromString(text: con.Telephone, fontsize: 13, tbWid: scWid)
             var tellogo = UIImageView()
             tellogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei, width: scWid*0.05, height: scWid*0.05))
             tellogo.image = UIImage(named: "phone-call")
@@ -117,7 +117,7 @@ class ContactViewController: UIViewController {
             tel.textColor = UIColor.darkGray
             hei = hei + boxSize.height+10
             
-            boxSize = fm.calculateHeiFromString(text: con.Fax, fontsize: fm.setFontSizeLight(fs: 13), tbWid: scWid)
+            boxSize = fm.calculateHeiFromString(text: con.Fax, fontsize: 13, tbWid: scWid)
             var fax = UILabel()
             fax = UILabel(frame: CGRect(x: scWid*0.05, y: hei, width: scWid-(scWid*0.1), height: boxSize.height))
             fax.font = fm.setFontSizeLight(fs: 13)
@@ -125,7 +125,7 @@ class ContactViewController: UIViewController {
             fax.textColor  = UIColor.darkGray
             hei = hei + boxSize.height+10
             
-            boxSize = fm.calculateHeiFromString(text: con.Email, fontsize: fm.setFontSizeLight(fs: 13), tbWid: scWid)
+            boxSize = fm.calculateHeiFromString(text: con.Email, fontsize: 13, tbWid: scWid)
             var emaillogo = UIImageView()
             emaillogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei, width: scWid*0.05, height: scWid*0.05))
             emaillogo.image = UIImage(named: "mail")

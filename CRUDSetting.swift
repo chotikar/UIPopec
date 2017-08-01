@@ -9,7 +9,7 @@ class CRUDSettingValue{
     
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SettingTest")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SettingTestEntity")
         
         var settingValueInt = ""
         var settingValue_DB =  [NSManagedObject]()
@@ -46,7 +46,7 @@ class CRUDSettingValue{
         
         let context =  appDelegate.persistentContainer.viewContext
         //retrieve the entity that we just created
-        let entity =  NSEntityDescription.entity(forEntityName: "SettingTest", in: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "SettingTestEntity", in: context)
         
         let transc = NSManagedObject(entity: entity!, insertInto: context)
         
@@ -70,7 +70,7 @@ class CRUDSettingValue{
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
         
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SettingTest")
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SettingTestEntity")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
         
         do {

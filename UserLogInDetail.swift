@@ -28,7 +28,6 @@ class UserLogInDetail {
     }
     
     init(obj : [NSManagedObject]) {
-//        print(obj.first?.value(forKey: "byFacebook") as? Int16)
         self.byFacebook = (obj.first?.value(forKey: "byFacebook") as? Int16)! 
         self.userId = obj.first?.value(forKey: "userId") as? Int64
         self.email = obj.first?.value(forKey: "email") as? String

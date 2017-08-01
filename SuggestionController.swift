@@ -33,8 +33,8 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         titleButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         drawSuggestionFac()
         setTableview()
-//        Sidemenu()
-//        CustomNavbar()
+        Sidemenu()
+        CustomNavbar()
         stopIndicator()
         loadFacultyWS(sc:"0",lang:CRUDSettingValue.GetUserSetting())
         loadKeywordWS(lang:CRUDSettingValue.GetUserSetting())
@@ -262,6 +262,19 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             view.isHidden = hidden
         }, completion: nil)
     }
+    func Sidemenu() {
+        
+        MenuButton.target = SWRevealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        
+    }
+    
+    func CustomNavbar() {
+        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+    }
+
     
 //    func Sidemenu() {
 //

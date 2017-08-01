@@ -110,27 +110,28 @@ class MajorViewController: UIViewController {
         
         hei = facName.frame.height + facName.frame.origin.y
         texthei = fm.calculateHeiFromString(text: self.majorInformation.description,fontsize: 14, tbWid : scWid * 0.8)
-        majorDescrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei + 10, width: scWid * 0.86, height: texthei.height + 28))
+        majorDescrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei + 10, width: scWid * 0.86, height: texthei.height + 15))
         majorDescrip.font = fm.setFontSizeLight(fs: 14)
         majorDescrip.textAlignment = .left
         majorDescrip.isUserInteractionEnabled = false
         majorDescrip.text = "    \(self.majorInformation.description!)"
         self.scoll.addSubview(majorDescrip)
         
-        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y + 10
+        hei = majorDescrip.frame.height + majorDescrip.frame.origin.y
         // FIXME: CURRICULUM
         let boxCurri = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxCurri.backgroundColor = UIColor.clear
         let curriIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
         curriIcon.image = UIImage(named: "curriculum")
         let curriLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
-        curriLabel.text = "Curriculum"
+        curriLabel.text = lang == "T" ? "หลักสูตร" : "Curriculum"
         curriLabel.textColor = UIColor.gray
         curriLabel.textAlignment = .left
         curriLabel.font = UIFont(name: "Gidole-Regular", size: 15)
         self.scoll.addSubview(curriLabel)
         self.scoll.addSubview(curriIcon)
         self.scoll.addSubview(boxCurri)
+        
         // FIXME: MAP
         hei = curriIcon.frame.height + curriIcon.frame.origin.y + 5
         let boxMap = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
@@ -138,7 +139,7 @@ class MajorViewController: UIViewController {
         let mapIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
         mapIcon.image = UIImage(named: "mapLocation")
         let mapLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
-        mapLabel.text = "Location"
+        mapLabel.text = lang == "T" ? "ที่อยู่" : "Location"
         mapLabel.textColor = UIColor.gray
         mapLabel.textAlignment = .left
         mapLabel.font = UIFont(name: "Gidole-Regular", size: 15)
@@ -154,7 +155,7 @@ class MajorViewController: UIViewController {
         let chatIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
         chatIcon.image = UIImage(named: "chatGray")
         let chatLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
-        chatLabel.text = "Ask with staff"
+        chatLabel.text = lang == "T" ? "สอบถามเรา" : "Ask with staff"
         chatLabel.textColor = UIColor.gray
         chatLabel.textAlignment = .left
         chatLabel.font = UIFont(name: "Gidole-Regular", size: 15)
@@ -162,7 +163,7 @@ class MajorViewController: UIViewController {
         self.scoll.addSubview(chatIcon)
         self.scoll.addSubview(boxChat)
         
-        hei = boxChat.frame.height + boxChat.frame.origin.y + 15
+        hei = boxChat.frame.height + boxChat.frame.origin.y + 100
         return hei
     }
 }

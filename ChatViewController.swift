@@ -222,7 +222,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
     func SentMessage() {
         if let hub = chatHub, let message = inputTextField.text {
             do {
-                if message != ""{
+                if message != "" || message != nil {
                     try hub.invoke("sent", arguments: [self.departmentEntity?.roomCode ?? "", 0, loginInfor.userId, message])
                     inputTextField.text = ""
                 }

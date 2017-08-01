@@ -100,7 +100,6 @@ class CRUDDepartmentMessage{
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.A"
         let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
         chatLog.department = department
-        print("*****\((textInfo["Date"] as! String))********")
         chatLog.date = NSDate()
         chatLog.sendBy = textInfo["Sendby"] as! Int16
         chatLog.text = String(textInfo["Message"] as! String)

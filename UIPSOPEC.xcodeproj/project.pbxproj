@@ -51,8 +51,6 @@
 		6DF1C3E1A4DA36AE47BF5F2E /* Pods_UIPSOPEC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F30573407E3145519A354 /* Pods_UIPSOPEC.framework */; };
 		7545F33A1E8666AA00603222 /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545F3391E8666AA00603222 /* ContactModel.swift */; };
 		755EA9131EA5173500C622CE /* SuggestionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755EA9121EA5173500C622CE /* SuggestionController.swift */; };
-		756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */; };
-		756C02C01EA1EEC500D25B2D /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */; };
 		757B88111EB10AFC00098414 /* RevealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B88101EB10AFC00098414 /* RevealViewController.swift */; };
 		758DDFE91E9E0AEB00EAAFA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 758DDFE71E9E0AEB00EAAFA8 /* Main.storyboard */; };
 		759497C01EA8C9FE0058006D /* applyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756E17A21E8960B40071EFD6 /* applyViewController.swift */; };
@@ -107,8 +105,6 @@
 		4FE09F2E1E5A04BF0020A2C5 /* ToastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		7545F3391E8666AA00603222 /* ContactModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
 		755EA9121EA5173500C622CE /* SuggestionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionController.swift; sourceTree = "<group>"; };
-		756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController_2.swift; sourceTree = "<group>"; };
-		756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		756E17A21E8960B40071EFD6 /* applyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = applyViewController.swift; sourceTree = "<group>"; };
 		757B88101EB10AFC00098414 /* RevealViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealViewController.swift; sourceTree = "<group>"; };
 		758DDFE81E9E0AEB00EAAFA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -152,7 +148,6 @@
 				755EA9121EA5173500C622CE /* SuggestionController.swift */,
 				4F6010651E643FF300311509 /* TestGoogleViewController.swift */,
 				4F56F4E81E961CF6002704BE /* ContactViewController.swift */,
-				756869781E9F5E8300C0E886 /* CalendarViewController_2.swift */,
 				759497C51EA8D1940058006D /* MenuSideTableViewController.swift */,
 				757B88101EB10AFC00098414 /* RevealViewController.swift */,
 				4F4C1E431EE517780021DDF0 /* SplashScreen.swift */,
@@ -209,7 +204,6 @@
 				4F2D74941E798A2F0021FE37 /* FacultyMajorModel.swift */,
 				4F50FE481E83C1590028B299 /* PlaceModel.swift */,
 				7545F3391E8666AA00603222 /* ContactModel.swift */,
-				756C02BF1EA1EEC500D25B2D /* CalendarModel.swift */,
 				4FBD05061EA53CBC008D5EB2 /* FacSuggestionModel.swift */,
 				4FBD05081EA53E57008D5EB2 /* KeywordModel.swift */,
 				4FDDFA081EA78F9600B708E8 /* MessageModel.swift */,
@@ -438,7 +432,6 @@
 				4F8DF6FE1E82E0EF008B37B5 /* LocationViewController.swift in Sources */,
 				4F2D74931E7972270021FE37 /* FacultyMajorViewController.swift in Sources */,
 				4F4F8D5A1E517AE0004B4419 /* UIPSOPEC.xcdatamodeld in Sources */,
-				756869791E9F5E8300C0E886 /* CalendarViewController_2.swift in Sources */,
 				4F8247881E77FEEC00F2341C /* FacultyModel.swift in Sources */,
 				4F20E6AB1F07A6C100237592 /* MessageTestTableViewController.swift in Sources */,
 				4F4AD4BE1E65E4BE00F509C5 /* NewsModel.swift in Sources */,
@@ -459,7 +452,6 @@
 				4F4F8D751E5194A9004B4419 /* UserCell.swift in Sources */,
 				4F4692491EF6D8050063E574 /* CRUDDepartmentMessage.swift in Sources */,
 				4FAF16FF1E7BCC2500EF3FB9 /* FunctionMutual.swift in Sources */,
-				756C02C01EA1EEC500D25B2D /* CalendarModel.swift in Sources */,
 				4F6010661E643FF300311509 /* TestGoogleViewController.swift in Sources */,
 				4F20E6A91F07A6B100237592 /* LoginTestViewController.swift in Sources */,
 				4F9322FA1F1536160073D998 /* MessageViewController.swift in Sources */,

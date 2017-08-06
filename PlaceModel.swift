@@ -3,25 +3,17 @@ import Foundation
 class PlaceModel {
     
     var locationId: Int!
-    var campusId:Int!
+    var campusId: Int!
     var buildingName: String!
     var latitude: String!
-    var longtitude:String!
+    var longtitude: String!
     
-    
-//    var placeId : Int
-//    var placeName : String
-//    var placeDescriptionTh  : String
-//    var placeDescriptionEn : String
-//    var longitude : String
-//    var latitude :String
-//    
     init() {
         locationId = 0
         campusId = 0
         buildingName = "N/A"
-        latitude = "N/A"
-        longtitude = "N/A"
+        latitude = ""
+        longtitude = ""
 
     }
     

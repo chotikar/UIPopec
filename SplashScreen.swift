@@ -11,7 +11,7 @@ class SplashScreen: UIViewController {
     let AppLogo:UIImageView = {
        let al = UIImageView()
         al.frame = CGRect(x: 0.25*scWid, y: scHei/4, width: 0.5*scWid, height: 0.5*scWid)
-        al.image = UIImage(named:"arts_logo")
+        al.image = UIImage(named:"abaclogo")
         return al
     }()
 

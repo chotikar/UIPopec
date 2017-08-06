@@ -102,20 +102,20 @@ class TestGoogleViewController: UIViewController,  UITableViewDelegate, UITableV
         
     }
     
-    func setMainMap (la : String , lo : String, placeName : String) {
+    func setMainMap (la : Double , lo : Double, placeName : String) {
         self.mainMap.reloadInputViews()
         
-        let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(la)!, longitude: CLLocationDegrees(lo)!, zoom: 17.0)
+        let camera = GMSCameraPosition.camera(withLatitude: la, longitude: lo, zoom: 17.0)
         
         self.mainMap = GMSMapView.map(withFrame: mainMap.frame, camera: camera)
-        let currentLocation = CLLocationCoordinate2D(latitude: CLLocationDegrees(la)!, longitude: CLLocationDegrees(lo)!)
+        let currentLocation = CLLocationCoordinate2D(latitude: la, longitude: lo)
         let marker = GMSMarker(position: currentLocation)
         marker.title = placeName
         marker.map = self.mainMap
     }
     
     func reloadTableViewInLocation(language:String){
-        self.setMainMap(la: "13.612320", lo: "100.836808",placeName: "Assumption University")
+        self.setMainMap(la: 13.612320, lo: 100.836808,placeName: "Assumption University")
         ws.GetAllPlaceWS(lang:language){ (responseData: [PlaceModel], nil) in
             DispatchQueue.main.async( execute: {
                 self.placeList = responseData
@@ -174,7 +174,7 @@ class TestGoogleViewController: UIViewController,  UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let locate = self.placeList[indexPath.row]
-        setMainMap(la: locate.latitude, lo: locate.longtitude, placeName: locate.buildingName)
+        setMainMap(la: Double(locate.latitude)!, lo: Double(locate.longtitude)!, placeName: locate.buildingName)
         showOrHideMap(sender: UIButton())
     }
     

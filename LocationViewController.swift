@@ -13,7 +13,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     @IBOutlet var mainMap : MKMapView!
     let uiv : UIView = {
         let uiv = UIView()
-        uiv.frame = CGRect(x: 0, y: 64, width: scWid, height: scHei)
+        uiv.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
         return uiv
     }()
     var scoll : UIScrollView = {
@@ -43,7 +43,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     var currentMap = CGFloat(0.1)
     let ws = WebService.self
     var placeList : [PlaceModel] = []
-    let regionRadius: CLLocationDistance = 200
+    var regionRadius: CLLocationDistance = 200
      var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,20 +75,20 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
 
     
     func setscreen(nav:CGFloat){
-        self.view.addSubview(uiv)
-        self.uiv.addSubview(mainMap)
-        self.uiv.addSubview(scoll)
+        self.view.addSubview(mainMap)
+        self.view.addSubview(scoll)
         self.scoll.addSubview(self.showButton)
         self.scoll.addSubview(self.PlaceTableView)
         self.showButton.addSubview(self.symIcon)
         self.showButton.addTarget(self, action: #selector(showOrHideMap), for: .touchUpInside)
-        self.scoll.frame = CGRect(x: 0, y: nav, width: scWid, height: scHei-nav)
+        self.scoll.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei-nav)
         self.showOrHideMap(sender: UIButton())
 
     }
     
     func setMainMap (la : String , lo : String) {
-        self.mainMap.reloadInputViews()
+//        self.mainMap.reloadInputViews()
+        regionRadius = 200
         let location = CLLocation(latitude: CLLocationDegrees(la)!, longitude: CLLocationDegrees(lo)!)
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, self.regionRadius*2.0, self.regionRadius*2.0)
         self.mainMap.setRegion(coordinateRegion, animated: true)
@@ -153,7 +153,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let locate = self.placeList[indexPath.row]
-        setMainMap(la: locate.latitude, lo: locate.longtitude)
+//        setMainMap(la: locate.latitude, lo: locate.longtitude)
         showOrHideMap(sender: UIButton())
     }
     
@@ -167,25 +167,42 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
 
 class PlaceCell : UITableViewCell {
     
-    @IBOutlet var name: UILabel!
     let fm = FunctionMutual.self
+    var name = UILabel()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(name)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override init(style: UITableViewCellStyle, reuseIdentifier:String?){
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        addSubview(name)
         name.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
         name.textAlignment = .center
         name.font = fm.setFontSizeLight(fs: 20)
         name.textColor = UIColor.darkGray
+
     }
+    
+    required init?(coder aDecorder : NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    @IBOutlet var name: UILabel!
+//    let fm = FunctionMutual.self
+//    
+//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//        self.contentView.addSubview(name)
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//    }
+//    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        name.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
+//        name.textAlignment = .center
+//        name.font = fm.setFontSizeLight(fs: 20)
+//        name.textColor = UIColor.darkGray
+//    }
     
 }
 

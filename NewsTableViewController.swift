@@ -102,7 +102,7 @@ class NewsTableViewController: UITableViewController,SWRevealViewControllerDeleg
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-
+     self.navigationController?.navigationBar.tintColor = UIColor.white
     }
 
     

@@ -1,5 +1,3 @@
-
-
 import Foundation
 import UIKit
 import SWRevealViewController
@@ -10,7 +8,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     @IBOutlet weak var SuggestTableView:UITableView!
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     var word = [String]()
-    var result: UIView!
+    let result = UIView(frame: CGRect(x: 0, y: 0, width: scWid, height: 20))
     var resultword: UILabel!
     var facSugWs = [FacSuggestionModel]()
     var keywordWs = [KeyWordModel]()
@@ -38,6 +36,8 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         stopIndicator()
         loadFacultyWS(sc:"0",lang:CRUDSettingValue.GetUserSetting())
         loadKeywordWS(lang:CRUDSettingValue.GetUserSetting())
+        filterview.isHidden = true
+        result.isHidden = false
     }
     
     func setTableview(){
@@ -50,7 +50,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
     }
     
     func drawSuggestionFac(){
-        result = UIView(frame: CGRect(x: 0, y: 64, width: scWid, height: 20))
+        //        result = UIView(frame: CGRect(x: 0, y: 64, width: scWid, height: 20))
         self.view.addSubview(FacSuggestTableView)
         self.filterview.addSubview(SuggestTableView)
         self.filterview.addSubview(doneBut)
@@ -64,13 +64,10 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         doneBut.center = CGPoint(x: scWid / 2, y: scHei * 0.85)
         doneBut.backgroundColor = abacRed
         doneBut.addTarget(self, action: #selector(getChoose), for: .touchUpInside)
-        
-        FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-        
+        FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei - 64)
         SuggestTableView.backgroundColor = UIColor.white
         SuggestTableView.frame = CGRect(x: 30, y: 10, width: scWid - 30, height: scHei * 0.81)
         SuggestTableView.separatorStyle = .none
-        
     }
     
     func loadFacultyWS(sc:String,lang:String){
@@ -91,7 +88,6 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
                 self.stopIndicator()
             })
         }
-        
     }
     
     func getChoose(sender : AnyObject){
@@ -104,19 +100,19 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         }
         self.startIndicator()
         loadFacultyWS(sc: "\(code)0", lang: CRUDSettingValue.GetUserSetting())
-        
         if word.isEmpty {
-            result.isHidden = true
-            FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-
-        }else {
-            FacSuggestTableView.frame = CGRect(x: 0, y: result.frame.height + 5, width: scWid, height: scHei - result.frame.height)
+            FacSuggestTableView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei - 64)
+            for view in result.subviews {
+                view.removeFromSuperview()
+            }
+        }
+        else {
+            FacSuggestTableView.frame = CGRect(x: 0, y: result.frame.height + 5, width: scWid, height: scHei - result.frame.height - 65)
             showresult()
         }
         word.removeAll()
         buttonPressed(sender: UIButton())
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.SuggestTableView {
@@ -124,9 +120,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         }else{
             return self.facSugWs.count
         }
-        
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
         cell.selectionStyle = .none
@@ -136,7 +130,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             cell.textLabel?.text = fac.programName
             cell.detailTextLabel?.text = fac.facultyName
             cell.imageView?.image = UIImage(named: "User_Shield")
-//             cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
+            //             cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
             cell.imageView?.contentMode = .scaleAspectFill
         }
         
@@ -162,9 +156,7 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             vc.majorCode = programe.programID
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        
     }
-    
     func startIndicator(){
         self.activityiIndicator.center = self.view.center
         self.activityiIndicator.hidesWhenStopped = true
@@ -172,11 +164,9 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         view.addSubview(activityiIndicator)
         activityiIndicator.startAnimating()
     }
-    
     func stopIndicator(){
         self.activityiIndicator.stopAnimating()
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == self.SuggestTableView {
             return scHei*0.06
@@ -184,11 +174,9 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             return scHei*0.13
         }
     }
-    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
     }
-    
     func editChoose(i: Int){
         
         if self.keywordWs[i].choose {
@@ -201,20 +189,19 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
         self.SuggestTableView.reloadData()
         
     }
-    
-  
     func showresult() {
         var xPos:CGFloat = 10
         var yPos:CGFloat = 2.5
         var totalWid: CGFloat = 0
-        result.isHidden  = false
-        result = UIView(frame: CGRect(x: 0, y: 64, width: scWid, height: 20))
-        result.backgroundColor = UIColor.gray
-        
+        if (resultword != nil && resultword.text?.isEmpty == false) {
+            for view in result.subviews {
+                view.removeFromSuperview()
+            }
+        }
         for i in word {
             resultword = UILabel(frame: CGRect(x: xPos, y: yPos, width: scWid, height: scHei))
             resultword.text = " \(i) "
-            resultword.backgroundColor = UIColor.red
+            resultword.backgroundColor = abacRed
             resultword.layer.cornerRadius = 3
             resultword.font = UIFont.boldSystemFont(ofSize: 13)
             resultword.numberOfLines = 1
@@ -225,30 +212,22 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             self.result.addSubview(resultword)
             xPos = xPos + resultword.frame.size.width + 5
             totalWid += resultword.frame.width
-            print ("i : \(i)")
             print ("Width\(totalWid)")
-            
             if totalWid >= scWid - 20{
                 print("over")
                 xPos = 10
                 yPos = resultword.frame.size.height + 5
             }
         }
-        
-        //result = UIView(frame: CGRect(x: 0, y: 64, width: scWid, height: yPos+20))
         result.frame.size.height = yPos+20
-        self.result.setNeedsDisplay()
-        self.resultword.setNeedsDisplay()
-        self.view.addSubview(result)
     }
-
+    
     func buttonPressed(sender: AnyObject) {
-        filterview.frame  = CGRect(x: 0, y: 65, width: scWid, height: scHei)
+        filterview.frame  = CGRect(x: 0, y: 0, width: scWid, height: scHei)
         filterview.backgroundColor = UIColor.white
         filterview.clipsToBounds = true
         filterview.layer.cornerRadius = 5
         self.view.addSubview(filterview)
-
         if filterview.isHidden{
             setView(view: filterview, hidden: false)
         } else {
@@ -262,51 +241,32 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             view.isHidden = hidden
         }, completion: nil)
     }
+    
     func Sidemenu() {
-        
         MenuButton.target = SWRevealViewController()
         MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-        
     }
     
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
-        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.navigationBar.isTranslucent = false
+        let myView: UIView = UIView(frame: CGRect(x: scWid * 0.4, y: 0, width: 200, height: 30))
+        titleButton.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
+        titleButton.setTitle("Recommendation", for: .normal)
+        titleButton.tintColor = UIColor.white
+        titleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        let image: UIImage = UIImage(named: "arrow-down")!
+        let myImageView: UIImageView = UIImageView(image: image)
+        myImageView.frame = CGRect(x: 175, y: 9, width: 15, height: 15)
+        myImageView.layer.masksToBounds = true
+        myView.addSubview(titleButton)
+        myView.backgroundColor = UIColor.clear
+        myView.addSubview(myImageView)
+        self.navigationItem.titleView = myView
     }
-
-    
-//    func Sidemenu() {
-//
-//            MenuButton.target = SWRevealViewController()
-//            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-//           
-//       
-//    }
-//    
-////    func CustomNavbar() {
-//        navigationController?.navigationBar.barTintColor = abacRed
-//        navigationController?.navigationBar.isTranslucent = false
-//        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-//        let myView: UIView = UIView(frame: CGRect(x: scWid * 0.4, y: 0, width: 200, height: 30))
-//        titleButton.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
-//        titleButton.setTitle("Recommendation", for: .normal)
-//        titleButton.tintColor = UIColor.white
-//        titleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-//        
-//        let image: UIImage = UIImage(named: "arrow-down")!
-//        let myImageView: UIImageView = UIImageView(image: image)
-//        myImageView.frame = CGRect(x: 175, y: 9, width: 15, height: 15)
-//        myImageView.layer.masksToBounds = true
-//        myView.addSubview(titleButton)
-//        myView.backgroundColor = UIColor.clear
-//        myView.addSubview(myImageView)
-//        self.navigationItem.titleView = myView
-//    }
-    
     
     class SuggestCell : UITableViewCell {
-        
         @IBOutlet var checkBut : UIButton!
         @IBOutlet var keyword : UILabel!
         let fm = FunctionMutual.self
@@ -315,26 +275,22 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             self.contentView.addSubview(checkBut)
             self.contentView.addSubview(keyword)
-            
         }
-        
         required init?(coder aDecoder: NSCoder) {
             super.init(coder: aDecoder)
         }
-        
         override func layoutSubviews() {
             super.layoutSubviews()
             checkBut.frame = CGRect(x: scWid*0.05, y: scWid*0.01, width: scWid*0.08, height: scWid*0.08)
             checkBut.addTarget(self, action: #selector(checkAction), for: .touchUpInside)
             keyword.frame = CGRect(x: scWid*0.13, y: scWid*0.01, width: 0.23, height: scWid*0.08)
         }
-        
         func checkAction(ui :AnyObject){
             if choose {
                 checkBut.setImage(UIImage(named:"choose"), for: .normal)
-            }else{
+            }
+            else{
                 checkBut.setImage(UIImage(named:"not choose"), for: .normal)
-                
             }
         }
     }

@@ -163,33 +163,6 @@ class WebService {
         task.resume()
     }
     
-    
-    // MARK: CALENDAR
-    static func GetCalendarWS (completion:@escaping (_ responseData:[CalendarModel],_ errorMessage:NSError?) -> Void) {
-        var CalendarEvent : [CalendarModel] = []
-        let url = NSURL(string: "\(domainName)Calendar/GetCalendar?year=2017&language=E")
-        print(url!)
-        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
-            do {
-                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                
-                if let validJson = jsonResult as? [[String:AnyObject]] {
-                    for i in validJson {
-                        CalendarEvent.append(CalendarModel(dic: i as AnyObject))
-                    }
-                    completion(CalendarEvent, error as NSError?)
-                } else {
-                    print("Error")
-                }
-                
-            } catch let myJSONError {
-                print("Error : ", myJSONError)
-            }
-        }
-        task.resume()
-    }
-    
-    
     // MARK: APPLICATION
     static func ApplyWS (Semester: Int,Year: Int , isThai: Bool, Citizen: String,titlename: String,
                          fname: String, lname: String,gender: String, national: String, birthdate: String, mobile: String,

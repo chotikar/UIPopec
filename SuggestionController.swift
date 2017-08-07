@@ -129,9 +129,10 @@ class SuggestionTableViewController : UIViewController,UITableViewDelegate,UITab
             let fac = self.facSugWs[indexPath.row]
             cell.textLabel?.text = fac.programName
             cell.detailTextLabel?.text = fac.facultyName
-            cell.imageView?.image = UIImage(named: "User_Shield")
-            //             cell.imageView?.loadImageUsingCacheWithUrlString(urlStr: "http://static1.squarespace.com/static/525f350ee4b0fd74e5ba0495/t/53314e2be4b00782251d9427/1481141044684/?format=1500w")
+            cell.imageView?.image = UIImage(named: fac.programAbb)
             cell.imageView?.contentMode = .scaleAspectFill
+            cell.imageView?.layer.masksToBounds = true
+            cell.imageView?.layer.cornerRadius = 10
         }
         
         if tableView == self.SuggestTableView {

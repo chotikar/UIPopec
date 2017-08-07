@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:DepartmentEntity+CoreDataClass.swift">
-   </FileRef>
-   <FileRef
-      location = "group:DepartmentEntity+CoreDataProperties.swift">
-   </FileRef>
-   <FileRef
       location = "group:UIPSOPEC.xcodeproj">
    </FileRef>
    <FileRef

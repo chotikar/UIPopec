@@ -221,7 +221,7 @@ class WebService {
     {
         var facSugList : [FacSuggestionModel] = []
         let url = NSURL(string: "\(domainName)Suggestion/GetSuggestionProgram?keywordlist=\(sugCode)&language=\(lang)")
-
+        print(url)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)

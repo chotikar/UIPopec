@@ -8,44 +8,40 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
     let fm = FunctionMutual.self
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     var mainMap = UIView()
-    let uiv : UIView = {
+    let uiv: UIView = {
         let uiv = UIView()
         uiv.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
         return uiv
     }()
-    var scoll : UIScrollView = {
+    var scoll: UIScrollView = {
         var sc = UIScrollView ()
         sc.frame = CGRect(x: 0, y: scHei*0.85, width: scWid, height: scHei)
-        sc.layer.cornerRadius = 10
         sc.backgroundColor = UIColor.white
         return sc
     }()
-    var showButton : UIButton = {
+    var showButton: UIButton = {
         var butShow = UIButton()
         butShow.frame =  CGRect(x: 0, y: 0, width: scWid, height: (scHei-64)*0.08)
         butShow.backgroundColor = UIColor(colorLiteralRed: 228/225, green: 228/225, blue: 228/225, alpha: 1)
-        butShow.layer.cornerRadius = 10
         return butShow
     }()
     
-    var symIcon : UIImageView = {
+    var symIcon: UIImageView = {
         var ci = UIImageView()
         ci.frame = CGRect(x: (scWid*0.92)/2.0, y: 5, width: scWid*0.08, height: scWid*0.08)
         ci.image = UIImage(named: "up")
         return ci
     }()
     @IBOutlet weak var PlaceTableView: UITableView!
-    var navigationBarHeight = CGFloat(0.0)
-    
     var currentMap = CGFloat(0.1)
     let ws = WebService.self
-    var placeList : [PlaceModel] = []
+    var placeList: [PlaceModel]!
     var regionRadius: CLLocationDistance = 200
-    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
-    var currentLongtitude = CLLocationDegrees(100.8355103)
-    var currentLatitude = CLLocationDegrees(13.6120822)
-    var currentName = "Assumption University"
-    var currentSnippet = "International University"
+    var activityiIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    var currentLongtitude: CLLocationDegrees!
+    var currentLatitude: CLLocationDegrees!
+    var currentName: String!
+    var currentSnippet: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +85,10 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
         PlaceTableView.dataSource = self
         PlaceTableView.register(PlaceCell.self, forCellReuseIdentifier: "PlaceCellItem")
         self.scoll.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei-nav)
+        self.scoll.layer.cornerRadius = 13
+        currentLongtitude =  currentLongtitude ?? CLLocationDegrees(100.8355103)
+        currentLatitude = currentLatitude ?? CLLocationDegrees(13.6120822)
+        currentName = currentName ?? "Assumption University"
         self.showOrHideMap(sender: UIButton())
     }
     
@@ -101,7 +101,6 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
         marker.title = currentName
 //        marker.snippet = currentSnippet
         marker.map = mainmap
-        print("LOCATION: \(currentLongtitude), \(currentLatitude)")
     }
     
     func reloadTableViewInLocation(language:String) {
@@ -109,6 +108,7 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
             DispatchQueue.main.async( execute: {
                 self.placeList = responseData
                 self.PlaceTableView.reloadData()
+                self.stopIndicator()
             })
         }
     }
@@ -131,6 +131,7 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
     func manageScroll(hei : CGFloat, symStr : String){
         UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
             self.scoll.frame.origin.y = hei
+            self.scoll.layer.cornerRadius = 13
             self.symIcon.image = UIImage(named: symStr)
         }, completion: nil)
         PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+5, width: scWid, height: (scHei-64)*0.8)
@@ -138,7 +139,10 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
     
     ///Show List of Place
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.placeList.count
+        if let count = self.placeList?.count {
+            return count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

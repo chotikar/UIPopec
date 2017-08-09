@@ -78,12 +78,13 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         hei = facSubtitle.frame.height + facSubtitle.frame.origin.y
         
         texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.buildingName, fontsize: 12, tbWid: scWid * 0.54)
-        location = UIButton(frame: CGRect(x: scWid * 0.37, y: hei, width: scWid*0.54, height: texthei.height + 10))
+        let locationWidth = texthei.width + 20 + texthei.height
+        location = UIButton(frame: CGRect(x: scWid - locationWidth - 20, y: hei, width: locationWidth, height: texthei.height + 10))
         self.scoll.addSubview(location)
-        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 0, width: texthei.height, height: texthei.height))
+        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 5, width: texthei.height, height: texthei.height))
         loIcon.image = UIImage(named: "locationnoGray")
         self.location.addSubview(loIcon)
-        let loDef =  UILabel(frame: CGRect(x: texthei.height + 10, y: 0, width: location.bounds.width - (texthei.height+10), height: texthei.height))
+        let loDef =  UILabel(frame: CGRect(x: texthei.height + 10, y: 5, width: location.bounds.width - (texthei.height+10), height: texthei.height))
         loDef.font = fm.setFontSizeLight(fs: 13)
         loDef.text = self.facultyMajorInformation.buildingName
         self.location.addSubview(loDef)

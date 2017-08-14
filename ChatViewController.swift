@@ -256,8 +256,8 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             print("Reconnecting...")
         }
         connection.connected = { [weak self] in
-            self?.JoinGroup(userid: (self?.loginInfor.userId)!, facid: (self?.departmentEntity?.facultyId)!, proId: (self?.departmentEntity?.programId)!)
             print("Connected")
+            self?.JoinGroup(userid: (self?.loginInfor.userId)!, facid: (self?.departmentEntity?.facultyId)!, proId: (self?.departmentEntity?.programId)!)
         }
         connection.reconnected = { [weak self] in
             print("Reconnected. Connection ID: \(self!.connection.connectionID!)")

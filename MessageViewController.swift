@@ -47,6 +47,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     var messageCell = "messageItemCell"
     var messageList: [MessageEntity]?
     /// Login and signUp
+    var signInUpScroll: UIScrollView!
     var signinPageStatus: Bool!
     var toast: UIView!
     var userLoginModel = UserLogInDetail()
@@ -79,36 +80,36 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         Sidemenu()
         mangegeLayout()
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.RemoveObserver()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
-        let moveDuration = 0.1
-        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-        UIView.beginAnimations("animateTextField", context: nil)
-        UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationDuration(moveDuration)
-        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-        UIView.commitAnimations()
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if (textField == self.username || textField == self.password) {
-            moveTextField(textField, moveDistance: -90, up: true)
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if (textField == self.username || textField == self.password) {
-            moveTextField(textField, moveDistance: -90, up: false)
-        }
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.view.endEditing(true)
+//    }
+//    
+//    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
+//        let moveDuration = 0.1
+//        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+//        UIView.beginAnimations("animateTextField", context: nil)
+//        UIView.setAnimationBeginsFromCurrentState(true)
+//        UIView.setAnimationDuration(moveDuration)
+//        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+//        UIView.commitAnimations()
+//    }
+//    
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        if (textField == self.username || textField == self.password) {
+//            moveTextField(textField, moveDistance: -90, up: true)
+//        }
+//    }
+//    
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if (textField == self.username || textField == self.password) {
+//            moveTextField(textField, moveDistance: -90, up: false)
+//        }
+//    }
     
     // MARK : MUTAL
     func mangegeLayout(){
@@ -147,6 +148,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
                 }else{
                     print("Signup Success")
                     self.SaveProfileDb(loginInfor: userFromWs)
+                    self.RemoveObserver()
                     self.mangegeLayout()
                 }
                 self.stopIndicator()
@@ -255,7 +257,6 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         if(accessToken != nil)
         {
             tokenFacebook = (accessToken?.tokenString ?? "")!
-            print(tokenFacebook)
         }
         let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name"])
         graphRequest.start(completionHandler: { (connection, result, error) -> Void in
@@ -263,7 +264,6 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
                 print("Error: \(error as! String)")
             }else{
                 self.data = result as! [String : AnyObject]
-                print(self.data)
                 //1304007822985652
                 //http://graph.facebook.com/1304007822985652/picture?type=large&redirect=true&width=500&height=500
                 let facPic = "http://graph.facebook.com/\(self.data["id"] as! String)/picture?type=large&redirect=true&width=300&height=300"
@@ -294,7 +294,6 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         let cell = UserCell()
         if let messageDe = messageList?[indexPath.row] {
         cell.title.text = messageDe.department?.programNameEn
-        print("Time (\(indexPath.row)):\(messageDe.date!)")
         cell.timeLable.text = self.SetDateFormatter(date: (messageDe.date!) as Date)
         cell.message.text = messageDe.text!
         cell.profileImageView.image = UIImage(named:(messageDe.department?.programAbb)!)
@@ -541,16 +540,19 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         boxLoginAndRegis.center = CGPoint(x: scWid * 0.5, y: hei)
         loginAndRegisBut.addTarget(self, action: #selector(signupAction), for: .touchUpInside)
         loginAndRegisBut.setTitle("Register", for: .normal)
+        signInUpScroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        signInUpScroll.backgroundColor = UIColor.clear
         self.view.addSubview(loginBg)
-        self.view.addSubview(boxBack)
-        self.view.addSubview(logoAbac)
-        self.view.addSubview(facbookBut)
-        self.view.addSubview(boxOr)
-        self.view.addSubview(boxUsername)
-        self.view.addSubview(boxEmail)
-        self.view.addSubview(boxPassword)
-        self.view.addSubview(boxRepassword)
-        self.view.addSubview(boxLoginAndRegis)
+        self.view.addSubview(signInUpScroll)
+        self.signInUpScroll.addSubview(boxBack)
+        self.signInUpScroll.addSubview(logoAbac)
+        self.signInUpScroll.addSubview(facbookBut)
+        self.signInUpScroll.addSubview(boxOr)
+        self.signInUpScroll.addSubview(boxUsername)
+        self.signInUpScroll.addSubview(boxEmail)
+        self.signInUpScroll.addSubview(boxPassword)
+        self.signInUpScroll.addSubview(boxRepassword)
+        self.signInUpScroll.addSubview(boxLoginAndRegis)
     }
     
     func drawLoginPage(){
@@ -568,18 +570,36 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         loginAndRegisBut.setTitle("Login", for: .normal)
         hei = boxLoginAndRegis.frame.origin.y +  boxLoginAndRegis.frame.height + 20
         boxSignup.center = CGPoint(x: scWid*0.5, y: hei)
+        signInUpScroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
+        signInUpScroll.backgroundColor = UIColor.clear
         self.view.addSubview(loginBg)
-        self.view.addSubview(logoAbac)
-        self.view.addSubview(boxOr)
-        self.view.addSubview(facbookBut)
-        self.view.addSubview(boxUsername)
-        self.view.addSubview(boxPassword)
-        self.view.addSubview(boxLoginAndRegis)
-        self.view.addSubview(boxSignup)
+        self.view.addSubview(signInUpScroll)
+        self.signInUpScroll.addSubview(logoAbac)
+        self.signInUpScroll.addSubview(boxOr)
+        self.signInUpScroll.addSubview(facbookBut)
+        self.signInUpScroll.addSubview(boxUsername)
+        self.signInUpScroll.addSubview(boxPassword)
+        self.signInUpScroll.addSubview(boxLoginAndRegis)
+        self.signInUpScroll.addSubview(boxSignup)
     }
     
+    var tapGesture : UITapGestureRecognizer!
+    
+    var activeTextField : UITextField!
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        activeTextField = textField
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
     func drawElementSignupLogin(){
-        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.05, width: scHei*0.25, height: scHei*0.25))
+        AddObserver()
+        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.03, width: scHei*0.25, height: scHei*0.25))
         logoAbac.image = UIImage(named: "abaclogo")
         boxHei = fm.calculateHeiFromString(text: "n/a", fontsize: 27, tbWid: scWid*0.6)
         boxBack = UIView(frame: CGRect(x: 0, y: 0, width: scWid*0.3, height: scHei*0.04))
@@ -664,7 +684,58 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         password.placeholder = "Password"
         rePassword.placeholder = " Re-password"
         backButton.setTitle("Back", for: .normal)
-        self.view.addSubview(loginBg)
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(DidTapView))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func DidTapView(){
+        view.endEditing(true)
+    }
+    
+    func AddObserver() {
+        let center: NotificationCenter = NotificationCenter.default
+        center.addObserver(self, selector: #selector(HandleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        center.addObserver(self, selector: #selector(HandleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func HandleKeyboardWillHide(notification: Notification){
+        signInUpScroll.contentSize = CGSize(width: scWid, height: scHei)
+        
+        
+//        self.signInUpScroll.contentInset = UIEdgeInsets.zero
+//        UIView.animate(withDuration: 0.25,
+//                       delay: 0.0,
+//                       options: UIViewAnimationOptions.curveEaseIn,
+//                       animations: {
+//                        self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+//        }, completion: nil)
+    }
+    
+    func HandleKeyboardDidShow(notification: Notification){
+        guard let userInfo = notification.userInfo, let frame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        signInUpScroll.contentSize = CGSize(width: scWid, height: scHei + frame.height)
+        
+        
+//        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
+//        signInUpScroll.contentInset = contentInset
+//        let info : NSDictionary = notification.userInfo! as NSDictionary
+//        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+//        //        let keyboardY = view.frame.size.height - keyboardSize.height
+//        //        let editTextFieldY: CGFloat = self.activeTextField.frame.origin.y
+//        //        if editTextFieldY > keyboardY - 60 {
+//        UIView.animate(withDuration: 0.2,
+//                       delay: 0.0,
+//                       options: UIViewAnimationOptions.curveEaseIn,
+//                       animations: {
+//                        self.view.frame.origin.y = self.view.frame.origin.y - (keyboardSize.height / 2)
+//        }, completion: nil)
+//        //        }
+    }
+    
+    func RemoveObserver(){
+        NotificationCenter.default.removeObserver(self)
     }
     
     func isInternetAvailable() -> Bool

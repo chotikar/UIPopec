@@ -5,6 +5,7 @@ import FBSDKCoreKit
 import GoogleMaps
 import GooglePlaces
 import CoreFoundation
+//import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,13 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-       
-    
         GMSServices.provideAPIKey("AIzaSyBSF-Eq8PYSca9JKxF9WQiz6a-7PprQuyE")
         GMSPlacesClient.provideAPIKey("AIzaSyBSF-Eq8PYSca9JKxF9WQiz6a-7PprQuyE")
-
         UIApplication.shared.statusBarStyle = .lightContent
-        
+//        FirebaseApp.configure()
          return true
     }
     

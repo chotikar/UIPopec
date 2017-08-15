@@ -43,6 +43,16 @@ class ChatLogCell: UICollectionViewCell {
         return ct
     }()
     
+    let readSatus: UITextView = {
+        let ct = UITextView()
+        ct.textColor = UIColor.lightGray
+        ct.font = FunctionMutual.setFontSizeLight(fs: 10)
+        ct.translatesAutoresizingMaskIntoConstraints = false
+        ct.layer.masksToBounds = true
+        return ct
+    }()
+
+    
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleRightAnchor: NSLayoutConstraint?
     var bubbleLeftAnchor: NSLayoutConstraint?

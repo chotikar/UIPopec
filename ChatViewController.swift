@@ -126,6 +126,8 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         cell.profileImageView.image = UIImage(named: (log.department?.programAbb!)!)
         cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: (log.text)!, fontsize: 13, tbWid: 200).width + 28
         SetupCell(cell: cell, who: log.sendBy)
+//        log.read = 1
+//        SaveMessageRead()
         return cell
     }
     
@@ -293,6 +295,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         chatLog.date = NSDate()
         chatLog.sendBy = textInfo["Sendby"] as! Int16
         chatLog.text = String(textInfo["Message"] as! String)
+//        chatLog.read = 0
         do {
             try context.save()
         } catch let error as NSError  {
@@ -301,6 +304,16 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         self.collectionView?.reloadData()
         let indexPath = NSIndexPath(item: (department.message?.count)! - 1, section: 0)
         collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: false)
+    }
+    
+    func SaveMessageRead(){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
+        do {
+            try context.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
     }
 
     func SetDateFormatter(date: NSDate) -> String {

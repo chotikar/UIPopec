@@ -34,7 +34,7 @@
     </entity>
     <elements>
         <element name="DepartmentEntity" positionX="-1188" positionY="-36" width="128" height="180"/>
-        <element name="MessageEntity" positionX="-929" positionY="138" width="128" height="120"/>
+        <element name="MessageEntity" positionX="-929" positionY="138" width="128" height="118"/>
         <element name="ProfileInforEntity" positionX="-686" positionY="72" width="128" height="180"/>
         <element name="SettingTestEntity" positionX="-855" positionY="-24" width="128" height="60"/>
     </elements>

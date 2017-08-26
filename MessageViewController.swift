@@ -478,7 +478,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         messageTableView.dataSource = self
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
         messageTableView.allowsSelectionDuringEditing = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutAction(sender:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: lang == "E" ? "Logout" : "ล๊อกเอ้าท์", style: .plain, target: self, action: #selector(logOutAction(sender:)))
         self.view.backgroundColor = UIColor.white
         self.startIndicator()
         self.view.addSubview(messageTableView)

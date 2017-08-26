@@ -11,6 +11,9 @@ class FacultyMajorModel {
     var webpage: String!
     var email: String!
     var phone: String!
+    var latitude: String!
+    var longtitude: String!
+    var buildingName: String!
     var marjorList = [MajorModel]()
   //  var location:
     init() {
@@ -23,6 +26,9 @@ class FacultyMajorModel {
         webpage = "N/A"
         email = "N/A"
         phone = "N/A"
+        latitude = "N/A"
+        longtitude = "N/A"
+        buildingName = "N/A"
     }
     
     init(dic : AnyObject) {
@@ -35,7 +41,9 @@ class FacultyMajorModel {
         webpage = (dic["webpage"] as? String ?? "N/A")
         email = (dic["email"] as? String ?? "N/A")
         phone = (dic["phone"] as? String ?? "N/A")
-        
+        latitude = (dic["latitude"] as? String ?? "13.612077")
+        longtitude = (dic["longtitude"] as? String ?? "100.8371518")
+        buildingName = (dic["buildingName"] as? String ?? "Assumption University")
         let mList = dic["departmentlist"] as? [[String: AnyObject]]
         for i in mList! {
             marjorList.append(MajorModel(dic:i as AnyObject))

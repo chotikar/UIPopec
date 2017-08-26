@@ -1,6 +1,7 @@
 
 import UIKit
 import Foundation
+import GoogleMaps
 
 class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
     
@@ -17,7 +18,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     var mainImage : UIImageView!
     var facTitle : UILabel!
     var facSubtitle : UILabel!
-    var location : UIView!
+    var location : UIButton!
     var descrip : UITextView!
     var logo : UIImageView!
     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
@@ -76,17 +77,19 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         self.scoll.addSubview(facSubtitle)
         hei = facSubtitle.frame.height + facSubtitle.frame.origin.y
         
-        //        texthei = fm.calculateHeiFromString(text:  "N/A",fontsize: fm.setFontSizeLight(fs: 12), tbWid: scWid*0.54).height+10
-        //        location = UIView(frame: CGRect(x: scWid * 0.37, y: hei, width: scWid*0.54, height: texthei))
-        //        self.scoll.addSubview(location)
-        //        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 0, width: texthei, height: texthei))
-        //        loIcon.image = UIImage(named: "locationnoGray")
-        //        self.location.addSubview(loIcon)
-        //        let loDef =  UILabel(frame: CGRect(x: texthei + 10, y: 0, width: location.bounds.width - (texthei+10), height: texthei))
-        //        loDef.font = fm.setFontSizeLight(fs: 13)
-        //        loDef.text = "Faculty's building"
-        //        self.location.addSubview(loDef)
-        //        hei = location.frame.height + location.frame.origin.y
+        texthei = fm.calculateHeiFromString(text: self.facultyMajorInformation.buildingName, fontsize: 12, tbWid: scWid * 0.54)
+        let locationWidth = texthei.width + 20 + texthei.height
+        location = UIButton(frame: CGRect(x: scWid - locationWidth - 20, y: hei, width: locationWidth, height: texthei.height + 10))
+        self.scoll.addSubview(location)
+        let loIcon =  UIImageView(frame: CGRect(x: 0, y: 5, width: texthei.height, height: texthei.height))
+        loIcon.image = UIImage(named: "locationnoGray")
+        self.location.addSubview(loIcon)
+        let loDef =  UILabel(frame: CGRect(x: texthei.height + 10, y: 5, width: location.bounds.width - (texthei.height+10), height: texthei.height))
+        loDef.font = fm.setFontSizeLight(fs: 13)
+        loDef.text = self.facultyMajorInformation.buildingName
+        self.location.addSubview(loDef)
+        location.addTarget(self,action: #selector(GoToMap), for: .touchUpInside)
+        hei = location.frame.height + location.frame.origin.y + 10
         
         texthei = fm.calculateHeiFromString(text:  self.facultyMajorInformation.description,fontsize: 14, tbWid : scWid * 0.8)
         descrip  = UITextView(frame: CGRect(x: scWid*0.06 , y: hei, width: scWid * 0.86, height: texthei.height + 28))
@@ -101,6 +104,16 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
         logo.image = UIImage(named: "\(self.facultyMajorInformation.facultyAbb)_logo")
         self.scoll.addSubview(logo)
         return hei
+    }
+    
+    func GoToMap(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "mapLayout") as! MapDirectionViewController
+        vc.currentLatitude  = CLLocationDegrees(self.facultyMajorInformation.latitude)
+        vc.currentLongtitude = CLLocationDegrees(self.facultyMajorInformation.longtitude)
+        vc.currentName = self.facultyMajorInformation.buildingName as String
+        let mapController = UINavigationController(rootViewController: vc)
+        self.revealViewController().setFront(mapController, animated: true)
     }
     
     func setTableViewSize(majorNum : Int, content : CGFloat){

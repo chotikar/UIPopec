@@ -17,7 +17,8 @@ class MenuSideTableViewController: UITableViewController {
         if sender.selectedSegmentIndex == 0 {
             CRUDSettingValue.UpdateSetting(lang: "E")
             menuNameEng()
-        }else {
+        }
+        else {
             CRUDSettingValue.UpdateSetting(lang: "T")
             menuNameThai()
         }
@@ -33,12 +34,14 @@ class MenuSideTableViewController: UITableViewController {
             langSegment.selectedSegmentIndex = 0
             CRUDSettingValue.UpdateSetting(lang: "E")
             menuNameEng()
-        }else {
+        }
+        else {
             langSegment.selectedSegmentIndex = 1
             CRUDSettingValue.UpdateSetting(lang: "T")
             menuNameThai()
         }
     }
+    
     func menuNameEng() {
         language.text = "Language"
         news.text = "News"

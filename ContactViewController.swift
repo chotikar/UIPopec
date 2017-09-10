@@ -22,7 +22,7 @@ class ContactViewController: UIViewController {
     
     var contactList :  [ContactModel] = []
     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         drawHeaderIn()
@@ -49,7 +49,7 @@ class ContactViewController: UIViewController {
     func stopIndicator(){
         self.activityiIndicator.stopAnimating()
     }
-
+    
     
     func reloadTableViewContact(language:String) {
         ws.GetContactRequireWS(lang: language) { (responseData : [ContactModel], nil) in DispatchQueue.main.async ( execute: {
@@ -79,7 +79,7 @@ class ContactViewController: UIViewController {
     }
     
     func drawList(contactList:[ContactModel]) -> CGFloat{
-        var hei = CGFloat(scHei*0.27 + 15)
+        var hei = CGFloat(scHei*0.27 + 10)
         var boxSize = CGRect()
         for con in contactList {
             boxSize = fm.calculateHeiFromString(text: con.Campusname, fontsize: 20, tbWid: scWid)
@@ -91,13 +91,11 @@ class ContactViewController: UIViewController {
             hei = hei + boxSize.height
             
             boxSize = fm.calculateHeiFromString(text: con.Addr, fontsize: 14 ,tbWid: scWid)
-            //            var addrlogo = UIImageView()
-            //            addrlogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei+5
-            //                , width: scWid*0.05, height: scWid*0.05))
-            //            addrlogo.image = UIImage(named: "map")
-            
+            var addrlogo = UIImageView()
+            addrlogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei+5, width: scWid*0.05, height: scWid*0.05))
+            addrlogo.image = UIImage(named: "placeholder")
             var address = UITextView()
-            address = UITextView(frame: CGRect(x: scWid*0.05 , y: hei, width: scWid*0.9, height:boxSize.height + 10))
+            address = UITextView(frame: CGRect(x: scWid*0.12 , y: hei, width: scWid*0.9, height:boxSize.height + 10))
             address.isEditable = false
             address.font = fm.setFontSizeLight(fs: 13)
             address.textColor = UIColor.darkGray
@@ -111,17 +109,20 @@ class ContactViewController: UIViewController {
             tellogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei, width: scWid*0.05, height: scWid*0.05))
             tellogo.image = UIImage(named: "phone-call")
             var tel = UILabel()
-            tel = UILabel(frame: CGRect(x: 14+scWid*0.1, y: hei - 6, width: scWid-(scWid*0.1+14), height: scWid*0.1))
+            tel = UILabel(frame: CGRect(x: 14+scWid*0.1, y: hei - 8, width: scWid-(scWid*0.1+14), height: scWid*0.1))
             tel.font = fm.setFontSizeLight(fs: 13)
             tel.text = con.Telephone
             tel.textColor = UIColor.darkGray
             hei = hei + boxSize.height+10
             
             boxSize = fm.calculateHeiFromString(text: con.Fax, fontsize: 13, tbWid: scWid)
+            var faxlogo = UIImageView()
+            faxlogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei, width: scWid*0.05, height: scWid*0.05))
+            faxlogo.image = UIImage(named: "fax")
             var fax = UILabel()
-            fax = UILabel(frame: CGRect(x: scWid*0.05, y: hei, width: scWid-(scWid*0.1), height: boxSize.height))
+            fax = UILabel(frame: CGRect(x: scWid*0.14, y: hei + 3, width: scWid-(scWid*0.1), height: boxSize.height))
             fax.font = fm.setFontSizeLight(fs: 13)
-            fax.text = "Fax.  \(con.Fax)"
+            fax.text = con.Fax
             fax.textColor  = UIColor.darkGray
             hei = hei + boxSize.height+10
             
@@ -130,7 +131,7 @@ class ContactViewController: UIViewController {
             emaillogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei, width: scWid*0.05, height: scWid*0.05))
             emaillogo.image = UIImage(named: "mail")
             var email = UILabel()
-            email = UILabel(frame: CGRect(x: 14+scWid*0.1, y: hei, width: scWid-(scWid*0.1+14), height: boxSize.height))
+            email = UILabel(frame: CGRect(x: 14+scWid*0.1, y: hei + 1, width: scWid-(scWid*0.1+14), height: boxSize.height))
             email.font = fm.setFontSizeLight(fs: 13)
             email.text = con.Email
             email.textColor  = UIColor.darkGray
@@ -143,14 +144,14 @@ class ContactViewController: UIViewController {
             
             self.scrollView.addSubview(campusName)
             self.scrollView.addSubview(address)
-//                        self.scrollView.addSubview(addrlogo)
+            self.scrollView.addSubview(addrlogo)
             self.scrollView.addSubview(tellogo)
             self.scrollView.addSubview(tel)
+            self.scrollView.addSubview(faxlogo)
             self.scrollView.addSubview(fax)
             self.scrollView.addSubview(emaillogo)
             self.scrollView.addSubview(email)
             self.scrollView.addSubview(line)
-            
         }
         return hei
     }
@@ -160,12 +161,10 @@ class ContactViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
+    
     func Sidemenu() {
-      
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-         
+        
+        MenuButton.target = SWRevealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
     }
-    
-    
 }

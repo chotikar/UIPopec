@@ -85,35 +85,35 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         self.RemoveObserver()
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.view.endEditing(true)
-//    }
-//    
-//    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
-//        let moveDuration = 0.1
-//        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-//        UIView.beginAnimations("animateTextField", context: nil)
-//        UIView.setAnimationBeginsFromCurrentState(true)
-//        UIView.setAnimationDuration(moveDuration)
-//        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-//        UIView.commitAnimations()
-//    }
-//    
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        if (textField == self.username || textField == self.password) {
-//            moveTextField(textField, moveDistance: -90, up: true)
-//        }
-//    }
-//    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        if (textField == self.username || textField == self.password) {
-//            moveTextField(textField, moveDistance: -90, up: false)
-//        }
-//    }
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        self.view.endEditing(true)
+    //    }
+    //
+    //    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
+    //        let moveDuration = 0.1
+    //        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+    //        UIView.beginAnimations("animateTextField", context: nil)
+    //        UIView.setAnimationBeginsFromCurrentState(true)
+    //        UIView.setAnimationDuration(moveDuration)
+    //        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+    //        UIView.commitAnimations()
+    //    }
+    //
+    //    func textFieldDidBeginEditing(_ textField: UITextField) {
+    //        if (textField == self.username || textField == self.password) {
+    //            moveTextField(textField, moveDistance: -90, up: true)
+    //        }
+    //    }
+    //
+    //    func textFieldDidEndEditing(_ textField: UITextField) {
+    //        if (textField == self.username || textField == self.password) {
+    //            moveTextField(textField, moveDistance: -90, up: false)
+    //        }
+    //    }
     
     // MARK : MUTAL
     func mangegeLayout(){
-    
+        
         self.userLoginInfor = self.GetProfileDb()
         if self.userLoginInfor.userId == 0 {
             self.drawElementSignupLogin()
@@ -212,10 +212,10 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         //0 == incorect password
         //1 == correct password
         if password.text == rePassword.text && username.text != "" && email.text != "" {
-                let ud = "\(username.text!);\(password.text!);\(email.text!)"
-                print(ud)
-                startIndicator()
-                signupWS(byfb: 0, userDe: ud, imageUrl: "N/A")
+            let ud = "\(username.text!);\(password.text!);\(email.text!)"
+            print(ud)
+            startIndicator()
+            signupWS(byfb: 0, userDe: ud, imageUrl: "N/A")
         }else{
             toastMessage(mess: "Invalid input")
         }
@@ -223,9 +223,9 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     
     func signInAction(sender : AnyObject){
         if password.text != "" && username.text != "" {
-                let ud = "N/A;\(password.text!);\(username.text!)"
-                startIndicator()
-                loginWS(byfb: 0, userDe: ud)
+            let ud = "N/A;\(password.text!);\(username.text!)"
+            startIndicator()
+            loginWS(byfb: 0, userDe: ud)
         }else{
             toastMessage(mess: "Invalid input")
         }
@@ -293,10 +293,10 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UserCell()
         if let messageDe = messageList?[indexPath.row] {
-        cell.title.text = messageDe.department?.programNameEn
-        cell.timeLable.text = self.SetDateFormatter(date: (messageDe.date!) as Date)
-        cell.message.text = messageDe.text!
-        cell.profileImageView.image = UIImage(named:(messageDe.department?.programAbb)!)
+            cell.title.text = messageDe.department?.programNameEn
+            cell.timeLable.text = self.SetDateFormatter(date: (messageDe.date!) as Date)
+            cell.message.text = messageDe.text!
+            cell.profileImageView.image = UIImage(named:(messageDe.department?.programAbb)!)
         }
         return cell
     }
@@ -320,7 +320,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         DeleteDepartmentByRoomCode(roomCode: (messageList![indexPath.row].department?.roomCode)!)
         loadData()
     }
-        
+    
     func SetDateFormatter(date: Date) -> String {
         let calendar = NSCalendar.autoupdatingCurrent
         let dateFormatter = DateFormatter()
@@ -458,10 +458,10 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
             departmentList =  try context.fetch(fetchRequest) as! [DepartmentEntity]
             for department in departmentList {
                 if department.roomCode == roomCode {
-                for message in department.message! {
-                    context.delete(message as! NSManagedObject)
-                }
-                context.delete(department)
+                    for message in department.message! {
+                        context.delete(message as! NSManagedObject)
+                    }
+                    context.delete(department)
                 }
             }
             try context.save()
@@ -469,7 +469,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
             print("Error: \(err), From CRUDDepartment/FindDepartment(roomCode)")
         }
     }
-
+    
     func drawMessagePage(){
         self.navigationItem.title = lang == "E" ? "Chat" : "คุยกับเจ้าหน้าที่"
         messageTableView = UITableView(frame: CGRect(x: 0, y: 0, width: scWid, height: scHei))
@@ -489,11 +489,11 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         let context = appDelegate.persistentContainer.viewContext
         var departmentList : [DepartmentEntity] = []
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DepartmentEntity")
-            do{
-                departmentList = try context.fetch(request) as! [DepartmentEntity]
-            }catch let err {
-                print(err)
-            }
+        do{
+            departmentList = try context.fetch(request) as! [DepartmentEntity]
+        }catch let err {
+            print(err)
+        }
         return departmentList
     }
     
@@ -507,21 +507,21 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
                 request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
                 request.predicate = NSPredicate(format: "department.roomCode = %@", friend.roomCode! as String)
                 request.fetchLimit = 1
-                    do{
-                        let fetchMessage = try context.fetch(request) as? [MessageEntity]
-                        for i in fetchMessage! {
-                           messageList?.append(i)
-                        }
-                    }catch let err {
-                        print(err)
+                do{
+                    let fetchMessage = try context.fetch(request) as? [MessageEntity]
+                    for i in fetchMessage! {
+                        messageList?.append(i)
                     }
-            messageList = messageList?.sorted(by: {$0.date!.compare($1.date! as Date) == .orderedDescending})
+                }catch let err {
+                    print(err)
+                }
+                messageList = messageList?.sorted(by: {$0.date!.compare($1.date! as Date) == .orderedDescending})
             }
         }
         self.stopIndicator()
         self.messageTableView.reloadData()
     }
-   
+    
     func drawSignupPage(){
         boxBack.center = CGPoint(x: scWid * 0.2, y: scHei * 0.03)
         hei = logoAbac.frame.origin.y + logoAbac.frame.height + 30
@@ -586,7 +586,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     var tapGesture : UITapGestureRecognizer!
     
     var activeTextField : UITextField!
-
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         activeTextField = textField
         return true
@@ -596,7 +596,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         textField.resignFirstResponder()
         return true
     }
-
+    
     func drawElementSignupLogin(){
         AddObserver()
         logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.03, width: scHei*0.25, height: scHei*0.25))
@@ -702,13 +702,13 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         signInUpScroll.contentSize = CGSize(width: scWid, height: scHei)
         
         
-//        self.signInUpScroll.contentInset = UIEdgeInsets.zero
-//        UIView.animate(withDuration: 0.25,
-//                       delay: 0.0,
-//                       options: UIViewAnimationOptions.curveEaseIn,
-//                       animations: {
-//                        self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-//        }, completion: nil)
+        //        self.signInUpScroll.contentInset = UIEdgeInsets.zero
+        //        UIView.animate(withDuration: 0.25,
+        //                       delay: 0.0,
+        //                       options: UIViewAnimationOptions.curveEaseIn,
+        //                       animations: {
+        //                        self.view.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        //        }, completion: nil)
     }
     
     func HandleKeyboardDidShow(notification: Notification){
@@ -718,20 +718,20 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         signInUpScroll.contentSize = CGSize(width: scWid, height: scHei + frame.height)
         
         
-//        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
-//        signInUpScroll.contentInset = contentInset
-//        let info : NSDictionary = notification.userInfo! as NSDictionary
-//        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-//        //        let keyboardY = view.frame.size.height - keyboardSize.height
-//        //        let editTextFieldY: CGFloat = self.activeTextField.frame.origin.y
-//        //        if editTextFieldY > keyboardY - 60 {
-//        UIView.animate(withDuration: 0.2,
-//                       delay: 0.0,
-//                       options: UIViewAnimationOptions.curveEaseIn,
-//                       animations: {
-//                        self.view.frame.origin.y = self.view.frame.origin.y - (keyboardSize.height / 2)
-//        }, completion: nil)
-//        //        }
+        //        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
+        //        signInUpScroll.contentInset = contentInset
+        //        let info : NSDictionary = notification.userInfo! as NSDictionary
+        //        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        //        //        let keyboardY = view.frame.size.height - keyboardSize.height
+        //        //        let editTextFieldY: CGFloat = self.activeTextField.frame.origin.y
+        //        //        if editTextFieldY > keyboardY - 60 {
+        //        UIView.animate(withDuration: 0.2,
+        //                       delay: 0.0,
+        //                       options: UIViewAnimationOptions.curveEaseIn,
+        //                       animations: {
+        //                        self.view.frame.origin.y = self.view.frame.origin.y - (keyboardSize.height / 2)
+        //        }, completion: nil)
+        //        //        }
     }
     
     func RemoveObserver(){
@@ -766,5 +766,6 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
 }

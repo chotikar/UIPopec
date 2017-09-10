@@ -1,4 +1,3 @@
-
 import UIKit
 import MapKit
 import GoogleMaps
@@ -23,28 +22,27 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         return sc
     }()
     var showButton : UIButton = {
-       var butShow = UIButton()
+        var butShow = UIButton()
         butShow.frame =  CGRect(x: 0, y: 0, width: scWid, height: (scHei-64)*0.08)
         butShow.backgroundColor = UIColor(colorLiteralRed: 228/225, green: 228/225, blue: 228/225, alpha: 1)
-            //FunctionMutual.getColorrgb(r: 225, g: 225, b: 225, al: 1)
+        //FunctionMutual.getColorrgb(r: 225, g: 225, b: 225, al: 1)
         butShow.layer.cornerRadius = 10
         return butShow
     }()
-    
     var symIcon : UIImageView = {
-       var ci = UIImageView()
+        var ci = UIImageView()
         ci.frame = CGRect(x: (scWid*0.92)/2.0, y: 5, width: scWid*0.08, height: scWid*0.08)
         ci.image = UIImage(named: "up")
         return ci
     }()
     @IBOutlet weak var PlaceTableView: UITableView!
     var navigationBarHeight = CGFloat(0.0)
-    
     var currentMap = CGFloat(0.1)
     let ws = WebService.self
     var placeList : [PlaceModel] = []
     var regionRadius: CLLocationDistance = 200
-     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         CustomNavbar()
@@ -55,7 +53,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         setscreen(nav: navigationBarHeight)
         reloadTableViewInLocation(language: CRUDSettingValue.GetUserSetting())
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -72,7 +70,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     func stopIndicator(){
         self.activityiIndicator.stopAnimating()
     }
-
+    
     
     func setscreen(nav:CGFloat){
         self.view.addSubview(mainMap)
@@ -83,11 +81,10 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         self.showButton.addTarget(self, action: #selector(showOrHideMap), for: .touchUpInside)
         self.scoll.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei-nav)
         self.showOrHideMap(sender: UIButton())
-
     }
     
     func setMainMap (la : String , lo : String) {
-//        self.mainMap.reloadInputViews()
+        //        self.mainMap.reloadInputViews()
         regionRadius = 200
         let location = CLLocation(latitude: CLLocationDegrees(la)!, longitude: CLLocationDegrees(lo)!)
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, self.regionRadius*2.0, self.regionRadius*2.0)
@@ -111,7 +108,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
             mainMap.frame = CGRect(x: 0, y: 0, width: scWid, height: (scHei-64)*currentMap)
             manageScroll(hei:(scHei-64)*currentMap,symStr:"up")
         }else{
-             currentMap = 0.9
+            currentMap = 0.9
             mainMap.frame = CGRect(x: 0, y: 0, width: scWid, height: (scHei-64)*currentMap)
             manageScroll(hei: (scHei-64)*currentMap,symStr:"down")
         }
@@ -122,15 +119,15 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
             self.scoll.frame.origin.y = hei
             self.symIcon.image = UIImage(named: symStr)
-            }, completion: nil)
+        }, completion: nil)
         
         PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+5, width: scWid, height: (scHei-64)*0.8)
     }
     
     func Sidemenu() {
-      
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        
+        MenuButton.target = SWRevealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         
     }
     
@@ -139,7 +136,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
-
+    
     ///Show List of Place
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.placeList.count
@@ -153,7 +150,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let locate = self.placeList[indexPath.row]
-//        setMainMap(la: locate.latitude, lo: locate.longtitude)
+        //        setMainMap(la: locate.latitude, lo: locate.longtitude)
         showOrHideMap(sender: UIButton())
     }
     
@@ -163,7 +160,6 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     }
     
 }
-
 
 class PlaceCell : UITableViewCell {
     
@@ -177,32 +173,32 @@ class PlaceCell : UITableViewCell {
         name.textAlignment = .center
         name.font = fm.setFontSizeLight(fs: 20)
         name.textColor = UIColor.darkGray
-
+        
     }
     
     required init?(coder aDecorder : NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    @IBOutlet var name: UILabel!
-//    let fm = FunctionMutual.self
-//    
-//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        self.contentView.addSubview(name)
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
-//    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        name.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
-//        name.textAlignment = .center
-//        name.font = fm.setFontSizeLight(fs: 20)
-//        name.textColor = UIColor.darkGray
-//    }
+    //    @IBOutlet var name: UILabel!
+    //    let fm = FunctionMutual.self
+    //
+    //    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    //        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    //        self.contentView.addSubview(name)
+    //    }
+    //
+    //    required init?(coder aDecoder: NSCoder) {
+    //        super.init(coder: aDecoder)
+    //    }
+    //
+    //    override func layoutSubviews() {
+    //        super.layoutSubviews()
+    //        name.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.1)
+    //        name.textAlignment = .center
+    //        name.font = fm.setFontSizeLight(fs: 20)
+    //        name.textColor = UIColor.darkGray
+    //    }
     
 }
 
@@ -291,7 +287,7 @@ class PlaceCell : UITableViewCell {
 //    self.showButton.addTarget(self, action: #selector(showOrHideMap), for: .touchUpInside)
 //    self.scoll.frame = CGRect(x: 0, y: nav, width: scWid, height: scHei-nav)
 //    self.showOrHideMap(sender: UIButton())
-//    
+//
 //}
 //
 //func setMainMap (la : String , lo : String) {
@@ -325,27 +321,27 @@ class PlaceCell : UITableViewCell {
 //}
 //
 //func manageScroll(hei : CGFloat, symStr : String){
-//    
+//
 //    UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
 //        self.scoll.frame.origin.y = hei
 //        self.symIcon.image = UIImage(named: symStr)
 //    }, completion: nil)
-//    
+//
 //    PlaceTableView.frame = CGRect(x: 0, y: self.showButton.frame.height+5, width: scWid, height: (scHei-64)*0.8)
 //}
 //
 //func Sidemenu() {
-//    
+//
 //    MenuButton.target = SWRevealViewController()
 //    MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-//    
+//
 //}
 //
 //func CustomNavbar() {
 //    navigationController?.navigationBar.barTintColor = abacRed
 //    navigationController?.navigationBar.isTranslucent = false
 //    navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-//    
+//
 //}
 //
 /////Show List of Place

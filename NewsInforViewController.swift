@@ -1,6 +1,6 @@
-
 import UIKit
 import Foundation
+import SDWebImage
 
 class NewsInforViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     let fm  = FunctionMutual.self
@@ -15,13 +15,6 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
     var newsSubtitle : UILabel!
     var location : UIView!
     var news : UITextView!
-    
-    var testBox :UIView = {
-        var vb = UIView()
-        vb.frame = CGRect(x: 0, y: 0, width: scHei*0.05, height: scHei*0.07)
-        vb.backgroundColor = UIColor.yellow
-        return vb
-    }()
     var scollSuggestNews : UIScrollView!
     var suggestNews1 : UIView!
     var suggestNews1Title : UILabel!
@@ -29,9 +22,7 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
     var suggestNews2Title : UILabel!
     var suggestNews3 : UIView!
     var suggestNews3Title : UILabel!
-    
     var newssugestiontitle : String = ""
-    
     var facNewsList : [NewsModel]!
     var showNewsModel : NewsModel!
     
@@ -45,10 +36,7 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         //            SuggestionNewsCollection.isHidden = true
         //        }
         //        self.scoll.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
-        showNewsModel = facNewsList[0]
         setcv(contentSize: drawNewsInformation())
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,18 +51,13 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         self.SuggestionNewsCollection.collectionViewLayout = layout
-        
     }
-    
-    
-    //var containHei : CGFloat = 0
     
     // draw News Infromation layout
     func drawNewsInformation() -> CGFloat {
         var heiCon = self.view.frame.origin.y
         mainImage = UIImageView(frame: CGRect(x: 0, y: heiCon, width: scWid, height: scWid*0.8))
-        mainImage.loadImageUsingCacheWithUrlString(urlStr: showNewsModel.imageURL)
-        mainImage.image = UIImage(named:"abacImg")
+        mainImage.sd_setImage(with: NSURL(string: showNewsModel.imageURL)! as URL, placeholderImage: UIImage(named:"abaccl"))
         self.scoll.addSubview(mainImage)
         heiCon = heiCon + mainImage.frame.height + 20
         
@@ -94,9 +77,9 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         news = UITextView(frame: CGRect(x: scWid * 0.07, y: heiCon, width: scWid*0.86, height: containHei.height+20))
         news.font = UIFont.systemFont(ofSize: 13)
         news.text = showNewsModel.description
+        news.isUserInteractionEnabled = false
         self.scoll.addSubview(news)
         heiCon = heiCon + news.frame.height
-        
         
         return heiCon + 50
     }
@@ -105,10 +88,11 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
     
     //number of row
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if facNewsList.count < 5 {
-            return 0
-        }
-        return facNewsList.count-1
+        //        if facNewsList.count < 5 {
+        //            return 0
+        //        }
+        //        return facNewsList.count-1
+        return facNewsList.count
     }
     
     //action each cell in collection view
@@ -118,7 +102,8 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         cell.sugNewsImg.image = UIImage(named:"abacImg")
         cell.sugNewsTitle.frame = CGRect(x: scHei*0.005, y: scHei*0.115, width: scHei*0.19, height: scHei*0.08)
         cell.sugNewsTitle.textColor = UIColor.darkText
-        cell.sugNewsTitle.text = facNewsList[indexPath.row+1].topic
+        //        cell.sugNewsTitle.text = facNewsList[indexPath.row+1].topic
+        cell.sugNewsTitle.text = facNewsList[indexPath.row].topic
         cell.sugNewsTitle.contentMode = UIViewContentMode.top
         cell.sugNewsTitle.font = UIFont.boldSystemFont(ofSize: 10)
         return cell
@@ -143,11 +128,9 @@ class NewsInforViewController: UIViewController, UICollectionViewDataSource, UIC
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)], context: nil)
     }
-
 }
 
 class SuggestionNewsCell : UICollectionViewCell {
-    
     @IBOutlet var sugNewsImg : UIImageView!
     @IBOutlet var sugNewsTitle : UILabel!
     

@@ -62,7 +62,7 @@ class UserCell : UITableViewCell {
         
         timeLable.rightAnchor.constraint(equalTo: self.rightAnchor,constant: -8).isActive = true
         timeLable.topAnchor.constraint(equalTo: self.profileImageView.topAnchor).isActive = true
-        timeLable.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        timeLable.widthAnchor.constraint(equalToConstant: 60).isActive = true
         timeLable.heightAnchor.constraint(equalTo: (textLabel?.heightAnchor)!).isActive = true
         
         title.topAnchor.constraint(equalTo: self.timeLable.topAnchor, constant: 5).isActive = true

@@ -32,7 +32,8 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var faculty: SkyFloatingLabelTextField!
     @IBOutlet weak var program: SkyFloatingLabelTextField!
     @IBOutlet weak var toefl_p: SkyFloatingLabelTextField!
-    
+    @IBOutlet weak var ScrollView: UIScrollView!
+    @IBOutlet weak var ContentView: UIView!
     let datePicker = UIDatePicker()
     let picker1 = UIPickerView()
     let picker2 = UIPickerView()
@@ -47,13 +48,15 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     let ws = WebService.self
     var check = true
     var lang = CRUDSettingValue.GetUserSetting()
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+    
     //    var textFields: [SkyFloatingLabelTextField]
     //    var isSubmitButtonPressed = false
     //    var showingTitleInProgress = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         Sidemenu()
         CustomNavbar()
         picker1.delegate = self
@@ -73,25 +76,31 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         genderTextField.text = "Male"
         titleName.text = "MR."
         Birthdate.text = "01/01/1997"
-        ielts.text = "0"
-        toefl.text = "0"
-        toefl_p.text = "0"
-        satmath.text = "0"
-        satwriting.text = "0"
         reloadTableViewInFac(lang: CRUDSettingValue.GetUserSetting())
         changeLanguage(lang: CRUDSettingValue.GetUserSetting())
+        // In order to Dismiss Keyboard by Tap anywhere
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(applyViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        // Get ScreenSize of IOS Device
+        print(screenWidth)
+        print(screenHeight)
         
     }
     
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
     func Sidemenu() {
-            MenuButton.target = SWRevealViewController()
-            MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        MenuButton.target = SWRevealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
     }
     
     func CustomNavbar() {
         navigationController?.navigationBar.barTintColor = abacRed
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     func reloadTableViewInFac(lang:String){
@@ -112,14 +121,12 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     //check invalid text
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         if textField == citizenNumber {
             let userEnteredString = citizenNumber.text
             let inputstr = (userEnteredString! as NSString).replacingCharacters(in: range, with: string) as NSString
             if inputstr != "" {
                 check = true
                 passportNumber.isEnabled = false
-                print("-------\(check)")
             }else {
                 check = false
                 passportNumber.isEnabled = true
@@ -134,21 +141,18 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
                     else {
                         // The error message will only disappear when we reset it to nil or empty string
                         floatingLabelTextField.errorMessage = ""
-                        
                     }
                 }
             }
         } else if textField == email {
             if let text = textField.text {
                 if let floatingLabelTextField = textField as? SkyFloatingLabelTextField {
-                    if (!text.contains("@")) {
-                        print (text.characters.count)
+                    if (text.characters.count == 1) {
+                        floatingLabelTextField.errorMessage = ""
+                    }
+                    else if (!text.contains("@")){
                         floatingLabelTextField.errorMessage = "Invalid Email Format"
                     }
-                        //                    else if (text.characters.count == 1){
-                        //                        // The error message will only disappear when we reset it to nil or empty string
-                        //                        floatingLabelTextField.errorMessage = ""
-                        //                    }
                     else {
                         floatingLabelTextField.errorMessage = ""
                     }
@@ -170,7 +174,6 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     @IBAction func pressbtn(_ sender : AnyObject) {
-        
         var cutwordGender = ""
         if genderTextField.text! == "Male" {
             cutwordGender = "M"
@@ -181,26 +184,18 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         var numberInput = ""
         if check == true {
             numberInput = citizenNumber.text!
-            print("----\(numberInput)")
         }else if check == false {
             numberInput = passportNumber.text!
-            print("----\(numberInput)")
         }
-        
-        //        if citizenNumber.text! == "" {
-        //            iosToast(noti: "Please Input Citizen or Passport Number")
-        //        }else
         
         if faculty.text! == ""{
             iosToast(noti: "Please Select Faculty")
         }else if program.text! == "" {
-             iosToast(noti: "Please Select Program")
+            iosToast(noti: "Please Select Program")
         }else if Fname.text! == "" {
             iosToast(noti: "Please Input First Name")
         }else if Lname.text! == "" {
             iosToast(noti: "Please Input Last Name")
-        }else if nationality.text! == "" {
-            iosToast(noti: "Please Input Nationality")
         }else if Birthdate.text! == "" {
             iosToast(noti: "Please Select Birthdate")
         }else if highschool.text! == "" {
@@ -212,21 +207,17 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         }else {
             let alert = UIAlertController(title: "Do you want to apply?", message: "", preferredStyle: UIAlertControllerStyle.alert)
             let cofirmAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
-                
-                self.ws.ApplyWS(Semester: 2, Year: 2017, isThai: self.check, Citizen: numberInput, titlename: self.titleName.text!, fname: self.Fname.text!, lname: self.Lname.text!, gender: cutwordGender, national: self.nationality.text!, birthdate: self.Birthdate.text!, mobile: self.mobile.text!, email: self.email.text!, highsch: self.highschool.text!, degree: 3, facultyID: self.factCode, programID: self.programCode, ielts: Int(self.ielts.text!)!, toefl_ibt: Int(self.toefl.text!)!, toefl_p: Int(self.toefl_p.text!)!, sat_math: Int(self.satmath.text!)!, sat_writing: Int(self.satwriting.text!)!)
-                
+                self.ws.ApplyWS(Semester: 2, Year: 2017, isThai: self.check, Citizen: numberInput, titlename: self.titleName.text!, fname: self.Fname.text!, lname: self.Lname.text!, gender: cutwordGender, national: "Thai", birthdate: self.Birthdate.text!, mobile: self.mobile.text!, email: self.email.text!, highsch: self.highschool.text!, degree: 3, facultyID: self.factCode, programID: self.programCode, ielts: 0, toefl_ibt: 0, toefl_p: 0, sat_math: 0,
+                                sat_writing: 0)
                 
                 let alertt = UIAlertController(title: "Application success", message: "", preferredStyle: UIAlertControllerStyle.alert)
                 let cofirmAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                 }
-                
                 alertt.addAction(cofirmAction)
                 self.present(alertt, animated: true, completion: nil)
-                
             }
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             }
-            
             alert.addAction(cofirmAction)
             alert.addAction(cancelAction )
             self.present(alert, animated: true, completion: nil)
@@ -237,7 +228,6 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         let alert = UIAlertController(title: "Invalid Input", message: noti, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
-        
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -272,6 +262,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         }
         return ""
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == picker1 {
             self.titleName.text = self.Title_Name[row]
@@ -290,17 +281,13 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     let dateFormatter = DateFormatter()
     func createDatePicker() {
-        
         dateFormatter.dateFormat = "dd/MM/yyyy"
         datePicker.datePickerMode = .date
         datePicker.date = dateFormatter.date(from: "01/01/1997")!
-        
         let toolbar  = UIToolbar()
         toolbar.sizeToFit()
-        
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePress))
         toolbar.setItems([doneButton], animated: false)
-        
         Birthdate.inputAccessoryView = toolbar
         Birthdate.inputView = datePicker
     }
@@ -313,8 +300,6 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     func customlayout() {
         appltBtn.layer.cornerRadius = 5
-//        appltBtn.layer.borderWidth = 1
-//        appltBtn.layer.borderColor = UIColor.red.cgColor
         appltBtn.layer.backgroundColor = abacRed.cgColor
     }
     
@@ -322,7 +307,6 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
         let moveDuration = 0.3
         let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
-        
         UIView.beginAnimations("animateTextField", context: nil)
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationDuration(moveDuration)
@@ -330,16 +314,41 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         UIView.commitAnimations()
     }
     
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if (textField == self.email || textField == self.ielts || textField == self.toefl || textField == self.toefl_p || textField == self.satmath || textField == self.satwriting) {
-            moveTextField(textField, moveDistance: -210, up: true)
+        if (screenHeight == 568 && screenWidth == 320) {
+            if (textField == self.Lname
+                || textField == self.Birthdate
+                || textField == self.highschool
+                || textField == self.mobile
+                || textField == self.email) {
+                moveTextField(textField, moveDistance: -210, up: true)
+            }
+        }
+        else if (screenHeight == 667 && screenWidth == 375) {
+            if (textField == self.email || textField == self.highschool || textField == self.mobile) {
+                moveTextField(textField, moveDistance: -210, up: true)
+            }
         }
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if (textField == self.email || textField == self.ielts || textField == self.toefl || textField == self.toefl_p || textField == self.satmath || textField == self.satwriting) {
-            moveTextField(textField, moveDistance: -210, up: false)
+        if (screenHeight == 568 && screenWidth == 320) {
+            if (textField == self.Lname
+                || textField == self.Birthdate
+                || textField == self.highschool
+                || textField == self.mobile
+                || textField == self.email) {
+                moveTextField(textField, moveDistance: -210, up: false)
+            }
+        }
+        else if (screenHeight == 667 && screenWidth == 375) {
+            if (textField == self.email || textField == self.highschool || textField == self.mobile) {
+                moveTextField(textField, moveDistance: -210, up: false)
+            }
         }
     }
+    
     // hide keyboard with return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -347,25 +356,18 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func changeLanguage(lang: String) {
-        
         if lang == "T" {
             genderTextField.placeholder = "เพศ"
             citizenNumber.placeholder = "หมายเลขประจำตัวประขาชน"
             passportNumber.placeholder = "หมายเลขหนังสือเดินทาง"
             Fname.placeholder = "ชื่อจริง"
             Lname.placeholder = "นามสกุล"
-            nationality.placeholder = "สัญชาติ"
             highschool.placeholder = "โรงเรียนมัธยมปลาย"
             mobile.placeholder = "หมายเลขโทรศัพท์"
             email.placeholder = "อีเมล์"
-            ielts.placeholder = "IELTS"
-            toefl.placeholder = "TOEFL"
             appltBtn.titleLabel?.text = "สมัคร"
-            satwriting.placeholder = "SAT WRITING"
-            satmath.placeholder = "SAT MATH"
             faculty.placeholder = "คณะ"
             program.placeholder = "สาขา"
-            toefl_p.placeholder = "TOEFL P"
             titleName.placeholder = "คำนำหน้า"
             Birthdate.placeholder = "วันเกิด"
         }

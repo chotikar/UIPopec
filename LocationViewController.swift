@@ -2,8 +2,7 @@ import UIKit
 import MapKit
 import GoogleMaps
 import SWRevealViewController
-
-
+ 
 class LocationViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate {
     
     let fm = FunctionMutual.self

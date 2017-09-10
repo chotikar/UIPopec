@@ -19,11 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FSCalendar.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>FacebookCore.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -45,6 +40,11 @@
 			<false/>
 		</dict>
 		<key>Protobuf.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,7 +72,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2CC7A131FF06D9B4814435534B548ADF</key>
+		<key>3A08DEF66184F32E85FAAABCADEDA5CB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>41DF638FDCEA227283C6BE5C060170B0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,37 +97,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>65700541F35FD7C18554C3FF3C7ED287</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7335E9C9689F3B8A16F063A884748533</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7B3780B352E16A15C1ABCB9A5C228B79</key>
+		<key>763A65EF3AFE55749EE6D98E3A3010E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9B6BF080A6E699CC8509362DA4A08066</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B8E278A660CBB626A2818CD60D4CF2AE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C5A2DB7A84B7B78E359870D2E1B24AA7</key>
+		<key>88AF565A9B4A31E833AB45E90E4221A4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C5B80060FE8C664DF08841000F41D515</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DAD9E98F0EC4CAA4B9E433EABC73D693</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -133,6 +128,11 @@
 			<true/>
 		</dict>
 		<key>E4DD95323C54A78F879DAB0F1508B8E7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F8F0784BBBF880BF9C7ECBBFED3CC3CE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

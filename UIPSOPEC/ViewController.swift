@@ -1,17 +1,8 @@
-//
-//  ViewController.swift
-//  UIPSOPEC
-//
-//  Created by Chotikar on 2/13/2560 BE.
-//  Copyright © 2560 Senior Project. All rights reserved.
-//
-
 import UIKit
 import SwiftR
 
 
 class ViewController: UIViewController {
-
     
     let scWid = UIScreen.main.bounds.width
     let scHei = UIScreen.main.bounds.height

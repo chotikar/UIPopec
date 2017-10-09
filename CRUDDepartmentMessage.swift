@@ -94,7 +94,6 @@ class CRUDDepartmentMessage{
     
     static func CreateMessageWithText(textInfo: AnyObject, department: DepartmentEntity) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        print(textInfo)
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale.current
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.A"
@@ -127,4 +126,35 @@ class CRUDDepartmentMessage{
             print(err)
         }
     }
+    
+    static func ResetUnreadCount(department: DepartmentEntity){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        department.unread = 0
+        do {
+            try context.save()
+            print("saved!")
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+    
+    static func CreateMessageWithTextUnread(textInfo: AnyObject, department: DepartmentEntity){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.A"
+        let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
+        chatLog.department = department
+        chatLog.date = NSDate()
+        chatLog.sendBy = textInfo["Sendby"] as! Int16
+        chatLog.text = String(textInfo["Message"] as! String)
+        department.unread += 1
+        do {
+            try context.save()
+            print("saved!")
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+
 }

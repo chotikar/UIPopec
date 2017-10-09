@@ -43,7 +43,7 @@ class CRUDProfileDevice {
         transc.setValue(loginInfor.email, forKey: "email")
         transc.setValue(loginInfor.facebookId, forKey: "facebook_id")
         transc.setValue(loginInfor.facebookName, forKey: "facebook_name")
-        transc.setValue(loginInfor.facebookAccessToken, forKey: "facebook_access_token")
+        transc.setValue(loginInfor.accessToken, forKey: "access_token")
         transc.setValue(loginInfor.udid, forKey: "udid_device")
         transc.setValue(loginInfor.username, forKey: "username")
         transc.setValue(loginInfor.password, forKey: "password")

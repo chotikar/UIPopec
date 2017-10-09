@@ -4,10 +4,11 @@
         <attribute name="facultyId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facultyName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="programAbb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="programeNameEn" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="programeNameTh" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="programId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="programNameEn" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="roomCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unread" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="lastMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MessageEntity" syncable="YES"/>
         <relationship name="message" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MessageEntity" inverseName="department" inverseEntity="MessageEntity" syncable="YES"/>
     </entity>
@@ -19,9 +20,9 @@
         <relationship name="department" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DepartmentEntity" inverseName="message" inverseEntity="DepartmentEntity" syncable="YES"/>
     </entity>
     <entity name="ProfileInforEntity" representedClassName="ProfileInforEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="access_token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="byFacebook" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="facebook_access_token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facebook_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facebook_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
@@ -33,7 +34,7 @@
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DepartmentEntity" positionX="-1188" positionY="-36" width="128" height="180"/>
+        <element name="DepartmentEntity" positionX="-1188" positionY="-36" width="128" height="195"/>
         <element name="MessageEntity" positionX="-929" positionY="138" width="128" height="118"/>
         <element name="ProfileInforEntity" positionX="-686" positionY="72" width="128" height="180"/>
         <element name="SettingTestEntity" positionX="-855" positionY="-24" width="128" height="60"/>

@@ -3,6 +3,9 @@ import UIKit
 import SwiftR
 import CoreData
 
+var chatHub: Hub!
+var connection: SignalR!
+
 class ChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, NSFetchedResultsControllerDelegate {
 
     lazy var inputTextField : UITextField = {
@@ -13,8 +16,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         return textField
     }()
     
-    var chatHub: Hub!
-    var connection: SignalR!
     var roomCode : String!
     var lang = CRUDSettingValue.GetUserSetting()
     let ws = WebService.self
@@ -23,7 +24,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
     let loginInfor = CRUDProfileDevice.GetUserProfile()
     var departmentEntity: DepartmentEntity? {
         didSet {
-            navigationItem.title = departmentEntity?.programNameEn
+            navigationItem.title = lang == "E" ? departmentEntity?.programeNameEn : departmentEntity?.programeNameTh
         }
     }
     
@@ -53,7 +54,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
                 operation.start()
             }
         }, completion: { finished in
-            self.ScrollDisplaylogToBottom()
+            self.scrollDisplaylogToBottom()
         })
     }
     
@@ -65,13 +66,18 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         } catch let err {
             print(err)
         }
+        dc.ResetUnreadCount(department: departmentEntity!)
         collectionView?.backgroundColor = UIColor.white
         collectionView?.contentInset = UIEdgeInsetsMake(8, 0, 8, 0)
         collectionView?.register(ChatLogCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
-        SetupKeyboardObserver()
-        SetupConnection()
+        setupKeyboardObserver()
+        if fm.isInternetAvailable() {
+            setupConnection()
+        }else{
+            toastNoInternet()
+        }
     }
 
     lazy var inputContainerView: UIView = {
@@ -79,10 +85,21 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         containerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)
         containerView.backgroundColor  = UIColor.white
         
+        let uploadImage = UIImageView()
+        uploadImage.image = UIImage(named: "uploadImg")
+        uploadImage.translatesAutoresizingMaskIntoConstraints = false
+        uploadImage.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(handleUploadImage)))
+        containerView.addSubview(uploadImage)
+        uploadImage.leftAnchor.constraint(equalTo: containerView.leftAnchor,constant:8).isActive = true
+        uploadImage.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        uploadImage.widthAnchor.constraint(equalToConstant: 38).isActive = true
+        uploadImage.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        
         let sendButton = UIButton(type: .system)
-        sendButton.setTitle("Send", for: .normal)
-        sendButton.addTarget(self, action: #selector(SentMessage), for: .touchUpInside)
+        sendButton.setTitle(self.lang == "E" ? "Send" : "ส่ง", for: .normal)
+        sendButton.addTarget(self, action: #selector(sentMessage), for: .touchUpInside)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.backgroundColor = UIColor.lightGray
         containerView.addSubview(sendButton)
         
         sendButton.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
@@ -92,7 +109,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         containerView.addSubview(self.inputTextField)
         
-        self.inputTextField.leftAnchor.constraint(equalTo: containerView.leftAnchor,constant:8).isActive = true
+        self.inputTextField.leftAnchor.constraint(equalTo: uploadImage.rightAnchor,constant: 8).isActive = true
         self.inputTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
         self.inputTextField.rightAnchor.constraint(equalTo:sendButton.leftAnchor).isActive = true
         self.inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
@@ -122,19 +139,17 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         let log = fetchResultController.object(at: indexPath) as! MessageEntity
         cell.textView.text = log.text
         cell.textView.text = log.text
-        cell.chatTime.text = SetDateFormatter(date: (log.date)!)
+        cell.chatTime.text = setDateFormatter(date: (log.date)!)
         cell.profileImageView.image = UIImage(named: (log.department?.programAbb!)!)
-        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: (log.text)!, fontsize: 13, tbWid: 200).width + 28
-        SetupCell(cell: cell, who: log.sendBy)
-//        log.read = 1
-//        SaveMessageRead()
+        cell.bubbleWidthAnchor?.constant = fm.calculateHeiFromString(text: (log.text)!, fontsize: 13, tbWid: 200).width + 20
+        setupCell(cell: cell, who: log.sendBy)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var heigh : CGFloat = 80
         let log = fetchResultController.object(at: indexPath) as! MessageEntity
-        heigh = fm.calculateHeiFromString(text: log.text!, fontsize: 13, tbWid: 200).height + 20;
+        heigh = fm.calculateHeiFromString(text: log.text!, fontsize: 13, tbWid: 200).height + 15
         return CGSize(width: view.frame.width, height: heigh)
     }
     
@@ -142,7 +157,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
-    func SetupCell(cell: ChatLogCell,who: Int16){
+    func setupCell(cell: ChatLogCell,who: Int16){
         if who == 0 {
             //outcome message blue
             cell.profileImageView.isHidden = true
@@ -167,7 +182,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
-    func KeyboardNotification(notification: NSNotification){
+    func keyboardNotification(notification: NSNotification){
         if notification.userInfo != nil {
             let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect
             let keyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
@@ -176,16 +191,16 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             UIView.animate(withDuration:  keyboardDuration, animations: {
                 self.view.layoutIfNeeded()
             }, completion: { (finished: Bool) in
-                self.ScrollDisplaylogToBottom()
+                self.scrollDisplaylogToBottom()
             })
         }
     }
     
-    func SetupKeyboardObserver() {
-    NotificationCenter.default.addObserver(self, selector: #selector(HandleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    func setupKeyboardObserver() {
+    NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
     
-    func HandleKeyboardDidShow(){
+    func handleKeyboardDidShow(){
         let size = (departmentEntity?.message?.count)!
         if size > 0 {
             let indexPath = NSIndexPath(item: size - 1, section: 0)
@@ -210,7 +225,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         return true
     }
     
-    func JoinGroup(userid: Int64, facid: String, proId: String) {
+    func joinGroup(userid: Int64, facid: String, proId: String) {
         if let hub = chatHub {
             do {
                 try hub.invoke("joinRoom", arguments: [userid,facid,proId])
@@ -218,30 +233,42 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
                 print(error)
             }
         }
-        
     }
     
-    func SentMessage() {
+    func sentMessage() {
         if let hub = chatHub, let message = inputTextField.text {
             do {
-                if message != "" || message != nil {
-                    try hub.invoke("sent", arguments: [self.departmentEntity?.roomCode ?? "", 0, loginInfor.userId, message])
-                    inputTextField.text = ""
+                if message != nil && checkSpace(message: message) {
+                    try hub.invoke("sent", arguments: [self.departmentEntity?.roomCode, 0, loginInfor.userId, message])
                 }
+                inputTextField.text = ""
             } catch {
                 print(error)
             }
         }
     }
     
+    func handleUploadImage(){
+     //Swift: Firebase 3 - How to Send Image Messages (Ep 17) 30:49
+    }
+    
+    func checkSpace(message: String) -> Bool {
+        var check = false
+        for i in message.characters {
+            if i != " " {
+                return true
+            }
+        }
+        return check
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        SentMessage()
+        sentMessage()
         return true
     }
     
-    func SetupConnection(){
+    func setupConnection(){
         connection = SignalR(ws.domainName)
-        print(ws.domainName)
         connection.useWKWebView = true
         connection.signalRVersion = .v2_2_0
         chatHub = Hub("simpleHub")
@@ -259,10 +286,11 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
         connection.connected = { [weak self] in
             print("Connected")
-            self?.JoinGroup(userid: (self?.loginInfor.userId)!, facid: (self?.departmentEntity?.facultyId)!, proId: (self?.departmentEntity?.programId)!)
+            print(connection.connectionID ?? "kii")
+            self?.joinGroup(userid: (self?.loginInfor.userId)!, facid: (self?.departmentEntity?.facultyId)!, proId: (self?.departmentEntity?.programId)!)
         }
         connection.reconnected = { [weak self] in
-            print("Reconnected. Connection ID: \(self!.connection.connectionID!)")
+            print("Reconnected. Connection ID: \(connection.connectionID!)")
         }
         connection.disconnected = { [weak self] in
             print("Disconnected")
@@ -273,29 +301,42 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             
             if let source = error?["source"] as? String, source == "TimeoutException" {
                 print("Connection timed out. Restarting...")
-                self?.connection.start()
+                connection.start()
             }
         }
         connection.start()
     }
     
-    func ScrollDisplaylogToBottom(){
+    func toastNoInternet(){
+        let toastLabel = UILabel(frame: CGRect(x: (scWid/2)-150, y: scHei*0.85, width: 300, height: 30))
+        toastLabel.backgroundColor = UIColor.darkGray
+        toastLabel.textColor = UIColor.white
+        toastLabel.textAlignment = NSTextAlignment.center;
+        self.view.addSubview(toastLabel)
+        toastLabel.text = "No Internet Connection"
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        })
+    }
+    
+    func scrollDisplaylogToBottom(){
         let size = self.fetchResultController.sections?[0].numberOfObjects
         if size! > 0 {
             let indexPath = NSIndexPath(item: size! - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
         }
-        print("Scroll Display Log To Bottom")
     }
     
-    func CreateMessageWithText(textInfo: AnyObject, department: DepartmentEntity) {
+    func createMessageWithText(textInfo: AnyObject, department: DepartmentEntity) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
         chatLog.department = department
         chatLog.date = NSDate()
         chatLog.sendBy = textInfo["Sendby"] as! Int16
         chatLog.text = String(textInfo["Message"] as! String)
-//        chatLog.read = 0
         do {
             try context.save()
         } catch let error as NSError  {
@@ -306,7 +347,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: false)
     }
     
-    func SaveMessageRead(){
+    func saveMessageRead(){
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
         do {
@@ -316,7 +357,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
 
-    func SetDateFormatter(date: NSDate) -> String {
+    func setDateFormatter(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "H:mm"
         return dateFormatter.string(from: date as Date)

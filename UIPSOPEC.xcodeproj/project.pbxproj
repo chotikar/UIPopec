@@ -334,7 +334,7 @@
 				TargetAttributes = {
 					4F4F8D4D1E517AE0004B4419 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = ZTCYBXM2DC;
+						DevelopmentTeam = 3PV7967A57;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -632,7 +632,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZTCYBXM2DC;
+				DEVELOPMENT_TEAM = 3PV7967A57;
 				INFOPLIST_FILE = UIPSOPEC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SeniorProject.UIPSOPEC;
@@ -648,7 +648,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZTCYBXM2DC;
+				DEVELOPMENT_TEAM = 3PV7967A57;
 				INFOPLIST_FILE = UIPSOPEC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SeniorProject.UIPSOPEC;

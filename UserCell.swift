@@ -48,12 +48,28 @@ class UserCell : UITableViewCell {
         return mess
     }()
     
+    let unreadNumber: UILabel = {
+        let nn = UILabel()
+        nn.textColor = UIColor.white
+        nn.backgroundColor = UIColor.red
+        nn.font = FunctionMutual.setFontSizeLight(fs: 13)
+        nn.translatesAutoresizingMaskIntoConstraints = false
+        nn.layer.masksToBounds = true
+        nn.layer.cornerRadius = 8
+        nn.layer.masksToBounds = true
+        nn.textAlignment = NSTextAlignment.center
+        return nn
+    }()
+    
+    var unreadWidthAnchor: NSLayoutConstraint?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier:String?){
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         addSubview(profileImageView)
         addSubview(timeLable)
         addSubview(title)
         addSubview(message)
+        addSubview(unreadNumber)
         
         profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
         profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -69,11 +85,18 @@ class UserCell : UITableViewCell {
         title.leftAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: 8).isActive = true
         title.rightAnchor.constraint(equalTo: self.timeLable.leftAnchor).isActive = true
         title.heightAnchor.constraint(equalTo: title.heightAnchor).isActive = true
+
+        unreadNumber.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
+        unreadWidthAnchor = unreadNumber.widthAnchor.constraint(equalToConstant: 0)
+        unreadWidthAnchor?.isActive = true
+        unreadNumber.heightAnchor.constraint(equalTo: unreadNumber.heightAnchor).isActive = true
+        unreadNumber.bottomAnchor.constraint(equalTo: message.bottomAnchor).isActive = true
         
         message.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: -5).isActive = true
         message.leftAnchor.constraint(equalTo: self.profileImageView.rightAnchor, constant: 8).isActive = true
-        message.rightAnchor.constraint(equalTo: self.timeLable.leftAnchor).isActive = true
+        message.rightAnchor.constraint(equalTo: self.unreadNumber.leftAnchor, constant: -5).isActive = true
         message.heightAnchor.constraint(equalTo: message.heightAnchor).isActive = true
+        
     }
     
     required init?(coder aDecorder : NSCoder) {

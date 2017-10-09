@@ -9,6 +9,8 @@ class ChatLogCell: UICollectionViewCell {
         tv.text = "CHAT Message Log"
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = UIColor.clear
+        tv.layer.masksToBounds = false
+        tv.textAlignment = .left
         tv.isEditable = false
         return tv
     }()
@@ -20,7 +22,7 @@ class ChatLogCell: UICollectionViewCell {
         view.backgroundColor = blueColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 13
-//        view.layer.masksToBounds = true
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -51,13 +53,12 @@ class ChatLogCell: UICollectionViewCell {
         ct.layer.masksToBounds = true
         return ct
     }()
-
     
     var bubbleWidthAnchor: NSLayoutConstraint?
     var bubbleRightAnchor: NSLayoutConstraint?
     var bubbleLeftAnchor: NSLayoutConstraint?
-    var timeRight : NSLayoutConstraint?
-    var timeLeft : NSLayoutConstraint?
+    var timeRight: NSLayoutConstraint?
+    var timeLeft: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,16 +74,16 @@ class ChatLogCell: UICollectionViewCell {
         
         bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor,constant:-7)
         bubbleRightAnchor?.isActive = true
-        bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:5)
+        bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant:0)
         
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
                 
-        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor,constant:8).isActive = true
+        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor,constant:5).isActive = true
         textView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
-        textView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor,constant:-14).isActive = true
+        textView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor,constant:-5).isActive = true
         textView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
         
         timeRight = chatTime.rightAnchor.constraint(equalTo: bubbleView.leftAnchor,constant : -3)

@@ -8,7 +8,7 @@ class UserLogInDetail {
     var email : String!
     var facebookId : String!
     var facebookName : String!
-    var facebookAccessToken : String!
+    var accessToken : String!
     var udid : String!
     var username : String!
     var password : String!
@@ -20,7 +20,7 @@ class UserLogInDetail {
         self.email = "N/A"
         self.facebookId = "N/A"
         self.facebookName = "N/A"
-        self.facebookAccessToken = "N/A"
+        self.accessToken = "N/A"
         self.udid = "N/A"
         self.username = "N/A"
         self.password = "N/A"
@@ -33,7 +33,7 @@ class UserLogInDetail {
         self.email = obj.first?.value(forKey: "email") as? String
         self.facebookId = obj.first?.value(forKey: "facebook_id") as? String
         self.facebookName = obj.first?.value(forKey: "facebook_name") as? String
-        self.facebookAccessToken = obj.first?.value(forKey: "facebook_access_token") as? String
+        self.accessToken = obj.first?.value(forKey: "access_token") as? String
         self.udid = obj.first?.value(forKey: "udid_device") as? String
         self.username = obj.first?.value(forKey: "username") as? String
         self.password = obj.first?.value(forKey: "password") as? String
@@ -55,7 +55,7 @@ class UserLogInDetail {
         self.email = dic["Email"] as? String
         self.facebookId = dic["FacebookID"] as? String
         self.facebookName = dic["FacebookName"] as? String
-        self.facebookAccessToken = dic["AccessToken"] as? String
+        self.accessToken = dic["AccessToken"] as? String
         self.username = dic["Username"] as? String
         self.password = dic["Password"] as? String 
         self.udid = udid

@@ -7,6 +7,7 @@ class ContactViewController: UIViewController {
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     let ws = WebService.self
     let fm = FunctionMutual.self
+    let lang = CRUDSettingValue.GetUserSetting()
     
     var headerContect : UIView = {
         var hc = UIView()
@@ -68,7 +69,7 @@ class ContactViewController: UIViewController {
         abaclogo.image = UIImage(named: "abaclogo")
         let uniName = UILabel()
         uniName.frame = CGRect(x: scWid*0.05, y: scWid*0.3 + 20, width: scWid*0.9, height: scWid*0.05)
-        uniName.text = "Assumption University"
+        uniName.text = lang == "E" ? "Assumption University" : "มหาวิทยาลัยอัสสัมชัญ"
         uniName.textAlignment = .center
         let line  = UIView()
         line.frame = CGRect(x: scWid*0.05, y: uniName.frame.origin.y+uniName.frame.height + 20, width: scWid*0.9, height: 1)

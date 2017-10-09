@@ -281,9 +281,6 @@ class WebService {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? [String : AnyObject ]{
                     loginInformation = UserLogInDetail(dic: validJson as AnyObject, udid: deviceId , byfac: Int16(byfacebook))
-                  
-                    
-                    
                     completion(loginInformation, error as NSError?)
                 } else {
                     print("Error")
@@ -320,8 +317,8 @@ class WebService {
                         departmentObj.facultyId = i["FacultyID"] as? String
                         departmentObj.facultyName = i["FacultyName"] as? String
                         departmentObj.programAbb = i["ProgramAbb"] as? String
-                        departmentObj.programNameEn = i["ProgramNameEn"] as? String
-                        departmentObj.programeNameTh = i["ProgramNameTh"] as? String
+                        departmentObj.programeNameEn = i["ProgrameNameEn"] as? String
+                        departmentObj.programeNameTh = i["ProgrameNameTh"] as? String
                         departmentObj.programId = i["ProgramID"] as? String
                         departmentObj.roomCode = i["RoomName"] as? String
                         CRUDDepartmentMessage.SaveDepartment(department: departmentObj)

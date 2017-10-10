@@ -59,6 +59,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     let cellId = "chatItemCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
@@ -239,7 +240,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         if let hub = chatHub, let message = inputTextField.text {
             do {
                 if message != nil && checkSpace(message: message) {
-                    try hub.invoke("sent", arguments: [self.departmentEntity?.roomCode, 0, loginInfor.userId, message])
+                    try hub.invoke("sent", arguments: [self.departmentEntity?.roomCode, 0, loginInfor.userId, loginInfor.accessToken, message])
                 }
                 inputTextField.text = ""
             } catch {

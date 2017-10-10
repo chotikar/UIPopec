@@ -225,7 +225,6 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         let graphRequest:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"first_name"])
         graphRequest.start(completionHandler: { (connection, result, error) -> Void in
             if ((error) != nil){
-               // print("Error: \(error as! String)")
                 self.drawLoginPage()
                 self.navigationItem.rightBarButtonItem = nil
             }else{

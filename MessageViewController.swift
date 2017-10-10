@@ -86,9 +86,9 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     }
     
     // MARK : MUTAL
-    func mangegeLayout(){
-        
+    func mangegeLayout(){        
         self.userLoginInfor = self.getProfileDb()
+        print(self.userLoginInfor.userId)
         if self.userLoginInfor.userId == 0 {
             self.drawElementSignupLogin()
             self.drawLoginPage()
@@ -120,10 +120,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
                 if userFromWs.userId == 0 {
                     self.toastMessage(mess: userFromWs.result.message)
                 }else{
-                    print("Signup Success")
                     self.saveProfileDb(loginInfor: userFromWs)
-                    self.removeObserver()
-                    self.mangegeLayout()
                 }
                 self.stopIndicator()
             })
@@ -142,11 +139,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
                     FBSDKProfile.setCurrent(nil)
                     self.toastMessage(mess: userFromWs.result.message)
                 }else{
-                    self.clearProfileDb()
                     self.saveProfileDb(loginInfor: userFromWs)
-                    let tr = self.getProfileDb()
-                    print("GetValueWhen Login :\(tr.userId)")
-                    self.mangegeLayout()
                 }
                 self.stopIndicator()
             })
@@ -171,7 +164,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         toastLabel.backgroundColor = UIColor.darkGray
         toastLabel.textColor = UIColor.white
         toastLabel.textAlignment = NSTextAlignment.center;
-        //self.view.addSubview(toastLabel)
+//        self.view.addSubview(toastLabel)
         toastLabel.text = "No Internet Connection"
         toastLabel.alpha = 1.0
         toastLabel.layer.cornerRadius = 10;
@@ -213,11 +206,8 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
             FBSDKProfile.setCurrent(nil)
         }
         departmentDb.ClearMessageAndDepartment()
-        self.clearProfileDb()
-        self.saveProfileDb(loginInfor: UserLogInDetail())
-        drawElementSignupLogin()
-        drawLoginPage()
         self.navigationItem.rightBarButtonItem = nil
+        self.saveProfileDb(loginInfor: UserLogInDetail())
     }
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result:
@@ -358,6 +348,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     }
     
     func saveProfileDb(loginInfor: UserLogInDetail){
+        self.clearProfileDb()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context =  appDelegate.persistentContainer.viewContext
         let entity =  NSEntityDescription.entity(forEntityName: "ProfileInforEntity", in: context)
@@ -373,7 +364,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         transc.setValue(loginInfor.userId, forKey: "userId")
         do {
             try context.save()
-            print("saved!")
+            self.mangegeLayout()
         } catch let error as NSError  {
             print("Could not save \(error), \(error.userInfo)")
         }
@@ -521,6 +512,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         boxRepassword.center = CGPoint(x: scWid * 0.5, y: hei)
         hei = boxRepassword.frame.origin.y +  boxRepassword.frame.height + 30
         boxLoginAndRegis.center = CGPoint(x: scWid * 0.5, y: hei)
+        loginAndRegisBut.removeTarget(nil, action: nil, for: .allEvents)
         loginAndRegisBut.addTarget(self, action: #selector(signupAction), for: .touchUpInside)
         loginAndRegisBut.setTitle(lang == "E" ? "Register" : "สมัครสมาชิก", for: .normal)
         hei = boxLoginAndRegis.frame.origin.y +  boxLoginAndRegis.frame.height + 20
@@ -551,6 +543,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         boxPassword.center = CGPoint(x: scWid*0.5, y: hei)
         hei = boxPassword.frame.origin.y +  boxPassword.frame.height + 30
         boxLoginAndRegis.center = CGPoint(x: scWid*0.5, y: hei)
+        loginAndRegisBut.removeTarget(nil, action: nil, for: .allEvents)
         loginAndRegisBut.addTarget(self, action: #selector(signInAction), for: .touchUpInside)
         loginAndRegisBut.setTitle(lang == "E" ? "Login" : "ล๊อกอิน", for: .normal)
         hei = boxLoginAndRegis.frame.origin.y +  boxLoginAndRegis.frame.height + 20

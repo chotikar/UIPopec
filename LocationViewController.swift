@@ -70,7 +70,6 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
         self.activityiIndicator.stopAnimating()
     }
     
-    
     func setscreen(nav:CGFloat){
         self.view.addSubview(mainMap)
         self.view.addSubview(scoll)

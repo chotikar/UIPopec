@@ -5,25 +5,28 @@ import CoreData
 
 class MajorViewController: UIViewController {
     
-    var majorInformation : MajorModel!
-    var facCode : Int!
-    var majorCode : Int!
-    var facultyFullName : String!
+    var majorInformation: MajorModel!
+    var facCode: Int!
+    var majorCode: Int!
+    var facultyFullName: String!
     let fm = FunctionMutual.self
     let ws = WebService.self
     let dc = CRUDDepartmentMessage.self
     
-    var scoll : UIScrollView = {
+    var scoll: UIScrollView = {
         var sc = UIScrollView()
         sc.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei)
         return sc
     }()
-    var majorImage : UIImageView!
-    var majorTitle : UILabel!
-    var facName : UILabel!
-    var majorDescrip : UITextView!
-    var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
+    var addressView = UIView()
+    var addressHei: CGFloat!
+    var majorImage: UIImageView!
+    var majorTitle: UILabel!
+    var facName: UILabel!
+    var majorDescrip: UITextView!
+    var activityiIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var lang = CRUDSettingValue.GetUserSetting()
+    var boxChat: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,10 +68,20 @@ class MajorViewController: UIViewController {
         
     }
     
-    func gotoMap(sender : AnyObject){
-        
+    func showAddress(sender : AnyObject){
+        UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
+            if self.addressView.frame.height != 0 {
+                self.addressView.frame.size.height = 0
+                self.boxChat.frame.origin.y = self.addressView.frame.height + self.addressView.frame.origin.y
+                self.addressView.isHidden = true
+            }else{
+                self.addressView.frame.size.height = self.addressHei
+                self.boxChat.frame.origin.y = self.addressView.frame.height + self.addressView.frame.origin.y
+                self.addressView.isHidden = false
+            }
+        }, completion: nil)
     }
-    
+  
     func gotoChatRoom(sender : AnyObject){
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "messageLayout") as! MessageViewController
@@ -82,7 +95,6 @@ class MajorViewController: UIViewController {
         let messageController = UINavigationController(rootViewController: vc)
         self.revealViewController().setFront(messageController, animated: true)
     }
-    
     
     func drawMajorInformation() ->CGFloat {
         var hei : CGFloat
@@ -127,43 +139,68 @@ class MajorViewController: UIViewController {
         curriLabel.text = lang == "T" ? "หลักสูตร" : "Curriculum"
         curriLabel.textColor = UIColor.gray
         curriLabel.textAlignment = .left
-        curriLabel.font = UIFont(name: "Gidole-Regular", size: 15)
+        curriLabel.font = fm.setFontSizeLight(fs: 15)
+        self.scoll.addSubview(boxCurri)
         self.scoll.addSubview(curriLabel)
         self.scoll.addSubview(curriIcon)
-        self.scoll.addSubview(boxCurri)
         
         // FIXME: MAP
         hei = curriIcon.frame.height + curriIcon.frame.origin.y + 5
         let boxMap = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxMap.backgroundColor = UIColor.clear
         let mapIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
-        mapIcon.image = UIImage(named: "mapLocation")
+        mapIcon.image = UIImage(named: "contact_card")
         let mapLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
-        mapLabel.text = lang == "T" ? "ที่อยู่" : "Location"
+        mapLabel.text = lang == "T" ? "ติดต่อ" : "Contact"
         mapLabel.textColor = UIColor.gray
         mapLabel.textAlignment = .left
-        mapLabel.font = UIFont(name: "Gidole-Regular", size: 15)
+        mapLabel.font = fm.setFontSizeLight(fs: 15)
+        boxMap.addTarget(self, action: #selector(showAddress), for: .touchUpInside)
+        self.scoll.addSubview(boxMap)
         self.scoll.addSubview(mapIcon)
         self.scoll.addSubview(mapLabel)
-        self.scoll.addSubview(boxMap)
+        
+        hei = mapIcon.frame.height + mapIcon.frame.origin.y
+        drawContactView()
+        addressView.frame = CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: 0)
+        addressView.isHidden = true
+        self.scoll.addSubview(addressView)
         
         // FIXME: CHAT
-        hei = mapIcon.frame.height + mapIcon.frame.origin.y + 5
-        let boxChat = UIButton(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid*0.9, height: scWid*0.1))
+        hei = addressView.frame.height + addressView.frame.origin.y
+        boxChat = UIButton(frame: CGRect(x: 0, y: hei, width: scWid*0.9, height: scWid*0.1))
         boxChat.addTarget(self, action: #selector(gotoChatRoom), for: .touchUpInside)
         boxChat.backgroundColor = UIColor.clear
-        let chatIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: hei, width: scWid * 0.07, height:  scWid * 0.07))
+        let chatIcon = UIImageView(frame: CGRect(x: scWid * 0.05, y: 5, width: scWid * 0.07, height:  scWid * 0.07))
         chatIcon.image = UIImage(named: "chatGray")
-        let chatLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: hei - 5, width: (scWid*0.8)-10, height:  scWid * 0.1))
+        let chatLabel = UILabel(frame: CGRect(x: (scWid*0.15), y: 0, width: (scWid*0.8)-10, height:  scWid * 0.1))
         chatLabel.text = lang == "T" ? "สอบถามเรา" : "Ask with staff"
         chatLabel.textColor = UIColor.gray
         chatLabel.textAlignment = .left
-        chatLabel.font = UIFont(name: "Gidole-Regular", size: 15)
-        self.scoll.addSubview(chatLabel)
-        self.scoll.addSubview(chatIcon)
+        chatLabel.font = fm.setFontSizeLight(fs: 15)
         self.scoll.addSubview(boxChat)
+        self.boxChat.addSubview(chatLabel)
+        self.boxChat.addSubview(chatIcon)
         
         hei = boxChat.frame.height + boxChat.frame.origin.y + 100
         return hei
+    }
+    
+    func drawContactView(){
+        let widText = scWid - (scWid * 0.07 + 20)
+        var heiText = CGFloat(5)
+        let contactIcon = UIImageView(frame: CGRect(x: 10, y: 5, width: scWid * 0.07, height: scWid * 0.07))
+        contactIcon.image = UIImage(named: "phone-call")
+        let contactInfor = UITextView(frame: CGRect(x: 40, y: heiText, width: widText, height: self.fm.calculateHeiFromString(text: "", fontsize: 15, tbWid: widText).height));
+//        contactInfor.target(forAction: #selector(fm.callByNumber(phoneNumber: "0854056700")), withSender: self)
+        self.addressView.addSubview(contactIcon)
+        self.addressView.addSubview(contactInfor)
+        heiText = contactInfor.frame.height + contactInfor.frame.origin.y + 5
+        let emailIcon = UIImageView(frame: CGRect(x: 10, y: heiText, width: scWid * 0.07, height: scWid * 0.07))
+        emailIcon.image = UIImage(named: "email")
+        let emailInfor = UITextView(frame: CGRect(x: 40, y: heiText, width: widText, height: self.fm.calculateHeiFromString(text: "", fontsize: 15, tbWid: widText).height));
+        self.addressView.addSubview(emailIcon)
+        self.addressView.addSubview(emailInfor)
+        self.addressHei = emailInfor.frame.origin.y + emailInfor.frame.height + 5
     }
 }

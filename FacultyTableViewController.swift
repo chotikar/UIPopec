@@ -59,7 +59,6 @@ class FacultyTableViewController: UITableViewController {
     func reloadTableViewInFac(lang:String){
         ws.GetFacultyWS(language: lang) { (responseData: [FacultyModel], nil) in
             DispatchQueue.main.async( execute: {
-                print("start faculty")
                 self.faclist = responseData
                 self.tableView.reloadData()
                 self.stopIndicator()

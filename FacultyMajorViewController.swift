@@ -22,8 +22,7 @@ class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITabl
     var descrip : UITextView!
     var logo : UIImageView!
     var activityiIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
-    var fontName =  "Gidole-Regular"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         startIndicator()

@@ -23,12 +23,12 @@ class FunctionMutual {
         return UIColor(displayP3Red: r/225, green: g/225, blue: b/225, alpha: al)
     }
     static func toast(message : String) -> UIView {
-       let toastSize = calculateHeiFromString(text: message, fontsize: 13, tbWid: 200)
-        let toastBox = UIView(frame: CGRect(x: (scWid-toastSize.width)/2, y: scHei-(toastSize.height+30), width: toastSize.width+20, height: toastSize.height+20))
-        let textfiled = UILabel(frame: CGRect(x: 5, y:10, width: toastSize.width+10, height: toastSize.height))
-        toastBox.backgroundColor = UIColor.clear
-        toastBox.layer.cornerRadius = 20
-        toastBox.alpha = 0.7
+        let toastSize = calculateHeiFromString(text: message, fontsize: 13, tbWid: 200)
+        let toastBox = UIView(frame: CGRect(x: (scWid-(toastSize.width + 20))/2, y: scHei-(toastSize.height+100), width: toastSize.width+40, height: toastSize.height+20))
+        let textfiled = UILabel(frame: CGRect(x: 20, y:10, width: toastSize.width, height: toastSize.height))
+        toastBox.backgroundColor = UIColor.gray
+        toastBox.layer.cornerRadius = 18
+        toastBox.alpha = 0.9
         textfiled.textColor = UIColor.white
         textfiled.textAlignment = .center
         textfiled.font = setFontSizeLight(fs: 13)

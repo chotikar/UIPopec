@@ -32,7 +32,6 @@ class CRUDDepartmentMessage{
         return message
     }
     
-    
     static func SaveDepartment(department: DepartmentEntity) -> DepartmentEntity{
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
@@ -156,5 +155,4 @@ class CRUDDepartmentMessage{
             print("Could not save \(error), \(error.userInfo)")
         }
     }
-
 }

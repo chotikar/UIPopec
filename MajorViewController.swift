@@ -46,7 +46,7 @@ class MajorViewController: UIViewController {
             DispatchQueue.main.async( execute: {
                 self.majorInformation = responseData
                 self.reloadInputViews()
-                self.scoll.contentSize = CGSize(width: scWid, height: self.drawMajorInformation())
+                self.scoll.contentSize = CGSize(width: scWid, height: self.drawMajorInformation() + self.addressHei)
                 self.stopIndicator()
             })
         }
@@ -72,13 +72,12 @@ class MajorViewController: UIViewController {
         UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
             if self.addressView.frame.height != 0 {
                 self.addressView.frame.size.height = 0
-                self.boxChat.frame.origin.y = self.addressView.frame.height + self.addressView.frame.origin.y
                 self.addressView.isHidden = true
             }else{
                 self.addressView.frame.size.height = self.addressHei
-                self.boxChat.frame.origin.y = self.addressView.frame.height + self.addressView.frame.origin.y
                 self.addressView.isHidden = false
             }
+            self.boxChat.frame.origin.y = self.addressView.frame.height + self.addressView.frame.origin.y
         }, completion: nil)
     }
   
@@ -182,7 +181,7 @@ class MajorViewController: UIViewController {
         self.boxChat.addSubview(chatLabel)
         self.boxChat.addSubview(chatIcon)
         
-        hei = boxChat.frame.height + boxChat.frame.origin.y + 100
+        hei = boxChat.frame.height + boxChat.frame.origin.y + 50
         return hei
     }
     

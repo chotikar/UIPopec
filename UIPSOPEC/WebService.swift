@@ -245,9 +245,7 @@ class WebService {
 
     // MARK: LOGIN
     //http://www.supanattoy.com:89/Chat/SignInAndSignUp?byFacebook=1&userDetail=kornkamol;1234567890;0987654321&deviceID=0001&imageURL=N/A
-    
-    
-    static func sentSignUpWS(byfacebook : Int , userDetail : String , deviceId : String,imageUrl : String ,completion:@escaping (_ responseData:UserLogInDetail,_ errorMessage:NSError?)->Void)
+    static func sentSignUpWS(byfacebook : Int, userDetail : String, deviceId : String, imageUrl : String, completion:@escaping (_ responseData:UserLogInDetail,_ errorMessage:NSError?)->Void)
     {
         var signUpInformation : UserLogInDetail!
         let url = NSURL(string:"\(domainName)Chat/SignUp?byFacebook=\(byfacebook)&userDetail=\(userDetail)&deviceID=\(deviceId)&imageURL=\(imageUrl)")
@@ -271,7 +269,7 @@ class WebService {
         task.resume()
     }
     
-    static func sentSignInWS(byfacebook : Int , userDetail : String , deviceId : String ,completion:@escaping (_ responseData:UserLogInDetail,_ errorMessage:NSError?)->Void)
+    static func sentSignInWS(byfacebook : Int, userDetail : String, deviceId : String, completion:@escaping (_ responseData:UserLogInDetail,_ errorMessage:NSError?)->Void)
     {
         var loginInformation : UserLogInDetail!
         let url = NSURL(string: "\(domainName)Chat/SignIn?byFacebook=\(byfacebook)&userDetail=\(userDetail)&deviceID=\(deviceId)")

@@ -9,7 +9,6 @@ class CRUDProfileDevice {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInforEntity")
-        
         var userProfile = UserLogInDetail()
         var profileValue_DB =  [NSManagedObject]()
         do {
@@ -59,13 +58,10 @@ class CRUDProfileDevice {
     
     /// Clear device information
     static func ClearProfileDevice(){
-        
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
-        
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ProfileInforEntity")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        
         do {
             try context.execute(deleteRequest)
             SaveProfileDevice(loginInfor: UserLogInDetail())
@@ -74,101 +70,4 @@ class CRUDProfileDevice {
             print ("There was an error")
         }
     }
-    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    static func ClearProfileDevice(){
-//
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
-//        fetchRequest.returnsObjectsAsFaults = false
-//
-//        do
-//        {
-//            let results = try managedContext.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-//            for managedObject in results
-//            {
-//                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-//                managedContext.delete(managedObjectData)
-//            }
-//        } catch let error as NSError {
-//            print("Detele all data in Major error : \(error) \(error.userInfo)")
-//        }
-//
-////        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-////        let managedContext = appDelegate.persistentContainer.viewContext
-////        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ProfileInformation")
-////        fetchRequest.returnsObjectsAsFaults = false
-////
-////        do
-////        {
-////            let results = try managedContext.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-////            let managedObjectData:NSManagedObject = results as! NSManagedObject
-////            managedContext.delete(managedObjectData)
-////
-////        } catch let error as NSError {
-////            print("Detele all data in Profile Device error : \(error) \(error.userInfo)")
-////        }
-//
-//    }
-//    //  Update Building
-//    static func UpdateBuilding(building:BuildingObject){
-//        var buildingList_DB = [NSManagedObject]()
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Building")
-//        fetchRequest.predicate = NSPredicate(format: "buildingCode = %@", building.BuildingCode)
-//        do {
-//
-//            let result = try managedContext.fetch(fetchRequest)
-//            buildingList_DB = result as! [NSManagedObject]
-//            if let object = buildingList_DB as? [NSManagedObject] {
-//                if (buildingList_DB.count != 0){
-//                    var managedObject = buildingList_DB[0]
-//                    managedObject.setValue(building.BuildingCode, forKey: "buildingCode")
-//                    managedObject.setValue(building.BuildingAbb, forKey: "buildingAbb")
-//                    managedObject.setValue(building.BuildingName, forKey: "buildingName")
-//                    managedObject.setValue(building.Latitude, forKey: "latitude")
-//                    managedObject.setValue(building.Longtitude, forKey: "longtitude")
-//
-//                    do {
-//                        try managedContext.save()
-//                        print("update the building record sucessfully")
-//                    } catch let error as NSError {
-//                        print("Could not insert the new building record. \(error)")
-//                    }
-//                }
-//            } else {
-//                print("Error null")
-//            }
-//        }
-//        catch let error as NSError {
-//            print("Could not fetch from Building. \(error)")
-//        }
-//    }
-//}

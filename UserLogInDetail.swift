@@ -50,7 +50,6 @@ class UserLogInDetail {
 //    ImageURL: "https://image.flaticon.com/icons/svg/201/201818.svg"
     
     init(dic: AnyObject, udid : String , byfac : Int16) {
-//        print(dic["result"])
         self.userId = dic["UserID"] as? Int64
         self.email = dic["Email"] as? String
         self.facebookId = dic["FacebookID"] as? String

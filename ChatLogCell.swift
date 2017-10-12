@@ -6,7 +6,9 @@ class ChatLogCell: UICollectionViewCell {
     let textView: UITextView = {
         let tv = UITextView()
         tv.font = FunctionMutual.setFontSizeLight(fs: 13)
-        tv.text = "CHAT Message Log"
+        tv.text = "message log"
+        tv.dataDetectorTypes = UIDataDetectorTypes.all
+        tv.linkTextAttributes = [NSForegroundColorAttributeName: UIColor.lightGray]
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = UIColor.clear
         tv.layer.masksToBounds = false
@@ -97,5 +99,5 @@ class ChatLogCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
+

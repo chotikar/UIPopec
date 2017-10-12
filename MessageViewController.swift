@@ -146,32 +146,12 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         }
     }
     
-    // MARK: Toast
-    func toastMessage(mess:String){
+    func toastMessage(mess: String){
         toast = fm.toast(message: mess)
+        self.view.addSubview(toast)
         UIView.animate(withDuration: 1.8, delay: 0.0, options: [], animations: {
-            self.toast.backgroundColor = UIColor.darkGray
-        }, completion: { (finished: Bool) in
-            UIView.animate(withDuration: 2.5, delay: 0, options: [], animations: {
-                self.toast.backgroundColor = UIColor.clear
-                self.toast.isHidden = true
-            }, completion: nil)
-        })
-    }
-    
-    func toastNoInternet(){
-        let toastLabel = UILabel(frame: CGRect(x: (scWid/2)-150, y: scHei*0.85, width: 300, height: 30))
-        toastLabel.backgroundColor = UIColor.darkGray
-        toastLabel.textColor = UIColor.white
-        toastLabel.textAlignment = NSTextAlignment.center;
-//        self.view.addSubview(toastLabel)
-        toastLabel.text = "No Internet Connection"
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 10;
-        toastLabel.clipsToBounds  =  true
-        UIView.animate(withDuration: 4.0, delay: 0.1, options: UIViewAnimationOptions.curveEaseOut, animations: {
-            toastLabel.alpha = 0.0
-        })
+            self.toast.alpha = 0
+         }, completion: nil)
     }
     
     // MARK: Button action
@@ -575,7 +555,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     
     func drawElementSignupLogin(){
         addObserver()
-        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.03, width: scHei*0.25, height: scHei*0.25))
+        logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.02, width: scHei*0.25, height: scHei*0.25))
         logoAbac.image = UIImage(named: "abaclogo")
         boxHei = fm.calculateHeiFromString(text: "n/a", fontsize: 27, tbWid: scWid*0.6)
         boxBack = UIView(frame: CGRect(x: 0, y: 0, width: scWid*0.7, height: boxHei.height))

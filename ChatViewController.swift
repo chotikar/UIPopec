@@ -138,7 +138,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatLogCell
         let log = fetchResultController.object(at: indexPath) as! MessageEntity
-        cell.textView.text = log.text
+        print(detectUrl(urlString: log.text))
         cell.textView.text = log.text
         cell.chatTime.text = setDateFormatter(date: (log.date)!)
         cell.profileImageView.image = UIImage(named: (log.department?.programAbb!)!)
@@ -236,10 +236,20 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
+    func leaveGroup(roomcode: String) {
+        if let hub = chatHub {
+            do {
+                try hub.invoke("LeaveRoom", arguments: [roomcode])
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     func sentMessage() {
         if let hub = chatHub, let message = inputTextField.text {
             do {
-                if message != nil && checkSpace(message: message) {
+                if message != nil && isNotSpace(message: message) {
                     try hub.invoke("sent", arguments: [self.departmentEntity?.roomCode, 0, loginInfor.userId, loginInfor.accessToken, message])
                 }
                 inputTextField.text = ""
@@ -253,11 +263,11 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
      //Swift: Firebase 3 - How to Send Image Messages (Ep 17) 30:49
     }
     
-    func checkSpace(message: String) -> Bool {
+    func isNotSpace(message: String) -> Bool {
         var check = false
         for i in message.characters {
             if i != " " {
-                return true
+                check = true
             }
         }
         return check
@@ -287,7 +297,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
         connection.connected = { [weak self] in
             print("Connected")
-            print(connection.connectionID ?? "kii")
             self?.joinGroup(userid: (self?.loginInfor.userId)!, facid: (self?.departmentEntity?.facultyId)!, proId: (self?.departmentEntity?.programId)!)
         }
         connection.reconnected = { [weak self] in
@@ -363,4 +372,18 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         dateFormatter.dateFormat = "H:mm"
         return dateFormatter.string(from: date as Date)
     }
+    
+    func detectUrl (urlString: String?) -> Bool {
+        var isUrl = false
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: urlString!, options: [], range: NSRange(location: 0, length: (urlString?.utf16.count)!))
+        
+        for match in matches {
+            guard let range = Range(match.range, in: urlString!) else { continue }
+            let url = urlString![range]
+            isUrl = url != ""
+        }
+        return isUrl
+    }
+
 }

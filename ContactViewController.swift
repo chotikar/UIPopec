@@ -91,12 +91,9 @@ class ContactViewController: UIViewController {
             campusName.text = con.Campusname
             hei = hei + boxSize.height
             
-            boxSize = fm.calculateHeiFromString(text: con.Addr, fontsize: 14 ,tbWid: scWid)
-            var addrlogo = UIImageView()
-            addrlogo = UIImageView(frame: CGRect(x: scWid*0.05, y: hei+5, width: scWid*0.05, height: scWid*0.05))
-            addrlogo.image = UIImage(named: "placeholder")
+            boxSize = fm.calculateHeiFromString(text: con.Addr, fontsize: 14 ,tbWid: scWid * 0.9)
             var address = UITextView()
-            address = UITextView(frame: CGRect(x: scWid*0.12 , y: hei, width: scWid*0.9, height:boxSize.height + 10))
+            address = UITextView(frame: CGRect(x: scWid*0.05 , y: hei, width: scWid*0.9, height:boxSize.height + 10))
             address.isEditable = false
             address.font = fm.setFontSizeLight(fs: 13)
             address.textColor = UIColor.darkGray
@@ -145,7 +142,6 @@ class ContactViewController: UIViewController {
             
             self.scrollView.addSubview(campusName)
             self.scrollView.addSubview(address)
-            self.scrollView.addSubview(addrlogo)
             self.scrollView.addSubview(tellogo)
             self.scrollView.addSubview(tel)
             self.scrollView.addSubview(faxlogo)

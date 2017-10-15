@@ -83,6 +83,7 @@ class FacultyTableViewController: UITableViewController {
 //        cell.logo.image = UIImage(named: "vme_logo")
 //        cell.facView.image = UIImage(named: "abaccl")
         cell.name.text = facultyDetail.facultyName
+        cell.keyword.text = facultyDetail.facultyKeyword
         return cell
     }
     
@@ -105,12 +106,14 @@ class FacultyCell : UITableViewCell {
     @IBOutlet var facView : UIImageView!
     @IBOutlet var name : UILabel!
     @IBOutlet var whiteBox : UIImageView!
+    @IBOutlet var keyword : UILabel!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(facView)
         self.contentView.addSubview(name)
         self.contentView.addSubview(whiteBox)
+        self.contentView.addSubview(keyword)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -124,7 +127,12 @@ class FacultyCell : UITableViewCell {
         facView.alpha = 0.8
 //        facView.image = UIImage(named: "abaccl")
         
-        name.frame = CGRect(x: scWid * 0.05, y: scHei*0.1, width: scWid*0.9, height: scHei*0.3)
+        keyword.frame = CGRect(x: scWid * 0.05, y:scHei*0.17 , width: scWid*0.9, height: scHei*0.1)
+        keyword.textAlignment = NSTextAlignment.left
+        keyword.font = fm.setFontSizeLight(fs: 25)
+        keyword.textColor = UIColor.white
+        
+        name.frame = CGRect(x: scWid * 0.05, y: scHei*0.22, width: scWid*0.9, height: scHei*0.1)
         name.textAlignment = NSTextAlignment.left
         name.font = fm.setFontSizeLight(fs: 15)
         name.textColor = UIColor.white
@@ -134,76 +142,4 @@ class FacultyCell : UITableViewCell {
         
     }
 }
-//class FacultyCell : UITableViewCell {
-//    
-//    @IBOutlet var facView : UIImageView!
-//    @IBOutlet var name : UILabel!
-////    @IBOutlet var abb : UILabel!
-////    @IBOutlet var logo : UIImageView!
-////    @IBOutlet var whiteBox : UIView!
-//    @IBOutlet var whiteBox : UIImageView!
-//    
-//    
-//   //   @IBOutlet var name : UILabel? = {
-////    var nameL = UILabel()
-////    nameL.font = UIFont.systemFont(ofSize: 10)
-////    nameL.textColor = UIColor.white
-////    nameL.textAlignment = NSTextAlignment.center
-////        return nameL
-////    }()
-////    @IBOutlet var abb : UILabel? = {
-////        var abbL = UILabel()
-////        abbL.font = UIFont.boldSystemFont(ofSize: 20)
-////        abbL.textColor = UIColor.white
-////        return abbL
-////    }()
-//  
-//     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        self.contentView.addSubview(facView)
-//        //self.contentView.addSubview(logo)
-//        self.contentView.addSubview(name)
-//       // self.contentView.addSubview(abb)
-//        self.contentView.addSubview(whiteBox)
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        //fatalError("init(coder:) has not been implemented")
-//    }
-//    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-////        logo.frame.size = CGSize(width: scWid*0.3, height: scWid*0.3)
-////        logo.center = CGPoint(x: scWid/2, y: scWid*0.17)
-////        logo.backgroundColor = UIColor.gray
-////        logo.layer.cornerRadius = logo.frame.size.width/2
-////        logo.clipsToBounds = true
-//        
-////        facView.frame = CGRect(x: 0, y: scHei*0.1, width: scWid, height: scHei*0.3)
-//        facView.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.3)
-//        facView.alpha = 0.8
-//        
-////        var buttom = logo.frame.origin.y+scWid*0.3
-////        let speceAvi = (scHei*0.4)-buttom
-////        abb.frame = CGRect(x: scWid * 0.2, y: buttom+(speceAvi*0.15), width: scWid*0.6, height: speceAvi*0.3)
-////        abb.textAlignment = NSTextAlignment.center
-////        abb.font = UIFont.boldSystemFont(ofSize: 25)
-////        abb.textColor = UIColor.darkGray
-//        
-//        
-////        buttom = abb.frame.origin.y + (speceAvi*0.3)
-////        name.frame = CGRect(x: scWid * 0.05, y: buttom, width: scWid*0.9, height: speceAvi*0.3)
-//        name.frame = CGRect(x: scWid * 0.05, y: buttom, width: scWid*0.9, height: speceAvi*0.3)
-//        name.textAlignment = NSTextAlignment.center
-//        name.font = UIFont.systemFont(ofSize: 15)
-//        name.textColor = UIColor.white
-//
-//
-//        whiteBox.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.3)
-//        whiteBox.alpha = 0.65
-//        
-////        whiteBox.frame = CGRect(x: 0, y: abb.frame.origin.y, width: scWid, height: speceAvi*0.6)
-////        whiteBox.alpha = 0.65
-//    }
-//}
+

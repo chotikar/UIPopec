@@ -4,8 +4,9 @@ import Foundation
 import GoogleMaps
 
 class FacultyMajorViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
-    
+    // Require faultyCode
     var facultyCode : Int!
+    ///
     var facultyMajorInformation = FacultyMajorModel()
     var majorCellItemId = "MajorCellItem"
     let fm = FunctionMutual.self

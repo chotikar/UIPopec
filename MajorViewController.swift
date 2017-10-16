@@ -5,9 +5,11 @@ import CoreData
 
 class MajorViewController: UIViewController {
     
-    var majorInformation: MajorModel!
+    // Require fac Code and major code
     var facCode: Int!
     var majorCode: Int!
+    ///
+    var majorInformation: MajorModel!
     var facultyFullName: String!
     let fm = FunctionMutual.self
     let ws = WebService.self

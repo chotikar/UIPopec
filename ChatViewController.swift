@@ -6,7 +6,7 @@ import CoreData
 var chatHub: Hub!
 var connection: SignalR!
 
-class ChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, NSFetchedResultsControllerDelegate {
+class ChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, NSFetchedResultsControllerDelegate,UITableViewDelegate, UITableViewDataSource {
 
     lazy var inputTextField : UITextField = {
         let textField = UITextField()
@@ -60,6 +60,16 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     let cellId = "chatItemCell"
     
+    lazy var keywordTableView: UITableView = {
+        var tableView = UITableView()
+        tableView.backgroundColor = UIColor.lightGray
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        
+        tableView.dataSource = self
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
@@ -74,9 +84,21 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
         setupKeyboardObserver()
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeLeftGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.view.addGestureRecognizer(swipeLeft)
+        self.collectionView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapCollectionView)))
+        self.view.addSubview(self.keywordTableView)
         if fm.isInternetAvailable() {
             setupConnection()
         }else{
+            toastNoInternet()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        keywordTableView.frame = CGRect(x: scWid, y: 0, width: scWid * 0.8, height: (self.collectionView?.frame.height)!-50)
+        if fm.isInternetAvailable() == false {
             toastNoInternet()
         }
     }
@@ -386,4 +408,26 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         return isUrl
     }
 
+    func swipeLeftGesture(gesture : UISwipeGestureRecognizer){
+        UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
+            self.keywordTableView.frame.origin.x  = scWid * 0.2
+        }, completion: nil)
+    }
+    
+    func tapCollectionView(gesture : UISwipeGestureRecognizer){
+        if keywordTableView.frame.origin.x == scWid * 0.2 {
+            self.keywordTableView.frame.origin.x = scWid
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
+        cell.textLabel?.text = "\(indexPath.row)"
+        cell.detailTextLabel?.text = "Subtitle"
+        return cell
+    }
 }

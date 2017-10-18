@@ -6,7 +6,7 @@ import CoreData
 var chatHub: Hub!
 var connection: SignalR!
 
-class ChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, NSFetchedResultsControllerDelegate,UITableViewDelegate, UITableViewDataSource {
+class ChatViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, NSFetchedResultsControllerDelegate,UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     lazy var inputTextField : UITextField = {
         let textField = UITextField()
@@ -69,6 +69,7 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         tableView.dataSource = self
         return tableView
     }()
+    var containerViewBottomAnchor : NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,23 +96,22 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             toastNoInternet()
         }
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         keywordTableView.frame = CGRect(x: scWid, y: 0, width: scWid * 0.8, height: (self.collectionView?.frame.height)!-50)
         if fm.isInternetAvailable() == false {
             toastNoInternet()
         }
     }
-
     lazy var inputContainerView: UIView = {
         let containerView = UIView()
         containerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)
         containerView.backgroundColor  = UIColor.white
         
         let uploadImage = UIImageView()
+        uploadImage.isUserInteractionEnabled = true
         uploadImage.image = UIImage(named: "uploadImg")
         uploadImage.translatesAutoresizingMaskIntoConstraints = false
-        uploadImage.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(handleUploadImage)))
+        uploadImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUploadImage)))
         containerView.addSubview(uploadImage)
         uploadImage.leftAnchor.constraint(equalTo: containerView.leftAnchor,constant:8).isActive = true
         uploadImage.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
@@ -149,14 +149,12 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         return containerView
     }()
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let count = fetchResultController.sections?[0].numberOfObjects {
             return count
         }
         return 0
     }
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatLogCell
         let log = fetchResultController.object(at: indexPath) as! MessageEntity
@@ -168,18 +166,15 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         setupCell(cell: cell, who: log.sendBy)
         return cell
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var heigh : CGFloat = 80
         let log = fetchResultController.object(at: indexPath) as! MessageEntity
         heigh = fm.calculateHeiFromString(text: log.text!, fontsize: 13, tbWid: 200).height + 15
         return CGSize(width: view.frame.width, height: heigh)
     }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
-    
     func setupCell(cell: ChatLogCell,who: Int16){
         if who == 0 {
             //outcome message blue
@@ -204,7 +199,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             cell.timeLeft?.isActive = true
         }
     }
-    
     func keyboardNotification(notification: NSNotification){
         if notification.userInfo != nil {
             let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect
@@ -218,11 +212,9 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             })
         }
     }
-    
     func setupKeyboardObserver() {
     NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
-    
     func handleKeyboardDidShow(){
         let size = (departmentEntity?.message?.count)!
         if size > 0 {
@@ -230,14 +222,10 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
         }
     }
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-    
-    var containerViewBottomAnchor : NSLayoutConstraint?
-    
     override var inputAccessoryView: UIView? {
         get {
             return inputContainerView
@@ -247,7 +235,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
     override var canBecomeFirstResponder: Bool {
         return true
     }
-    
     func joinGroup(userid: Int64, facid: String, proId: String) {
         if let hub = chatHub {
             do {
@@ -257,7 +244,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             }
         }
     }
-    
     func leaveGroup(roomcode: String) {
         if let hub = chatHub {
             do {
@@ -267,7 +253,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             }
         }
     }
-    
     func sentMessage() {
         if let hub = chatHub, let message = inputTextField.text {
             do {
@@ -280,11 +265,34 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             }
         }
     }
-    
+    /// Image Picker
     func handleUploadImage(){
      //Swift: Firebase 3 - How to Send Image Messages (Ep 17) 30:49
+        print("click image button")
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
     }
-    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var selectImageFromPicker: UIImage?
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectImageFromPicker = editedImage
+        }else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            selectImageFromPicker = originalImage
+        }
+        if let selectedImage = selectImageFromPicker {
+//            upload image to server using image
+//            uploadImageToServerUsingImage(selectedImage)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+//    private func uploadImageToServerUsingImage(image : UIImage){
+//
+//    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    /// Sent message and manage cell
     func isNotSpace(message: String) -> Bool {
         var check = false
         for i in message.characters {
@@ -294,12 +302,10 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
         return check
     }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         sentMessage()
         return true
     }
-    
     func setupConnection(){
         connection = SignalR(ws.domainName)
         connection.useWKWebView = true
@@ -338,7 +344,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
         connection.start()
     }
-    
     func toastNoInternet(){
         let toastLabel = UILabel(frame: CGRect(x: (scWid/2)-150, y: scHei*0.85, width: 300, height: 30))
         toastLabel.backgroundColor = UIColor.darkGray
@@ -353,7 +358,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             toastLabel.alpha = 0.0
         })
     }
-    
     func scrollDisplaylogToBottom(){
         let size = self.fetchResultController.sections?[0].numberOfObjects
         if size! > 0 {
@@ -361,7 +365,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: true)
         }
     }
-    
     func createMessageWithText(textInfo: AnyObject, department: DepartmentEntity) {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
@@ -378,7 +381,6 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         let indexPath = NSIndexPath(item: (department.message?.count)! - 1, section: 0)
         collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: false)
     }
-    
     func saveMessageRead(){
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
@@ -388,13 +390,11 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
             print("Could not save \(error), \(error.userInfo)")
         }
     }
-
     func setDateFormatter(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "H:mm"
         return dateFormatter.string(from: date as Date)
     }
-    
     func detectUrl (urlString: String?) -> Bool {
         var isUrl = false
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
@@ -407,23 +407,20 @@ class ChatViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
         return isUrl
     }
-
+    /// Save text memory
     func swipeLeftGesture(gesture : UISwipeGestureRecognizer){
         UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseIn], animations: {
             self.keywordTableView.frame.origin.x  = scWid * 0.2
         }, completion: nil)
     }
-    
     func tapCollectionView(gesture : UISwipeGestureRecognizer){
         if keywordTableView.frame.origin.x == scWid * 0.2 {
             self.keywordTableView.frame.origin.x = scWid
         }
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
         cell.textLabel?.text = "\(indexPath.row)"

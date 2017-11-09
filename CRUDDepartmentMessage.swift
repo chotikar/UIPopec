@@ -100,6 +100,7 @@ class CRUDDepartmentMessage{
         chatLog.department = department
         chatLog.date = NSDate()
         chatLog.sendBy = textInfo["Sendby"] as! Int16
+        print(textInfo["Message"])
         chatLog.text = String(textInfo["Message"] as! String)
         do {
             try context.save()
@@ -137,17 +138,18 @@ class CRUDDepartmentMessage{
         }
     }
     
-    static func CreateMessageWithTextUnread(textInfo: AnyObject, department: DepartmentEntity){
+    static func CreateMessageWithTextUnread(textInfo: AnyObject){
+        print(">>>>>>>>>\(textInfo)")
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = NSLocale.current
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.A"
+        let date = dateFormatter.date(from: (textInfo["MsgDateTime"] as? String)!)
         let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
-        chatLog.department = department
-        chatLog.date = NSDate()
-        chatLog.sendBy = textInfo["Sendby"] as! Int16
-        chatLog.text = String(textInfo["Message"] as! String)
-        department.unread += 1
+        chatLog.department = FindDepartment(roomCode: (textInfo["RoomName"] as? String)!)
+        chatLog.department?.unread += 1
+        chatLog.date = date as! NSDate
+        chatLog.sendBy = textInfo["Sendby"] as? String == "USER" ? 0 : 1
+        chatLog.text =  textInfo["Text"] as? String
         do {
             try context.save()
             print("saved!")

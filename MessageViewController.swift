@@ -1,4 +1,4 @@
-
+import Foundation
 import UIKit
 import FBSDKLoginKit
 import FBSDKCoreKit
@@ -6,18 +6,24 @@ import SystemConfiguration
 import SWRevealViewController
 import SkyFloatingLabelTextField
 import CoreData
+import SwiftR
 
 let scWid = UIScreen.main.bounds.width
 let scHei = UIScreen.main.bounds.height
-let abacRed = UIColor(red: 22/225, green: 72/225, blue: 148/225, alpha: 1)
+let appColor = UIColor(red: 22/225, green: 72/225, blue: 148/225, alpha: 1)
+
+var chatHubUpdate: Hub!
+var connectionUpdate: SignalR!
 
 class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITextFieldDelegate , UITableViewDelegate , UITableViewDataSource {
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     var activityiIndicator: UIActivityIndicatorView! = UIActivityIndicatorView()
     let fm = FunctionMutual.self
     let ws = WebService.self
+    let dc = CRUDDepartmentMessage.self
     let profileDb = CRUDProfileDevice.self
     let departmentDb = CRUDDepartmentMessage.self
+    let chatDetail = CRUDChatDetails.self
     var userLoginInfor: UserLogInDetail!
     var loginBg: UIImageView = {
         var pb = UIImageView()
@@ -51,7 +57,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     var signinPageStatus: Bool!
     var toast: UIView!
     var userLoginModel = UserLogInDetail()
-    var lang = CRUDSettingValue.GetUserSetting()
+    var lang: String!
     var boxBack: UIView!
     var backButton: UIButton!
     var boxOr: UILabel!
@@ -72,10 +78,13 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     var fromDepAbb: String!
     var fromFacId: String!
     var fromDepId: String!
+    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lang = CRUDSettingValue.GetUserSetting()
         self.view.addSubview(actionView)
+        self.title = lang == "E" ? "Chat" : "คุยกับเจ้าหน้าที่"
         customNavbar()
         sidemenu()
         mangegeLayout()
@@ -112,6 +121,23 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     }
     
     // MARK: Webservice
+    
+    func updateLogRoom(userId :String, roomId :String){
+        ws.getUpdateMessageList(userid: userId, lastRoom: roomId) { (responseData: [String : AnyObject ], nil) in
+            DispatchQueue.main.async( execute: {
+                var res = responseData
+                self.chatDetail.UpdateLastRoomId(roomId: res["LastRoomID"] as! String)
+                for r in res["RoomList"] as! [[String: AnyObject]] {
+                   self.saveDepartmentDb(dic: r as AnyObject)
+                }
+                for l in res["MsgList"] as! [[String: AnyObject]] {
+                    self.createMessageWithTextUnread(textInfo: l as AnyObject)
+                }
+                self.loadData()
+            })
+        }
+    }
+   
     func signupWS(byfb: Int16, userDe: String, imageUrl: String){
         let udid = (UIDevice.current.identifierForVendor?.uuidString)! as String
         ws.sentSignUpWS(byfacebook: Int(byfb), userDetail: userDe, deviceId: udid, imageUrl:imageUrl ) { (responseData: UserLogInDetail, nil) in
@@ -156,6 +182,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     
     // MARK: Button action
     func signupAction() {
+        view.endEditing(true)
         //0 == incorect password
         //1 == correct password
         if password.text == rePassword.text && username.text != "" && email.text != "" {
@@ -169,8 +196,9 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     }
     
     func signInAction(sender : AnyObject){
+        view.endEditing(true)
         if password.text != "" && username.text != "" {
-            let ud = "N/A;\(password.text!);\(username.text!)"
+            let ud = "N/A;\(password.text!.trimmingCharacters(in: .whitespaces));\(username.text!.trimmingCharacters(in: .whitespaces))"
             startIndicator()
             loginWS(byfb: 0, userDe: ud)
         }else{
@@ -187,6 +215,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         }
         departmentDb.ClearMessageAndDepartment()
         self.navigationItem.rightBarButtonItem = nil
+        chatDetail.UpdateLastRoomId(roomId: "0")
         self.saveProfileDb(loginInfor: UserLogInDetail())
     }
     
@@ -255,7 +284,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (scHei * 0.15)
+        return (scHei * 0.12)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -343,6 +372,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         transc.setValue(loginInfor.userId, forKey: "userId")
         do {
             try context.save()
+            self.chatDetail.StoreLogRoomId(roomId: "0", logId: "0")
             self.mangegeLayout()
         } catch let error as NSError  {
             print("Could not save \(error), \(error.userInfo)")
@@ -386,6 +416,42 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         return department
     }
     
+    func saveDepartmentDb(dic: AnyObject) -> DepartmentEntity {
+        let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        var department = findExistDepartment(roomCode: (dic["RoomName"] as? String)!)
+        print(dic)
+        if department.roomCode == nil {
+            department.facultyId =  String(dic["FacultyID"] as! Int)
+            department.facultyName = dic["FacultyName"] as? String
+            department.programAbb = dic["ProgramAbb"] as? String
+            department.programeNameTh = dic["ProgramNameTh"] as? String
+            department.programeNameEn = dic["ProgramNameEn"] as? String
+            department.programId = String(dic["ProgramID"] as! Int)
+            department.roomCode = dic["RoomName"] as? String
+            do{
+                try (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            }catch let err {
+                print(err)
+            }
+        }
+        return department
+    }
+    
+    func createMessageWithTextUnread(textInfo: AnyObject){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let chatLog = NSEntityDescription.insertNewObject(forEntityName: "MessageEntity", into: context) as! MessageEntity
+        chatLog.department = findExistDepartment(roomCode: (textInfo["RoomName"] as? String)!)
+        chatLog.department?.unread += 1
+        chatLog.date = dateFormatter.date(from: (textInfo["MsgDateTime"] as? String)!) as? NSDate
+        chatLog.sendBy = (textInfo["SendBy"] as? Int16)!
+        chatLog.text =  textInfo["Text"] as? String
+        do {
+            try context.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+    
     func findExistDepartment(roomCode: String) -> DepartmentEntity {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         var departmentList: [DepartmentEntity] = []
@@ -415,7 +481,6 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
                     for message in department.message! {
                         context.delete(message as! NSManagedObject)
                     }
-                    context.delete(department)
                 }
             }
             try context.save()
@@ -431,10 +496,12 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         messageTableView.dataSource = self
         messageTableView.register(UserCell.self, forCellReuseIdentifier: messageCell)
         messageTableView.allowsSelectionDuringEditing = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: lang == "E" ? "Logout" : "ล๊อกเอ้าท์", style: .plain, target: self, action: #selector(logOutAction(sender:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"logout"), style: .plain, target: self, action: #selector(logOutAction(sender:)))
         self.view.backgroundColor = UIColor.white
         self.startIndicator()
         self.view.addSubview(messageTableView)
+//        self.updateLogRoom(userId: String(profileDb.GetUserProfile().userId), roomId: self.chatDetail.GetLastRoomId())
+        reloadInputViews()
         loadData()
     }
     
@@ -453,6 +520,7 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
     
     func loadData(){
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        print("Call loadData")
         messageList = [MessageEntity]()
         let friends = fetchDepartmentMessage()
         if friends.count > 0 {
@@ -553,6 +621,42 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         return true
     }
     
+    func didTapView(){
+        view.endEditing(true)
+    }
+    
+    func addObserver() {
+        let center: NotificationCenter = NotificationCenter.default
+        center.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        center.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func handleKeyboardWillHide(notification: Notification){
+        signInUpScroll.contentSize = CGSize(width: scWid, height: scHei)
+    }
+    
+    func handleKeyboardDidShow(notification: Notification){
+        guard let userInfo = notification.userInfo, let frame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        signInUpScroll.contentSize = CGSize(width: scWid, height: scHei + frame.height)
+    }
+    
+    func removeObserver(){
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func sidemenu() {
+        MenuButton.target = SWRevealViewController()
+        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+    }
+    
+    func customNavbar() {
+        navigationController?.navigationBar.barTintColor = appColor
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+    }
     func drawElementSignupLogin(){
         addObserver()
         logoAbac = UIImageView(frame: CGRect(x: (scWid-(scHei*0.25))/2, y: scHei*0.02, width: scHei*0.25, height: scHei*0.25))
@@ -641,42 +745,5 @@ class MessageViewController: UIViewController , FBSDKLoginButtonDelegate , UITex
         backButton.setTitle(lang == "E" ? "Back" : "กลับ", for: .normal)
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    func didTapView(){
-        view.endEditing(true)
-    }
-    
-    func addObserver() {
-        let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-        center.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    func handleKeyboardWillHide(notification: Notification){
-        signInUpScroll.contentSize = CGSize(width: scWid, height: scHei)
-    }
-    
-    func handleKeyboardDidShow(notification: Notification){
-        guard let userInfo = notification.userInfo, let frame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        signInUpScroll.contentSize = CGSize(width: scWid, height: scHei + frame.height)
-    }
-    
-    func removeObserver(){
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    func sidemenu() {
-        MenuButton.target = SWRevealViewController()
-        MenuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-    }
-    
-    func customNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
 }

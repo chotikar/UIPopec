@@ -44,9 +44,11 @@ class FacultyMajorModel {
         latitude = (dic["latitude"] as? String ?? "13.612077")
         longtitude = (dic["longtitude"] as? String ?? "100.8371518")
         buildingName = (dic["buildingName"] as? String ?? "Assumption University")
-        let mList = dic["departmentlist"] as? [[String: AnyObject]]
-        for i in mList! {
-            marjorList.append(MajorModel(dic:i as AnyObject))
+        if faculyId != 0 {
+            let mList = dic["departmentlist"] as? [[String: AnyObject]]
+            for i in mList! {
+                marjorList.append(MajorModel(dic:i as AnyObject))
+            }
         }
     }
 }
@@ -69,12 +71,12 @@ class MajorModel {
         degree = 99999
         degreeName = "N/A"
         departmentAbb = "N/A"
-        imageURL = ""
+        imageURL = "N/A"
         description = "N/A"
-        departmentName = ""
+        departmentName = "N/A"
     }
     
-    init(dic :AnyObject) {
+    init(dic : AnyObject) {
         departmentId = dic["departmentID"]  as! Int
         departmentEnName = dic["departmentNameEn"]  as? String ?? ""
         departmentThName = dic["departmentNameTh"]  as? String ?? ""

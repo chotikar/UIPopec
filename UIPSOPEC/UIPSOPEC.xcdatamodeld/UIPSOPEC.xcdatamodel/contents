@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="16G1036" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ChatDetailEntity" representedClassName="ChatDetailEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="lastLogID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastRoomID" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="DepartmentEntity" representedClassName=".DepartmentEntity" syncable="YES" codeGenerationType="class">
         <attribute name="facultyId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facultyName" optional="YES" attributeType="String" syncable="YES"/>
@@ -38,5 +42,6 @@
         <element name="MessageEntity" positionX="-929" positionY="138" width="128" height="118"/>
         <element name="ProfileInforEntity" positionX="-686" positionY="72" width="128" height="180"/>
         <element name="SettingTestEntity" positionX="-855" positionY="-24" width="128" height="60"/>
+        <element name="ChatDetailEntity" positionX="-981" positionY="99" width="128" height="75"/>
     </elements>
 </model>

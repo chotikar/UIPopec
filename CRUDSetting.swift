@@ -31,7 +31,7 @@ class CRUDSettingValue{
             return "E"
         }
     }
-    
+
     static func SaveSettingDevice(lang:String){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context =  appDelegate.persistentContainer.viewContext
@@ -45,7 +45,7 @@ class CRUDSettingValue{
             print("Could not save \(error), \(error.userInfo)")
         }
     }
-
+    
     static func ClearSettingDevice(){
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext

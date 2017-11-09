@@ -14,7 +14,7 @@ class SplashScreen: UIViewController {
     let vc = RevealViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = abacRed
+        self.view.backgroundColor = appColor
         self.view.addSubview(AppLogo)        
         if fm.isInternetAvailable() {
             self.performSegue(withIdentifier: "openSWL", sender: self)

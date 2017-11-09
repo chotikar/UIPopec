@@ -44,7 +44,27 @@ class WebService {
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? AnyObject {
-                    
+                    facultyMajor =  FacultyMajorModel(dic: validJson)
+                    completion(facultyMajor, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+    static func GetFacultyDetailWS(abb : String, language : String,completion:@escaping (_ responseData:FacultyMajorModel,_ errorMessage:NSError?)->Void)
+    {
+        var facultyMajor = FacultyMajorModel()
+        let url = NSURL(string: "\(domainName)/Faculty/GetFacultyDetailByAbb?abb=\(abb)&language=\(language)")
+        print(url!)
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? AnyObject {
                     facultyMajor =  FacultyMajorModel(dic: validJson)
                     completion(facultyMajor, error as NSError?)
                 } else {
@@ -59,18 +79,62 @@ class WebService {
     }
     
     //tskyonline.com:89/Faculty/getDepartmentDetail?facultyID=5&departmentID=36
-    static func GetMajorDetailWS(facultyId : Int,departmentId : Int , language : String,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
+    static func GetMajorDetailWS(facultyId : String, departmentId : String, language : String,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
     {
-        var major = MajorModel()
+        var major : MajorModel!
         let url = NSURL(string: "\(domainName)Faculty/GetDepartmentDetail?facultyID=\(facultyId)&departmentID=\(departmentId)&language=\(language)")
+        print(url!)
+         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? AnyObject {
+                    major =  MajorModel(dic: validJson)
+                    print(major.departmentEnName)
+                    completion(major, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+    static func GetMajorDetailWS(abb : String, language : String,completion:@escaping (_ responseData:MajorModel,_ errorMessage:NSError?)->Void)
+    {
+        var major : MajorModel!
+        let url = NSURL(string: "\(domainName)Faculty/GetDepartmentDetailByAbb?abb=\(abb)&language=\(language)")
         print(url!)
         let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
             do {
                 let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 if let validJson = jsonResult as? AnyObject {
-                    major =  MajorModel(dic: validJson)
+                    major = MajorModel(dic: validJson)
                     print(major.departmentName)
                     completion(major, error as NSError?)
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
+    
+    static func GetCurriculumDetailWS(facultyId : String,departmentId : String , semester : String,completion:@escaping (_ responseData:CurriculumGroup,_ errorMessage:NSError?)->Void)
+    {
+        var curriculum = CurriculumGroup()
+        let url = NSURL(string: "\(domainName)Faculty/GetCurriculumByProgram?facultyID=\(facultyId)&programID=\(departmentId)&year=\(semester)")
+        print(url!)
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? AnyObject {
+                    curriculum = CurriculumGroup(dic: validJson)
+                    completion(curriculum, error as NSError?)
                 } else {
                     print("Error")
                 }
@@ -291,16 +355,48 @@ class WebService {
         task.resume()
     }
 
-    //FIXME: Logout
-    
-    //FIXNE: Get Message List
-    
-    //FIXME: Get Chat Log
-    
-    //FIXME: Get Chat Log Previous
-
     // MARK: Chat
-    // TODO: get message list
+    //http://supanattoy.com:92/Chat/UpdateChatRoom?userID=20013&isStaff=false&lastRoom=0
+    static func getUpdateMessageList(userid :String, lastRoom : String, completion:@escaping (_ responseData :[String : AnyObject ],_ errorMessage:NSError?) ->Void)
+    {
+        var finishUpdate = false
+        let url = NSURL(string: "\(domainName)Chat/UpdateChatRoom?userID=\(userid)&isStaff=false&lastRoom=\(lastRoom)")
+        print(url!)
+        let task = URLSession.shared.dataTask(with: url! as URL) {(data, response, error) in
+            do {
+                let jsonResult = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                if let validJson = jsonResult as? [String : AnyObject ] {
+                     completion(validJson, error as NSError?)
+////                    chatDe.UpdateLastRoomId(roomId: (validJson["LastRoomID"] as? String)!)
+//                    var roomList = validJson["RoomList"] as! [[String : AnyObject]]
+//                    for r in roomList {
+//                        print(r["RoomName"])
+//                        print(CRUDDepartmentMessage.FindDepartment(roomCode: r["RoomName"] as! String))
+//                    }
+//                    var msgList = validJson["MsgList"]
+//                    print(">>>>>>>>>>>>\(validJson["MsgList"])")
+//
+//                    var departmentObj = DepartmentEntity()
+//                    for i in validJson {
+//                        departmentObj.facultyId = i["FacultyID"] as? String
+//                        departmentObj.facultyName = i["FacultyName"] as? String
+//                        departmentObj.programAbb = i["ProgramAbb"] as? String
+//                        departmentObj.programeNameEn = i["ProgrameNameEn"] as? String
+//                        departmentObj.programeNameTh = i["ProgrameNameTh"] as? String
+//                        departmentObj.programId = i["ProgramID"] as? String
+//                        departmentObj.roomCode = i["RoomName"] as? String
+//                        CRUDDepartmentMessage.SaveDepartment(department: departmentObj)
+//                    }
+                } else {
+                    print("Error")
+                }
+                
+            } catch let myJSONError {
+                print("Error : ", myJSONError)
+            }
+        }
+        task.resume()
+    }
     
     static func getRoomListWS(userid : String ,completion:@escaping (_ responseData:[MessageModel],_ errorMessage:NSError?) ->Void)
     {
@@ -356,6 +452,7 @@ class WebService {
         }
         task.resume()
     }
+    
     
 //    // FIXME: get user
 //    //http://www.supanattoy.com:89/Chat/SetUserRoom?userID=10005&facultyID=5&programID=38

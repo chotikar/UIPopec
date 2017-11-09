@@ -49,6 +49,8 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Cloud-Light.otf</string>
+		<string>Cloud-Bold.otf</string>
 		<string>Gidole_Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

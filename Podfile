@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your projec
+
 # platform :ios, '9.0'
 
 target 'UIPSOPEC' do
@@ -6,15 +6,16 @@ target 'UIPSOPEC' do
   use_frameworks!
 
   # Pods for UIPSOPEC
-  
 pod 'SwiftR'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'SWRevealViewController'
-pod 'SkyFloatingLabelTextField', '~> 3.0'
+pod 'FSCalendar'
+pod 'SkyFloatingLabelTextField', '~> 2.0.0'
 pod 'Firebase'
 pod 'Firebase/Messaging'
 pod 'SDWebImage', '~> 4.0'
+pod 'ActiveLabel'
 end

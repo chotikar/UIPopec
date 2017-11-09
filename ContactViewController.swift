@@ -7,8 +7,7 @@ class ContactViewController: UIViewController {
     @IBOutlet weak var MenuButton: UIBarButtonItem!
     let ws = WebService.self
     let fm = FunctionMutual.self
-    let lang = CRUDSettingValue.GetUserSetting()
-    
+    var lang : String!
     var headerContect : UIView = {
         var hc = UIView()
         hc.frame = CGRect(x: 0, y: 0, width: scWid, height: scHei*0.27)
@@ -26,11 +25,13 @@ class ContactViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lang = CRUDSettingValue.GetUserSetting()
+        self.title = lang == "E" ? "Contact" : "ติดต่อสอบถาม"
         drawHeaderIn()
         Sidemenu()
         CustomNavbar()
         startIndicator()
-        reloadTableViewContact(language: CRUDSettingValue.GetUserSetting())
+        reloadTableViewContact(language: lang)
         
     }
     
@@ -80,7 +81,7 @@ class ContactViewController: UIViewController {
     }
     
     func drawList(contactList:[ContactModel]) -> CGFloat{
-        var hei = CGFloat(scHei*0.27 + 10)
+        var hei = CGFloat(scHei*0.2 + 50)
         var boxSize = CGRect()
         for con in contactList {
             boxSize = fm.calculateHeiFromString(text: con.Campusname, fontsize: 20, tbWid: scWid)
@@ -133,12 +134,12 @@ class ContactViewController: UIViewController {
             email.font = fm.setFontSizeLight(fs: 13)
             email.text = con.Email
             email.textColor  = UIColor.darkGray
-            hei = hei + boxSize.height+10
+            hei = hei + boxSize.height+20
             
             var line = UIView()
             line =  UIView(frame: CGRect(x: scWid*0.1, y: hei, width: scWid*0.8, height: 1))
             line.backgroundColor = UIColor.lightGray
-            hei = hei + line.frame.height + 15
+            hei = hei + line.frame.height + 10
             
             self.scrollView.addSubview(campusName)
             self.scrollView.addSubview(address)
@@ -150,11 +151,11 @@ class ContactViewController: UIViewController {
             self.scrollView.addSubview(email)
             self.scrollView.addSubview(line)
         }
-        return hei
+        return hei + 40
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.barTintColor = appColor
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }

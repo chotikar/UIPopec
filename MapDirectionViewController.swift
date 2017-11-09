@@ -42,15 +42,17 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
     var currentLatitude: CLLocationDegrees!
     var currentName: String!
     var currentSnippet: String!
+    var lang: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lang = CRUDSettingValue.GetUserSetting()
         CustomNavbar()
         Sidemenu()
-        self.title = "Map"
+        self.title = lang == "E" ? "Map" : "แผนที่"
         startIndicator()
         setscreen(nav:0)
-        reloadTableViewInLocation(language: CRUDSettingValue.GetUserSetting())
+        reloadTableViewInLocation(language: lang)
     }
     
     override func didReceiveMemoryWarning() {
@@ -172,7 +174,7 @@ class MapDirectionViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.barTintColor = appColor
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }

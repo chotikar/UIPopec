@@ -47,7 +47,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     var facultyMajorInformation = FacultyMajorModel()
     let ws = WebService.self
     var check = true
-    var lang = CRUDSettingValue.GetUserSetting()
+    var lang : String!
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
     
@@ -57,6 +57,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lang = CRUDSettingValue.GetUserSetting()
         Sidemenu()
         CustomNavbar()
         picker1.delegate = self
@@ -73,11 +74,12 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         program.inputView = picker4
         createDatePicker()
         customlayout()
-        genderTextField.text = "Male"
-        titleName.text = "MR."
+        self.title = lang == "E" ? "Apply" : "สมัครเรียน"
+        genderTextField.text = lang == "E" ? "Male" : "ชาย"
+        titleName.text = lang == "E" ? "MR." : "นาย"
         Birthdate.text = "01/01/1997"
-        reloadTableViewInFac(lang: CRUDSettingValue.GetUserSetting())
-        changeLanguage(lang: CRUDSettingValue.GetUserSetting())
+        reloadTableViewInFac(lang: lang)
+        changeLanguage(lang: lang)
         // In order to Dismiss Keyboard by Tap anywhere
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(applyViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -98,7 +100,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.barTintColor = appColor
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         navigationController?.navigationBar.isTranslucent = false
     }
@@ -300,7 +302,7 @@ class applyViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     
     func customlayout() {
         appltBtn.layer.cornerRadius = 5
-        appltBtn.layer.backgroundColor = abacRed.cgColor
+        appltBtn.layer.backgroundColor = appColor.cgColor
     }
     
     //------------ Move keyboard up when input textfield (out of screen)

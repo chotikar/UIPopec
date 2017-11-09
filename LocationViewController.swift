@@ -130,7 +130,7 @@ class LocationViewController: UIViewController,  UITableViewDelegate, UITableVie
     }
     
     func CustomNavbar() {
-        navigationController?.navigationBar.barTintColor = abacRed
+        navigationController?.navigationBar.barTintColor = appColor
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }

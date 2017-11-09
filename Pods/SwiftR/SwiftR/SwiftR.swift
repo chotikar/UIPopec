@@ -462,6 +462,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
     class func stringify(_ obj: Any) -> String? {
         // Using an array to start with a valid top level type for NSJSONSerialization
         let arr = [obj]
+        print(">>>>>\(arr)<<<<<")
         if let data = try? JSONSerialization.data(withJSONObject: arr, options: JSONSerialization.WritingOptions()) {
             if let str = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String? {
                 // Strip the array brackets to be left with the desired value

@@ -6,7 +6,7 @@ import SystemConfiguration
 class FunctionMutual {
     
     static func calculateHeiFromString(text: String, fontsize: CGFloat, tbWid: CGFloat) -> CGRect {
-        let size = CGSize(width: tbWid, height: 1000)
+        let size = CGSize(width: tbWid, height: CGFloat.greatestFiniteMagnitude)
         let option = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: option, attributes: [NSFontAttributeName: UIFont(name: "Gidole-Regular", size: fontsize)], context: nil)
     }
@@ -68,6 +68,22 @@ class FunctionMutual {
     
     static func email(email: String) {
         
+    }
+    
+   static func hyperLinkClick(_type: String, message: String) {
+        print("HYPER LINK :\(message)")
+        //        if hashTagType == "l" {
+        //            print("hyperlink url ::\(UIApplication.shared.canOpenURL(URL(string: message)!))")
+        ////            if let url = message.URL {
+        ////                UIApplication.sharedApplication().openURL(url)
+        ////            }
+        //        }else{
+        //            if hashTagType == "f" {
+        //                print("fac:: \(message)")
+        //            }else{
+        //                print("pro:: \(message)")
+        //            }
+        //        }
     }
 }
 
